@@ -1,0 +1,28 @@
+{
+ "trivium64": {
+  "area": 3641.274,
+  "tclk": 0.365906,
+  "ff": 352
+ },
+ "base": {
+  "rand_bits": 171,
+  "instances": 3,
+  "rng_area": 10923.822,
+  "lane_area": 21598.136,
+  "total": 32521.958
+ },
+ "pams": {
+  "rand_bits": 120,
+  "instances": 2,
+  "rng_area": 7282.548,
+  "lane_area": 16998.198,
+  "total": 24280.746
+ },
+ "pams_r": {
+  "rand_bits": 120,
+  "instances": 2,
+  "rng_area": 7282.548,
+  "lane_area": 18744.754,
+  "total": 26027.302
+ }
+}

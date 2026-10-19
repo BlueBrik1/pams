@@ -1,0 +1,6 @@
+flow C synth {'area': 21562.492, 'ff': 1565, 'cells': 4979, 'unexpected_warnings': 0}
+METRIC synth_cell_area 21567.016
+real	0m8.018s
+METRIC wirelength_um NA
+METRIC vias NA
+METRIC power_total_w NA

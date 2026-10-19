@@ -1,0 +1,20 @@
+METRIC synth_cell_area 17016.553
+METRIC parasitics rcx_extracted
+METRIC slack_in2reg 1.849785
+METRIC slack_reg2reg 0.386252
+METRIC slack_reg2out 1.520192
+METRIC slack_in2out 1e9
+METRIC period_target 2.0
+METRIC period_achieved 1.613748
+METRIC hold_wns 0.00628913605661427
+METRIC cell_area 18728.795
+METRIC core_area_um2 37552.284
+METRIC die_area_um2 39386.371600000006
+METRIC instances 19449
+METRIC buffers 1561
+METRIC drc_violations 0
+METRIC done 1
+real	1m10.596s
+METRIC wirelength_um 59780
+METRIC vias 45639
+METRIC power_total_w 4.02e-02

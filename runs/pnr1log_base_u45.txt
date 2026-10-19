@@ -1,0 +1,5 @@
+METRIC synth_cell_area 21567.016
+real	0m8.727s
+METRIC wirelength_um NA
+METRIC vias NA
+METRIC power_total_w NA

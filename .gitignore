@@ -1,0 +1,11 @@
+# regenerable tool outputs (synthesis/P&R work directories); summaries (bench.json, *.txt) are kept
+runs/syn_*/
+runs/pnrsyn_*/
+runs/negctl_leak/
+runs/pnr_*/*.def
+runs/pnr_*/*.spef
+runs/pnr_*/*.odb
+runs/pnr_*/final.v
+runs/pnr_*/pnr_in.v
+rtl/pams_leak.v
+refs/*.txt
