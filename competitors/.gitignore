@@ -1,0 +1,11 @@
+# regenerable tool outputs (same policy as the top-level .gitignore); summaries (cbench.json, metrics, logs) are kept
+runs/syn_*/
+runs/pnrsyn_*/
+runs/pnr2_*/*.def
+runs/pnr2_*/*.spef
+runs/pnr2_*/*.odb
+runs/pnr2_*/final.v
+runs/pnr2_*/pnr_in.v
+runs/pnr2_*/route.guide
+models/__pycache__/
+models/ps.sh
