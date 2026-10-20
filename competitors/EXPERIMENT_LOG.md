@@ -85,14 +85,14 @@ bash competitors/models/pnr_batch.sh base_jq pams_jqr pams_jpr              # ru
 bash competitors/models/routed_check.sh <designs>                           # runs/routed_check{1,2,3}.txt
 ```
 - **Scheduling and run time:** 3 runs concurrent, 4 OpenROAD threads each, about 1–2 min per run.
-- **Run outcomes:** 24 runs. All met setup at 2.0 ns, with positive hold and 0 DRC violations.
+- **Run outcomes:** 24 runs, plus the 2 failed attempts that were redone (below). All 24 met setup at 2.0 ns, with positive hold and 0 DRC violations.
 - **Failures and fixes:**
   1. **base_jq u45 / u50, batch 2:** the three concurrent runs raced on the shared flow-C synthesis directory, and one read a partially written mapped.json (JSONDecodeError). This was a harness fault.
      - Fix: `pnr_batch.sh` now synthesizes once per design before the parallel runs.
      - The base_jq pnrsyn and all three runs were deleted and redone. u55 reproduced bit-identically: period 1.240872, cell area 23,287.234.
   2. **The redo first failed immediately:** the Python edits to `pnr_batch.sh` / `pnr_c.sh` had written CRLF line endings (Python text mode on Windows), which broke bash.
-     - Fix: stripped the CRs with `sed -i 's/$//'`. cgen.py and the Phase XII `lane_table.py` were also converted; Python itself was unaffected.
-- **Routed composition checks:** all 27 netlists pass (8 P&R inputs + 24 routed, minus the 5 not repeated), with G = 0 gadget mismatches.
+     - Fix: stripped the CRs with `sed -i 's/\r$//'`. cgen.py and the Phase XII `lane_table.py` were also converted; Python itself was unaffected.
+- **Routed composition checks:** all 32 netlists pass (8 P&R input netlists + 24 routed netlists), with G = 0 gadget mismatches on every routed one.
 
 ## 6. Tables
 ```
@@ -106,5 +106,5 @@ python3 -I competitors/models/tables.py > competitors/runs/tables.md
 - **Frozen files:** `git diff` over the frozen paths shows no change, apart from the pre-existing, Phase-XII-restored `tools/tmp.sh` working-copy state.
 
 ## 8. Tool versions
-- Yosys 0.33; Icarus Verilog (as in Phase XI); OpenSTA (`~/.local/bin/sta`, as in Phase XI); OpenROAD ORFS 26Q3 (`phase2/orfs_run.sh`); Python 3.12.
-- The exact Yosys / iverilog / OpenSTA version strings are those printed by `bfbench` (`yosys -V`, `iverilog -V`, `sta -version`) and recorded in Phase XI's results.
+- Yosys 0.33 (git sha1 2584903a060); Icarus Verilog 12.0 (stable); OpenSTA 3.1.0 (`~/.local/bin/sta`); OpenROAD from ORFS 26Q3 (`phase2/orfs_run.sh`, as in Phase XI); Python 3.12.
+- Printed 2026-10-20 with `yosys -V`, `iverilog -V`, `sta -version`.
