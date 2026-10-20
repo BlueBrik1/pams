@@ -24,3 +24,21 @@ Traceback (most recent call last):
                                  ~~~~~^^^
 KeyError: 7167
 == 08:48:26 pams NC_partial_recombination 2 34 65536 36
+/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/run_lane.py:123: SyntaxWarning: invalid escape sequence '\['
+  'probe_placement': {'include': {'signals': os.environ.get('PROBES', '(.*pd_.*)|(.*dec.*)|(.*nc_leak.*)|(x[012]\[.*)'),
+pams_NC_partial_recombination_o2_34_65536 {"returncode": 0, "probing_sets": null, "simulations_done": 65536, "max_minus_log10_p": 48.902679, "leakage_detected": true, "top_probing_set": "[nc_leak(34), \\lane.uacc.pd_n0_rbr_5_0__1(34)]"}
+== 08:55:01 pams NC_mask_reuse 2 34 262144 36
+/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/run_lane.py:123: SyntaxWarning: invalid escape sequence '\['
+  'probe_placement': {'include': {'signals': os.environ.get('PROBES', '(.*pd_.*)|(.*dec.*)|(.*nc_leak.*)|(x[012]\[.*)'),
+pams_NC_mask_reuse_o2_34_262144 {"returncode": -6, "probing_sets": null, "simulations_done": null, "max_minus_log10_p": null, "leakage_detected": null, "top_probing_set": null}
+== 08:55:09 pams frozen 1 1-70 4194304 36
+/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/run_lane.py:123: SyntaxWarning: invalid escape sequence '\['
+  'probe_placement': {'include': {'signals': os.environ.get('PROBES', '(.*pd_.*)|(.*dec.*)|(.*nc_leak.*)|(x[012]\[.*)'),
+pams_frozen_o1_1-70_4194304 {"returncode": 0, "probing_sets": null, "simulations_done": 4194304, "max_minus_log10_p": 4.465052, "leakage_detected": false, "top_probing_set": "[\\lane.ug681.pd_n0_u_5_0__2(30)]"}
+== 10:02:37 base frozen 1 1-72 4194304 36
+base_frozen_o1_1-72_4194304 {"returncode": 0, "probing_sets": null, "simulations_done": 4194304, "max_minus_log10_p": 5.458616, "leakage_detected": true, "top_probing_set": "[\\lane.ug476.pd_n0_u_5_0__4(65)]"}
+== 11:42:40 pams frozen 2 34 1048576 36
+pams_frozen_o2_34_1048576 {"returncode": 0, "probing_sets": null, "simulations_done": 1048576, "max_minus_log10_p": 5.955433, "leakage_detected": true, "top_probing_set": "[\\lane.ug2250.pd_n0_p0_2_0__0(34), \\lane.ug681.pd_n0_u_5_0__1(34)]"}
+== 13:14:35 base frozen 2 36 1048576 36
+base_frozen_o2_36_1048576 {"returncode": 0, "probing_sets": null, "simulations_done": 1048576, "max_minus_log10_p": 6.786079, "leakage_detected": true, "top_probing_set": "[\\lane.ug129.pd_n0_u_5_0__4(36), \\lane.ug1918.pd_n0_rbr_5_0__2(36)]"}
+== 16:42:37 done

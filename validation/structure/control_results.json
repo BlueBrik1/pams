@@ -1,0 +1,50 @@
+{
+ "syn_pams_p0": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_p1": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_p2": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_p3": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_p4": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "pnrsyn_pams": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_p0": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_p1": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_p2": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_p3": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_p4": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "pnrsyn_base": {
+  "cvalid": [],
+  "dvalid": []
+ }
+}

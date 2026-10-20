@@ -120,7 +120,7 @@ def config(design, n, order, cycles, sims, variate):
             'order': order, 'transitional_leakage': True, 'relaxed_model': False, 'variate': variate,
             'clock_cycles': cycles.split(','),
             # flip-flop D-pin nets (pd_*, see jnet.py) and lane outputs; tb_* fixture signals excluded
-            'probe_placement': {'include': {'signals': os.environ.get('PROBES', '(.*pd_.*)|(.*dec.*)|(.*nc_leak.*)|(x[012]\[.*)'),
+            'probe_placement': {'include': {'signals': os.environ.get('PROBES', r'(.*pd_.*)|(.*dec.*)|(.*nc_leak.*)|(x[012]\[.*)'),
                                             'paths': '(?!)'},
                                 'exclude': {'signals': '(.*tb_.*)', 'paths': '(?!)'}}},
     }, fx
@@ -137,11 +137,10 @@ def main():
     json.dump(cfg, open(os.path.join(d, 'config.json'), 'w'), indent=1)
     cmd = [f'{G.PROLEAD}/release/PROLEAD', '-l', G.LIBRARY, '-n', 'NANG45', '-d', 'design.v', '-m', 'tb_top',
            '-c', 'config.json', '-r', 'result']
-    p = subprocess.run(cmd, cwd=d, env=dict(os.environ, LD_LIBRARY_PATH=G.LIBS), capture_output=True, text=True)
-    out = re.sub(r'\x1b\[[0-9;]*m', '', p.stdout + p.stderr)
+    rc, out, attempts = G.run_prolead(cmd, d)
     open(os.path.join(d, 'prolead.log'), 'w').write(' '.join(cmd) + '\n\n' + out)
     r = {'design': design, 'variant': variant, 'order': order, 'cycles': cycles, 'simulations': sims, 'n': n,
-         'variate': variate, 'fixed_coefficients': fx, 'returncode': p.returncode,
+         'variate': variate, 'fixed_coefficients': fx, 'returncode': rc, 'attempts': attempts,
          'edit': NC[variant].__doc__ if variant in NC else None, **G.summarize(out)}
     json.dump(r, open(os.path.join(d, 'result.json'), 'w'), indent=1)
     print(tag, json.dumps({k: r[k] for k in ('returncode', 'probing_sets', 'simulations_done', 'max_minus_log10_p',

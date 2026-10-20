@@ -22,4 +22,8 @@ Evaluate security under the robust probing model!
 ----------------------------------------------------------------------------------------------------------------------------------------
 |      Elapsed Time |      Required Ram |  Processed Simulations | Probing Set with highest Information Leakage |  -log10(p) |  Status |
 ----------------------------------------------------------------------------------------------------------------------------------------
-GR_MUST_SUCCEED failure: src/fmpz_mod_poly/inv_series.cGR_MUST_SUCCEED failure: src/fmpz_mod_poly/inv_series.c
+|        11.053004s |        1.193832GB |                1048576 |                   [_003_[5](4), _003_[0](4)] |   3.890044 |    OKAY |
+|        21.689503s |        1.193832GB |                2097152 |                   [_002_[0](3), _000_[1](5)] |   3.579259 |    OKAY |
+|        32.388127s |        1.193832GB |                3145728 |                       [_003_[1](6), c[2](6)] |   3.511183 |    OKAY |
+|        43.118084s |        1.193832GB |                4194304 |                       [_003_[1](6), c[2](6)] |   4.590639 |    OKAY |
+Evaluation done in 43.1183 seconds!

@@ -1,0 +1,7 @@
+== 17:21:56 confirm pams_frozen_o2_34_65536 -> PROBES=.*lane\.ug133\.pd_n0_p0_2_0__1|.*lane\.ug2150\.pd_n0_u_5_0__0
+pams_frozen_o2_34_4194304 {"returncode": 0, "probing_sets": null, "simulations_done": 4194304, "max_minus_log10_p": 0.24443, "leakage_detected": false, "top_probing_set": "[\\lane.ug133.pd_n0_p0_2_0__1(34), \\lane.ug2150.pd_n0_u_5_0__0(34)]"}
+== 17:27:13 confirm pams_frozen_o2_34_1048576 -> PROBES=.*lane\.ug2250\.pd_n0_p0_2_0__0|.*lane\.ug681\.pd_n0_u_5_0__1
+pams_frozen_o2_34_4194304 {"returncode": 0, "probing_sets": null, "simulations_done": 4194304, "max_minus_log10_p": 1.810568, "leakage_detected": false, "top_probing_set": "[\\lane.ug2250.pd_n0_p0_2_0__0(34), \\lane.ug681.pd_n0_u_5_0__1(34)]"}
+== 17:32:14 confirm base_frozen_o2_36_1048576 -> PROBES=.*lane\.ug129\.pd_n0_u_5_0__4|.*lane\.ug1918\.pd_n0_rbr_5_0__2
+base_frozen_o2_36_4194304 {"returncode": 0, "probing_sets": null, "simulations_done": 4194304, "max_minus_log10_p": 1.203727, "leakage_detected": false, "top_probing_set": "[\\lane.ug129.pd_n0_u_5_0__4(36), \\lane.ug1918.pd_n0_rbr_5_0__2(36)]"}
+== 17:38:26 done

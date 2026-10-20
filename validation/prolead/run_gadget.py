@@ -45,11 +45,20 @@ def run(name, text, sims, check=True):
     json.dump(config(sims, check), open(os.path.join(d, 'config.json'), 'w'), indent=1)
     cmd = [f'{PROLEAD}/release/PROLEAD', '-l', LIBRARY, '-n', 'NANG45', '-d', 'design.v', '-m', 'hpc2',
            '-c', 'config.json', '-r', 'result']
-    p = subprocess.run(cmd, cwd=d, env=dict(os.environ, LD_LIBRARY_PATH=LIBS), capture_output=True, text=True,
-                       timeout=6 * 3600)
-    out = re.sub(r'\x1b\[[0-9;]*m', '', p.stdout + p.stderr)
+    rc, out, attempts = run_prolead(cmd, d)
     open(os.path.join(d, 'prolead.log'), 'w').write(' '.join(cmd) + '\n\n' + out)
-    return {'returncode': p.returncode, **summarize(out)}
+    return {'returncode': rc, 'attempts': attempts, **summarize(out)}
+
+
+def run_prolead(cmd, cwd):
+    """PROLEAD v3.1.0 sporadically aborts right at evaluation start inside FLINT ('GR_MUST_SUCCEED failure',
+    apparently a thread race in field-context setup); only that failure is retried, and attempts are recorded."""
+    for attempt in range(1, 5):
+        p = subprocess.run(cmd, cwd=cwd, env=dict(os.environ, LD_LIBRARY_PATH=LIBS), capture_output=True, text=True,
+                           timeout=12 * 3600)
+        out = re.sub(r'\x1b\[[0-9;]*m', '', p.stdout + p.stderr)
+        if not (p.returncode == -6 and 'GR_MUST_SUCCEED' in out): break
+    return p.returncode, out, attempt
 
 
 def summarize(out):
