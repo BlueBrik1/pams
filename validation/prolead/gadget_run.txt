@@ -1,0 +1,7 @@
+hpc2_mapped_v0 {"leakage_detected": false, "max_minus_log10_p": 3.869312}
+hpc2_mapped_v1 {"leakage_detected": false, "max_minus_log10_p": 4.17438}
+hpc2_mapped_v0               leak=False max-log10p=3.869312 top=[_003_[1](6), c[2](6)]
+NC_unregistered_refresh      leak=None max-log10p=None top=None
+NC_mask_reuse                leak=True max-log10p=inf top=[c[1](5), _003_[1](6)]
+NC_recombine                 leak=None max-log10p=None top=None
+hpc2_mapped_v1               leak=False max-log10p=4.17438 top=[_003_[1](6), c[2](6)]

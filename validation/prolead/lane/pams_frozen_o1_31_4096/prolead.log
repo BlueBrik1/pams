@@ -1,0 +1,5 @@
+/home/slee5/lwe_agent_handoff/phase2/ext/tools/sca/prolead-3.1.0/release/PROLEAD -l /home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/library.json -n NANG45 -d design.v -m tb_top -c config.json -r result
+
+Successfully parsed the settings file at "config.json".
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  Error while validating JSON: Key "name" not found!

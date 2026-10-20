@@ -1,0 +1,29 @@
+/home/slee5/lwe_agent_handoff/phase2/ext/tools/sca/prolead-3.1.0/release/PROLEAD -l /home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/library.json -n NANG45 -d design.v -m hpc2 -c config.json -r result
+
+Successfully parsed the settings file at "config.json".
+Successfully validated the settings file at "config.json".
+Successfully opened the library file at "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/library.json".
+Successfully read the library with name "NANG45".
+Successfully found buffer cell with name "buf".
+Successfully parsed 35 cells from the library.
+"hpc2"...done
+Successfully matched 3 fresh mask signals (for rising edge) [{r[0]}, {r[1]}, {r[2]}].
+Evaluate the circuit under the robust probing model!
+Generate multivariate probing sets...9453 probing sets generated...done!
+Remove duplicated probing sets...9430 probing sets remain...done!
+Remove strictly less informative probing sets...Setting multivariate case...done! 6403 probing sets remain!
+-------------------------------------------------------------------------------------------------------------------------------------
+| #Standard Probes | #Extended Probes | #Probing Sets | Minimum #Probes per Set | Maximum #Probes per Set | Average #Probes per Set |
+-------------------------------------------------------------------------------------------------------------------------------------
+|              138 |              234 |          6403 |                       6 |                      40 |                9.890676 |
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Evaluate security under the robust probing model!
+----------------------------------------------------------------------------------------------------------------------------------------
+|      Elapsed Time |      Required Ram |  Processed Simulations | Probing Set with highest Information Leakage |  -log10(p) |  Status |
+----------------------------------------------------------------------------------------------------------------------------------------
+|        10.693047s |        1.193468GB |                1048576 |                       [_002_[4](2), c[0](3)] |        inf | LEAKAGE |
+|        20.622069s |        1.193468GB |                2097152 |                       [_000_[2](6), c[0](6)] |        inf | LEAKAGE |
+|        31.153909s |        1.193468GB |                3145728 |                       [_000_[2](6), c[0](6)] |        inf | LEAKAGE |
+|        41.285005s |        1.193468GB |                4194304 |                       [_000_[2](6), c[0](6)] |        inf | LEAKAGE |
+Evaluation done in 41.2853 seconds!

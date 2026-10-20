@@ -1,0 +1,17 @@
+./bin/verify --verilog=1 --verilog-libfile=cell/Library.txt --verilog-libname=NANG45 --verilog-design_file=/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/silver/work/NC_recombine.v --verilog-module_name=hpc2 --insfile=/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/silver/work/NC_recombine.nl --verbose=1 --cores=8
+
+[     0.000] Parsing verilog design /home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/silver/work/NC_recombine.v with top module hpc2
+0 unconnected cell(s) removed
+0 Buffer(s) removed and 0 signal(s) rerouted
+[     0.001] Netlist: /home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/silver/work/NC_recombine.nl
+[     0.001] Parse: 106 gate(s) / 131 signal(s)
+[     0.002] Elaborate: 106 gate(s) / 131 signal(s)
+[     0.017] probing.standard (d ≤ 1) -- PASS.	>> Probes: <xnor:line99,xor:line103>
+[     0.021] probing.robust   (d ≤ 1) -- PASS.	>> Probes: <reg:line20,out:line106>
+[     0.049] NI.standard      (d ≤ 1) -- PASS.	>> Probes: <xnor:line99,xor:line103>
+[     0.050] NI.robust        (d ≤ 1) -- FAIL.	>> Probes: <out:line106>
+[     0.082] SNI.standard     (d ≤ 1) -- PASS.	>> Probes: <xnor:line99,xor:line103>
+[     0.082] SNI.robust       (d ≤ 1) -- FAIL.	>> Probes: <out:line104>
+[     0.132] PINI.standard    (d ≤ 1) -- PASS.	>> Probes: <xnor:line99,xor:line103>
+[     0.133] PINI.robust      (d ≤ 1) -- FAIL.	>> Probes: <out:line106>
+[     0.133] uniformity               -- FAIL.

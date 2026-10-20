@@ -1,0 +1,6 @@
+K=14 triples=36892780289 violations=0 reachable x with j=0:3329 j=1:3329 j=2:3327 (of 3329)
+  9.87 s
+K=13 triples=36892780289 violations=0 reachable x with j=0:3329 j=1:3329 j=2:3327 (of 3329)
+  9.61 s
+K=24 triples=36892780289 violations=0 reachable x with j=0:3329 j=1:3329 j=2:3327 (of 3329)
+  9.59 s

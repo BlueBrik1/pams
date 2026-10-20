@@ -1,0 +1,278 @@
+{
+ "tool": "SILVER",
+ "commit": "0a3c85fc5a60d76eedb84d996473df28fc18ef42 2025-06-06 09:16:00 +0200",
+ "runs": {
+  "hpc2_mapped_v0": {
+   "sha256_of_mapped_module": "568e24594dd798189f72daab6fc3fbf6fe652357ec4104f41bf01b02d421f4df",
+   "used_in": [
+    "syn_pams_p0",
+    "syn_pams_p2",
+    "syn_pams_p3",
+    "syn_pams_p4",
+    "syn_base_p0",
+    "syn_base_p2",
+    "syn_base_p3",
+    "syn_base_p4",
+    "syn_pams_r_p0",
+    "syn_pams_r_p2",
+    "syn_pams_r_p3",
+    "syn_pams_r_p4"
+   ],
+   "returncode": 0,
+   "gates": 105,
+   "checks": {
+    "probing.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "probing.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "NI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "NI.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "SNI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "SNI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line103>"
+    },
+    "PINI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "PINI.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "uniformity": {
+     "second_order": "PASS"
+    }
+   }
+  },
+  "NC_unregistered_refresh": {
+   "derived_from": "hpc2_mapped_v0",
+   "edit": null,
+   "returncode": 0,
+   "gates": 105,
+   "checks": {
+    "probing.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "probing.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "NI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "NI.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "SNI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "SNI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line103>"
+    },
+    "PINI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "PINI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<reg:line79>"
+    },
+    "uniformity": {
+     "second_order": "PASS"
+    }
+   }
+  },
+  "NC_mask_reuse": {
+   "derived_from": "hpc2_mapped_v0",
+   "edit": null,
+   "returncode": 0,
+   "gates": 105,
+   "checks": {
+    "probing.standard": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line101>"
+    },
+    "probing.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line104>"
+    },
+    "NI.standard": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line101>"
+    },
+    "NI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line104>"
+    },
+    "SNI.standard": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line101>"
+    },
+    "SNI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line103>"
+    },
+    "PINI.standard": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line101>"
+    },
+    "PINI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line104>"
+    },
+    "uniformity": {
+     "second_order": "FAIL"
+    }
+   }
+  },
+  "NC_recombine": {
+   "derived_from": "hpc2_mapped_v0",
+   "edit": null,
+   "returncode": 0,
+   "gates": 106,
+   "checks": {
+    "probing.standard": {
+     "secure_up_to_order": 1,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line99,xor:line103>"
+    },
+    "probing.robust": {
+     "secure_up_to_order": 1,
+     "second_order": "FAIL",
+     "witness_probes": "<reg:line20,out:line106>"
+    },
+    "NI.standard": {
+     "secure_up_to_order": 1,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line99,xor:line103>"
+    },
+    "NI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line106>"
+    },
+    "SNI.standard": {
+     "secure_up_to_order": 1,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line99,xor:line103>"
+    },
+    "SNI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line104>"
+    },
+    "PINI.standard": {
+     "secure_up_to_order": 1,
+     "second_order": "FAIL",
+     "witness_probes": "<xnor:line99,xor:line103>"
+    },
+    "PINI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line106>"
+    },
+    "uniformity": {
+     "second_order": "FAIL"
+    }
+   }
+  },
+  "hpc2_mapped_v1": {
+   "sha256_of_mapped_module": "bb84280d604ccd50254cdb28fb104ccd1c5468cdaf052524a73c8124dec9df73",
+   "used_in": [
+    "syn_pams_p1",
+    "syn_base_p1",
+    "syn_pams_r_p1"
+   ],
+   "returncode": 0,
+   "gates": 105,
+   "checks": {
+    "probing.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "probing.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "NI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "NI.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "SNI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "SNI.robust": {
+     "secure_up_to_order": 0,
+     "second_order": "FAIL",
+     "witness_probes": "<out:line103>"
+    },
+    "PINI.standard": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "PINI.robust": {
+     "secure_up_to_order": 2,
+     "second_order": "PASS",
+     "witness_probes": "<in:line3,in:line2,in:line1>"
+    },
+    "uniformity": {
+     "second_order": "PASS"
+    }
+   }
+  }
+ }
+}

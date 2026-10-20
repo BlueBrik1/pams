@@ -1,0 +1,26 @@
+hpc2_mapped_v1 {"leakage_detected": null, "max_minus_log10_p": null}
+hpc2_mapped_v0               leak=False max-log10p=4.580597 top=[_003_[1](6), c[2](6)]
+NC_unregistered_refresh      leak=True max-log10p=inf top=[_000_[0](5), c[0](6)]
+NC_mask_reuse                leak=True max-log10p=inf top=[c[1](5), _003_[1](6)]
+NC_recombine                 leak=True max-log10p=inf top=[_000_[2](6), c[0](6)]
+hpc2_mapped_v1               leak=None max-log10p=None top=None
+== 08:48:26 pams NC_exposed_decision 1 31-36 65536 36
+/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/run_lane.py:123: SyntaxWarning: invalid escape sequence '\['
+  'probe_placement': {'include': {'signals': os.environ.get('PROBES', '(.*pd_.*)|(.*dec.*)|(.*nc_leak.*)|(x[012]\[.*)'),
+Traceback (most recent call last):
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/run_lane.py", line 152, in <module>
+    main()
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/run_lane.py", line 135, in main
+    open(os.path.join(d, 'design.v'), 'w').write(build(design, variant, n))
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/run_lane.py", line 71, in build
+    lane, info = jnet.emit(J, mod); hpc2, _ = jnet.emit(J, 'hpc2')
+                 ^^^^^^^^^^^^^^^^^
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/jnet.py", line 54, in emit
+    conns.append(f'.{p}({expr(bs)})')
+                         ^^^^^^^^
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/jnet.py", line 40, in <lambda>
+    [CONST[b] if b in CONST else names[b] for b in bs])
+                                 ~~~~~^^^
+KeyError: 7167
+== 08:48:26 pams NC_partial_recombination 2 34 65536 36

@@ -1,0 +1,60 @@
+{
+ "pams:NC_exposed_decision": {
+  "PASS": false,
+  "D_cross_domain_cells": 2,
+  "D_gadget_internal_nets_read_outside": 0,
+  "R_randomness_violations": 0,
+  "P_gadget_input_domain_violations": 0,
+  "O_output_domain_violations": 0
+ },
+ "pams:NC_partial_recombination": {
+  "PASS": false,
+  "D_cross_domain_cells": 1,
+  "D_gadget_internal_nets_read_outside": 0,
+  "R_randomness_violations": 0,
+  "P_gadget_input_domain_violations": 0,
+  "O_output_domain_violations": 0
+ },
+ "pams:NC_mask_reuse": {
+  "PASS": false,
+  "D_cross_domain_cells": 0,
+  "D_gadget_internal_nets_read_outside": 0,
+  "R_randomness_violations": 2,
+  "P_gadget_input_domain_violations": 0,
+  "O_output_domain_violations": 0
+ },
+ "base:NC_exposed_decision": {
+  "PASS": false,
+  "D_cross_domain_cells": 2,
+  "D_gadget_internal_nets_read_outside": 0,
+  "R_randomness_violations": 0,
+  "P_gadget_input_domain_violations": 0,
+  "O_output_domain_violations": 0
+ },
+ "base:NC_partial_recombination": {
+  "PASS": false,
+  "D_cross_domain_cells": 1,
+  "D_gadget_internal_nets_read_outside": 0,
+  "R_randomness_violations": 0,
+  "P_gadget_input_domain_violations": 0,
+  "O_output_domain_violations": 0
+ },
+ "base:NC_mask_reuse": {
+  "PASS": false,
+  "D_cross_domain_cells": 0,
+  "D_gadget_internal_nets_read_outside": 0,
+  "R_randomness_violations": 2,
+  "P_gadget_input_domain_violations": 0,
+  "O_output_domain_violations": 0
+ },
+ "phaseXI_negctl_leak": {
+  "PASS": false,
+  "D_cross_domain_cells": 71,
+  "D_gadget_internal_nets_read_outside": 0,
+  "R_randomness_violations": 0,
+  "P_gadget_input_domain_violations": 8,
+  "O_output_domain_violations": 0
+ },
+ "pnrsyn_pams_gadget_is_SILVER_verified_variant": true,
+ "pnrsyn_base_gadget_is_SILVER_verified_variant": true
+}

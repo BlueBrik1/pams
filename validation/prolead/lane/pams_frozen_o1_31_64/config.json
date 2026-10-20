@@ -1,0 +1,1003 @@
+{
+ "performance": {
+  "max_number_of_threads": "all",
+  "minimize_probing_sets": "aggressive",
+  "compact_distributions": true,
+  "number_of_probing_sets_per_step": 2000000
+ },
+ "simulation": {
+  "groups": [
+   "384'b$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",
+   "384'b001010100100000010011101101110010110110100000000000000000000010101111100001101110101000101101110110100000000000000000000100001010100011001001101010001000110110100000000000000000000101100101100001110011000001101011101110100000000000000000000001010100110001001101011001000110000110100000000000000000000000101111001000100111110000100000011110100000000000000000000000001001101000000010010"
+  ],
+  "always_random_inputs": [
+   "rnd[119:0]",
+   "tb_r1[31:0]",
+   "tb_r2[31:0]"
+  ],
+  "input_sequence": [
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[11:0]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000001"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b00"
+     },
+     {
+      "name": "vin",
+      "value": "1'b0"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[23:12]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000001011"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b1"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[35:24]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000101111"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[47:36]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[59:48]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b11111111111"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[71:60]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00010011111"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[83:72]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00011000100"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[95:84]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00011101000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[107:96]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000001"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[119:108]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b11111111111"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[131:120]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00101011001"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[143:132]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00101111101"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[155:144]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00110100001"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[167:156]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[179:168]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b11111111111"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[191:180]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b01000010010"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[203:192]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b01000110110"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b11"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[215:204]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000011011"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[227:216]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[239:228]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[251:240]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000001011"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[263:252]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000010000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[275:264]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000010100"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[287:276]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[299:288]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[311:300]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000100"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[323:312]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000001001"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[335:324]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000001101"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[347:336]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[359:348]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000000"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[371:360]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000011101"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "group_in0[383:372]"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000010"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "tb_x[11:0]",
+      "value": "12'b000000000000"
+     },
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000110"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b01"
+     },
+     {
+      "name": "vin",
+      "value": "1'b1"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b1"
+     }
+    ]
+   },
+   {
+    "signals": [
+     {
+      "name": "c[10:0]",
+      "value": "11'b00000000001"
+     },
+     {
+      "name": "mode[1:0]",
+      "value": "2'b00"
+     },
+     {
+      "name": "vin",
+      "value": "1'b0"
+     },
+     {
+      "name": "first",
+      "value": "1'b0"
+     },
+     {
+      "name": "last",
+      "value": "1'b0"
+     }
+    ]
+   }
+  ],
+  "number_of_clock_cycles": 65,
+  "output_shares": [
+   "dec[0]",
+   "dec[1]",
+   "dec[2]"
+  ],
+  "expected_output": [
+   "1'b$",
+   "1'b1"
+  ],
+  "number_of_simulations": 64,
+  "number_of_simulations_per_step": 64
+ },
+ "hardware": {
+  "clock_signal_name": "clk"
+ },
+ "side_channel_analysis": {
+  "order": 1,
+  "transitional_leakage": true,
+  "relaxed_model": false,
+  "variate": "univariate",
+  "clock_cycles": [
+   "31"
+  ],
+  "probe_placement": {
+   "include": {
+    "signals": ".*",
+    "paths": "(?!)"
+   },
+   "exclude": {
+    "signals": "(.*tb_.*)",
+    "paths": "(?!)"
+   }
+  }
+ }
+}

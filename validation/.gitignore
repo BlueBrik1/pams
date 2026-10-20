@@ -1,0 +1,9 @@
+# regenerable inputs/outputs of the verification tools (scripts, configs, logs and result JSONs are kept)
+prolead/lane/*/design.v
+prolead/lane/*/result/
+prolead/gadget/*/result/
+prolead/lane/tb_gen_mapped.json
+silver/work/*.nl
+math/lemma
+math/reach_K*.bin
+__pycache__/

@@ -1,0 +1,225 @@
+{
+ "A_intervals": {
+  "4": {
+   "closed_form_equals_starts": true,
+   "interval_form_exact": true,
+   "widths": [
+    208,
+    209
+   ]
+  },
+  "5": {
+   "closed_form_equals_starts": true,
+   "interval_form_exact": true,
+   "widths": [
+    104,
+    105
+   ]
+  },
+  "10": {
+   "closed_form_equals_starts": true,
+   "interval_form_exact": true,
+   "widths": [
+    3,
+    4
+   ]
+  },
+  "11": {
+   "closed_form_equals_starts": true,
+   "interval_form_exact": true,
+   "widths": [
+    1,
+    2
+   ]
+  }
+ },
+ "B_multipliers": {
+  "pams_14bit_exact_on_[0,q)": true,
+  "base_24bit_exact_on_[0,q)": true,
+  "pams_inexact_12bit_inputs": [
+   3329,
+   4005
+  ],
+  "base_inexact_12bit_inputs": [
+   3329
+  ]
+ },
+ "C_rtl_constants": {
+  "4": {
+   "match": 16,
+   "of": 16,
+   "theta_max": 1027,
+   "theta_below_2^11": true
+  },
+  "5": {
+   "match": 32,
+   "of": 32,
+   "theta_max": 515,
+   "theta_below_2^11": true
+  },
+  "10": {
+   "match": 1024,
+   "of": 1024,
+   "theta_max": 19,
+   "theta_below_2^11": true
+  },
+  "11": {
+   "match": 2048,
+   "of": 2048,
+   "theta_max": 9,
+   "theta_below_2^11": true
+  }
+ },
+ "D_pams_decision": {
+  "4": {
+   "mismatches": 0,
+   "split_form_mismatches": 0,
+   "cases": 159792
+  },
+  "5": {
+   "mismatches": 0,
+   "split_form_mismatches": 0,
+   "cases": 319584
+  },
+  "10": {
+   "mismatches": 0,
+   "split_form_mismatches": 0,
+   "cases": 10226688
+  },
+  "11": {
+   "mismatches": 0,
+   "split_form_mismatches": 0,
+   "cases": 20453376
+  }
+ },
+ "E_baseline_decision": {
+  "4": {
+   "mismatches": 0,
+   "cases": 159792
+  },
+  "5": {
+   "mismatches": 0,
+   "cases": 319584
+  },
+  "10": {
+   "mismatches": 0,
+   "cases": 10226688
+  },
+  "11": {
+   "mismatches": 0,
+   "cases": 20453376
+  }
+ },
+ "F_width_bound_reachable": {
+  "13": {
+   "4": {
+    "colliding_(c,value)_pairs": 14,
+    "witness": {
+     "c": 3,
+     "member_x": 728,
+     "nonmember_x": 729,
+     "switched_sum": 1791,
+     "member_shares": [
+      728,
+      0,
+      0
+     ],
+     "nonmember_shares": [
+      703,
+      13,
+      13
+     ]
+    }
+   },
+   "5": {
+    "colliding_(c,value)_pairs": 28,
+    "witness": {
+     "c": 6,
+     "member_x": 676,
+     "nonmember_x": 677,
+     "switched_sum": 1663,
+     "member_shares": [
+      676,
+      0,
+      0
+     ],
+     "nonmember_shares": [
+      651,
+      13,
+      13
+     ]
+    }
+   },
+   "10": {
+    "colliding_(c,value)_pairs": 896,
+    "witness": {
+     "c": 0,
+     "member_x": 1,
+     "nonmember_x": 2,
+     "switched_sum": 2,
+     "member_shares": [
+      1,
+      0,
+      0
+     ],
+     "nonmember_shares": [
+      3305,
+      13,
+      13
+     ]
+    }
+   },
+   "11": {
+    "colliding_(c,value)_pairs": 1794,
+    "witness": {
+     "c": 0,
+     "member_x": 0,
+     "nonmember_x": 1,
+     "switched_sum": 0,
+     "member_shares": [
+      0,
+      0,
+      0
+     ],
+     "nonmember_shares": [
+      3326,
+      2,
+      2
+     ]
+    }
+   }
+  },
+  "14": {
+   "4": {
+    "colliding_(c,value)_pairs": 0,
+    "witness": null
+   },
+   "5": {
+    "colliding_(c,value)_pairs": 0,
+    "witness": null
+   },
+   "10": {
+    "colliding_(c,value)_pairs": 0,
+    "witness": null
+   },
+   "11": {
+    "colliding_(c,value)_pairs": 0,
+    "witness": null
+   }
+  }
+ },
+ "G_zq_prealigned_variant": {
+  "4": {
+   "mismatches": 0
+  },
+  "5": {
+   "mismatches": 0
+  },
+  "10": {
+   "mismatches": 0
+  },
+  "11": {
+   "mismatches": 0
+  }
+ }
+}

@@ -1,0 +1,186 @@
+{
+ "design": "base",
+ "variant": "frozen",
+ "order": 1,
+ "cycles": "33",
+ "simulations": 64,
+ "n": 32,
+ "variate": "univariate",
+ "fixed_coefficients": [
+  [
+   18,
+   11,
+   11
+  ],
+  [
+   77,
+   11,
+   47
+  ],
+  [
+   0,
+   11,
+   0
+  ],
+  [
+   3328,
+   11,
+   2047
+  ],
+  [
+   259,
+   11,
+   159
+  ],
+  [
+   318,
+   11,
+   196
+  ],
+  [
+   377,
+   11,
+   232
+  ],
+  [
+   0,
+   11,
+   0
+  ],
+  [
+   3328,
+   11,
+   2047
+  ],
+  [
+   560,
+   11,
+   345
+  ],
+  [
+   619,
+   11,
+   381
+  ],
+  [
+   678,
+   11,
+   417
+  ],
+  [
+   0,
+   11,
+   0
+  ],
+  [
+   3328,
+   11,
+   2047
+  ],
+  [
+   861,
+   11,
+   530
+  ],
+  [
+   920,
+   11,
+   566
+  ],
+  [
+   2860,
+   5,
+   27
+  ],
+  [
+   0,
+   5,
+   0
+  ],
+  [
+   3328,
+   5,
+   0
+  ],
+  [
+   1094,
+   5,
+   11
+  ],
+  [
+   1613,
+   5,
+   16
+  ],
+  [
+   2132,
+   5,
+   20
+  ],
+  [
+   0,
+   5,
+   0
+  ],
+  [
+   3328,
+   5,
+   0
+  ],
+  [
+   366,
+   5,
+   4
+  ],
+  [
+   885,
+   5,
+   9
+  ],
+  [
+   1404,
+   5,
+   13
+  ],
+  [
+   0,
+   5,
+   0
+  ],
+  [
+   3328,
+   5,
+   0
+  ],
+  [
+   2966,
+   5,
+   29
+  ],
+  [
+   157,
+   5,
+   2
+  ],
+  [
+   676,
+   5,
+   6
+  ]
+ ],
+ "returncode": -6,
+ "edit": null,
+ "leakage_detected": null,
+ "max_minus_log10_p": null,
+ "top_probing_set": null,
+ "probing_sets": 1266,
+ "simulations_done": null,
+ "tail": [
+  "Evaluate security under the robust probing model!",
+  "----------------------------------------------------------------------------------------------------------------------------------------------------------",
+  "|      Elapsed Time |      Required Ram |  Processed Simulations |                   Probing Set with highest Information Leakage |  -log10(p) |  Status |",
+  "----------------------------------------------------------------------------------------------------------------------------------------------------------",
+  "terminate called after throwing an instance of 'std::runtime_error'",
+  "  what():  Error while simulating the circuit. The received output does not match the expected output!"
+ ]
+}

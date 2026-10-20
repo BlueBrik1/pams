@@ -1,0 +1,1 @@
+cd ~/lwe_agent_handoff/phase2/masked_verification/validation/math && gcc -O3 -fopenmp lemma.c -o lemma && for K in 14 13 24; do OMP_NUM_THREADS=8 /usr/bin/time -f "  %e s" ./lemma $K; done 2>&1 | tee lemma_results.txt
