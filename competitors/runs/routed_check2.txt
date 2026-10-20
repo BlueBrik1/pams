@@ -1,0 +1,28 @@
+pnrsyn_base_jq {"gadgets": 57, "cells_outside_gadgets": 4610, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true}
+Traceback (most recent call last):
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/structure/compcheck.py", line 187, in <module>
+    cells, ports = load_verilog(path, top)
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/structure/compcheck.py", line 40, in load_verilog
+    text = re.search(rf'module {re.escape(top)}\s*\(.*?\);(.*?)endmodule', re.sub(r'//[^\n]*', '', open(path).read()), re.S).group(1)
+                                                                                                   ^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'competitors/runs/pnr2_base_jq_u45/final.v'
+pnr2_base_jq_u45 
+Traceback (most recent call last):
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/structure/compcheck.py", line 187, in <module>
+    cells, ports = load_verilog(path, top)
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/structure/compcheck.py", line 40, in load_verilog
+    text = re.search(rf'module {re.escape(top)}\s*\(.*?\);(.*?)endmodule', re.sub(r'//[^\n]*', '', open(path).read()), re.S).group(1)
+                                                                                                   ^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'competitors/runs/pnr2_base_jq_u50/final.v'
+pnr2_base_jq_u50 
+pnr2_base_jq_u55 {"gadgets": 57, "cells_outside_gadgets": 5223, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true, "G_gadget_mismatches": [0, []], "G_reference_cells": 66}
+pnrsyn_pams_jqr {"gadgets": 40, "cells_outside_gadgets": 4627, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true}
+pnr2_pams_jqr_u45 {"gadgets": 40, "cells_outside_gadgets": 5178, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true, "G_gadget_mismatches": [0, []], "G_reference_cells": 66}
+pnr2_pams_jqr_u50 {"gadgets": 40, "cells_outside_gadgets": 5157, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true, "G_gadget_mismatches": [0, []], "G_reference_cells": 66}
+pnr2_pams_jqr_u55 {"gadgets": 40, "cells_outside_gadgets": 5140, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true, "G_gadget_mismatches": [0, []], "G_reference_cells": 66}
+pnrsyn_pams_jpr {"gadgets": 40, "cells_outside_gadgets": 4469, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true}
+pnr2_pams_jpr_u45 {"gadgets": 40, "cells_outside_gadgets": 5009, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true, "G_gadget_mismatches": [0, []], "G_reference_cells": 66}
+pnr2_pams_jpr_u50 {"gadgets": 40, "cells_outside_gadgets": 4999, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true, "G_gadget_mismatches": [0, []], "G_reference_cells": 66}
+pnr2_pams_jpr_u55 {"gadgets": 40, "cells_outside_gadgets": 4987, "D_cross_domain_cells": [0, []], "D_gadget_internal_nets_read_outside": [0, []], "R_randomness_violations": [0, []], "R_unused_rnd_bits": [], "P_gadget_input_domain_violations": [0, []], "O_output_domain_violations": [0, []], "PASS": true, "G_gadget_mismatches": [0, []], "G_reference_cells": 66}

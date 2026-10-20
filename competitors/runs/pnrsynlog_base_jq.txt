@@ -1,0 +1,1 @@
+flow C synth {'area': 21014.0, 'ff': 1500, 'cells': 4667, 'unexpected_warnings': 0}

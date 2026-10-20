@@ -15,4 +15,5 @@ sys.path.insert(0, '$P2'); import bfbench as B; B.FLOW = 'C'
 m, v, gl = B.synth([Path('$MV/competitors/rtl/$D.v')], Path('$SYN'), top='${D}_lane'); print('flow C synth', m)
 PY
 fi
+[ "$U" = synth-only ] && exit 0
 TOP=${D}_lane bash $MV/tools/run_pnr_mv.sh $SYN/mapped.v $CR/pnr2_${D}_u$U $PER $U 0.6 4 | tail -25

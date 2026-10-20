@@ -60,4 +60,51 @@ bash competitors/models/rtl_smoke.sh base_x base_j base_jp base_bk base_bkp hoc 
 ```
 bash competitors/models/queue_synth.sh > competitors/runs/queue_synth.log 2>&1      # background task b9ut2dswf
 ```
-Results: §4 onward, appended as they complete.
+- **Started:** 17:46:08, when the queue found no campaign*.sh and no PROLEAD process.
+- **Resources at start:** nproc 16; 30 GB available; load 6.5 and falling.
+- **Overlap with Phase XII:** the Phase XII confirmation run `campaign5.sh` (PROLEAD, 16.8 M simulations) was started at 17:46 as well. It ran concurrently with the queue, whose cbench jobs ran at `nice -n 10` and used one core.
+- **Finished:** 18:22 (14 designs × 5 mappings + mul12), ≈ 4 min per design.
+- **Results:** `runs/cbench.json`, `runs/queue_synth.log`.
+- **Reproduction:** base 21,598 µm² / 1.649 ns and pams 16,998 / 1.487, identical to Phase XI `runs/bench.json`.
+
+## 4. Follow-up variants (after reading the critical paths)
+```
+bash competitors/models/run_q.sh   # base_q base_jq hoc_jq pams_q pams_jq   -> runs/run_q.log
+bash competitors/models/run_r.sh   # pams_jpr pams_jqr (re-checks pams / pams_x identity first) -> runs/run_r.log
+```
+- **q (multiplier split into two registered halves):**
+  - base_jq reached 1.057 ns, faster than every PAMS variant built up to that point;
+  - pams_q / pams_jq gained almost nothing: their critical path had moved to the public window logic (c0 → low0, identified from the start and end register names in mapped.v).
+- **r (public window logic split over the existing front-end stages):** pams_jpr 1.163 ns, pams_jqr 1.033 ns.
+- **All new variants:** RTL and gate-level 0 mismatches; domain and compcheck PASS.
+
+## 5. Place and route
+```
+bash competitors/models/pnr_batch.sh base_j base_p base_jp hoc_jp pams_jp   # runs/pnr_batch1.log
+bash competitors/models/pnr_batch.sh base_jq pams_jqr pams_jpr              # runs/pnr_batch2.log
+bash competitors/models/routed_check.sh <designs>                           # runs/routed_check{1,2,3}.txt
+```
+- **Scheduling and run time:** 3 runs concurrent, 4 OpenROAD threads each, about 1–2 min per run.
+- **Run outcomes:** 24 runs. All met setup at 2.0 ns, with positive hold and 0 DRC violations.
+- **Failures and fixes:**
+  1. **base_jq u45 / u50, batch 2:** the three concurrent runs raced on the shared flow-C synthesis directory, and one read a partially written mapped.json (JSONDecodeError). This was a harness fault.
+     - Fix: `pnr_batch.sh` now synthesizes once per design before the parallel runs.
+     - The base_jq pnrsyn and all three runs were deleted and redone. u55 reproduced bit-identically: period 1.240872, cell area 23,287.234.
+  2. **The redo first failed immediately:** the Python edits to `pnr_batch.sh` / `pnr_c.sh` had written CRLF line endings (Python text mode on Windows), which broke bash.
+     - Fix: stripped the CRs with `sed -i 's/$//'`. cgen.py and the Phase XII `lane_table.py` were also converted; Python itself was unaffected.
+- **Routed composition checks:** all 27 netlists pass (8 P&R inputs + 24 routed, minus the 5 not repeated), with G = 0 gadget mismatches.
+
+## 6. Tables
+```
+python3 -I competitors/models/tables.py > competitors/runs/tables.md
+```
+- **First run:** it mislabeled frozen `pams` as depth +1, because the suffix was parsed from the design name itself. Fixed and regenerated.
+- **Use:** BENCHMARKS.md §1–3 are this file, inserted verbatim.
+
+## 7. Clean-up
+- **Bytecode files:** importing the frozen `models/bench.py`, `gen.py` and `sim.py` wrote 3 `.pyc` files into `models/__pycache__/`. Git showed them as untracked; they were deleted. cgen.py, cbench.py and tables.py now set `sys.dont_write_bytecode`.
+- **Frozen files:** `git diff` over the frozen paths shows no change, apart from the pre-existing, Phase-XII-restored `tools/tmp.sh` working-copy state.
+
+## 8. Tool versions
+- Yosys 0.33; Icarus Verilog (as in Phase XI); OpenSTA (`~/.local/bin/sta`, as in Phase XI); OpenROAD ORFS 26Q3 (`phase2/orfs_run.sh`); Python 3.12.
+- The exact Yosys / iverilog / OpenSTA version strings are those printed by `bfbench` (`yosys -V`, `iverilog -V`, `sta -version`) and recorded in Phase XI's results.

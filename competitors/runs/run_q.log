@@ -1,0 +1,15 @@
+{'design': 'base_q', 'gadgets': 57, 'kernel_gadgets': 55, 'rnd_bits': 171, 'latency': 33, 'ffs_model': 3595}
+{'design': 'base_jq', 'gadgets': 57, 'kernel_gadgets': 55, 'rnd_bits': 171, 'latency': 33, 'ffs_model': 3067}
+{'design': 'hoc_jq', 'gadgets': 59, 'kernel_gadgets': 57, 'rnd_bits': 177, 'latency': 35, 'ffs_model': 3299}
+{'design': 'pams_q', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 31, 'ffs_model': 3101}
+{'design': 'pams_jq', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 31, 'ffs_model': 2393}
+base_q: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base_q: area 22753 [22753, 22762] tclk 1.080 [1.080, 1.081] FF 1894 gadgets 57 rnd 171 lat 33 gate True dom True comp True
+base_jq: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base_jq: area 21097 [21097, 21097] tclk 1.057 [1.057, 1.057] FF 1500 gadgets 57 rnd 171 lat 33 gate True dom True comp True
+hoc_jq: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+hoc_jq: area 21820 [21819, 21853] tclk 1.116 [1.094, 1.116] FF 1610 gadgets 59 rnd 177 lat 35 gate True dom True comp True
+pams_q: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams_q: area 18133 [18133, 18179] tclk 1.212 [1.212, 1.336] FF 1566 gadgets 40 rnd 120 lat 31 gate True dom True comp True
+pams_jq: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams_jq: area 16997 [16916, 16997] tclk 1.242 [1.235, 1.243] FF 1298 gadgets 40 rnd 120 lat 31 gate True dom True comp True

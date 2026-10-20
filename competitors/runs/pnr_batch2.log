@@ -1,0 +1,9 @@
+== base_jq_u45 
+== base_jq_u50 
+== base_jq_u55 period_achieved 1.240872 hold_wns 0.006998346544802663 cell_area 23287.234 die_area_um2 39796.26010000001 drc_violations 0 done 1 
+== pams_jqr_u45 period_achieved 1.161923 hold_wns 0.00687495912991375 cell_area 18815.244 die_area_um2 39465.7956 drc_violations 0 done 1 
+== pams_jqr_u50 period_achieved 1.162212 hold_wns 0.007027587044540705 cell_area 18705.920 die_area_um2 35596.368899999994 drc_violations 0 done 1 
+== pams_jqr_u55 period_achieved 1.152524 hold_wns 0.002601113842383187 cell_area 18693.682 die_area_um2 32428.806400000005 drc_violations 0 done 1 
+== pams_jpr_u45 period_achieved 1.242866 hold_wns 0.007857784090259359 cell_area 17976.811 die_area_um2 37721.4084 drc_violations 0 done 1 
+== pams_jpr_u50 period_achieved 1.261166 hold_wns 0.004564779239361759 cell_area 17903.131 die_area_um2 34025.4916 drc_violations 0 done 1 
+== pams_jpr_u55 period_achieved 1.248205 hold_wns 0.005964257034845127 cell_area 17865.094 die_area_um2 30997.1236 drc_violations 0 done 1 

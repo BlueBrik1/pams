@@ -1,0 +1,9 @@
+pams: HPC2 gadgets 40 (kernel 38), random bits/cycle 120, decision latency 29 cycles, alignment+gadget FFs ~3101, multiplier M=10321339 S=21
+pams: frozen generator re-emitted, identical to rtl/pams.v: True
+pams_x: identical to rtl/pams.v up to the module name: True
+{'design': 'pams_jpr', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 30, 'ffs_model': 2393}
+{'design': 'pams_jqr', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 31, 'ffs_model': 2393}
+pams_jpr: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams_jpr: area 16237 [16237, 16250] tclk 1.163 [1.159, 1.163] FF 1107 gadgets 40 rnd 120 lat 30 gate True dom True comp True
+pams_jqr: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams_jqr: area 17022 [17001, 17022] tclk 1.033 [1.033, 1.041] FF 1294 gadgets 40 rnd 120 lat 31 gate True dom True comp True

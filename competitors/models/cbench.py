@@ -7,6 +7,7 @@ OpenSTA data-path groups, same gate-level functional re-check (models/sim.py) an
 RTL check first: models/sim.py on the RTL with 6000 boundary-heavy coefficients (all d, wraparound, ciphertexts).
 usage: python3 -I cbench.py [--maps 0,1,2,3,4] DESIGN [DESIGN ...]    results merged into competitors/runs/cbench.json"""
 import json, re, statistics, subprocess, sys, time
+sys.dont_write_bytecode = True        # do not leave __pycache__ in the frozen models/ directory
 from pathlib import Path
 CM = Path(__file__).resolve().parent; C = CM.parent; MV = C.parent
 sys.path.insert(0, str(MV / 'models'))

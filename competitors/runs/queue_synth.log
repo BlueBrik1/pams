@@ -1,0 +1,70 @@
+== 2026-10-20 17:46:08 Phase XII idle; resources:
+16
+               total        used        free      shared  buff/cache   available
+Mem:              31           1          28           0           2          30
+ 17:46:08 up 2 days, 15:02,  0 user,  load average: 6.47, 11.50, 13.49
+base: HPC2 gadgets 57 (kernel 55), random bits/cycle 171, decision latency 31 cycles, alignment+gadget FFs ~3595, multiplier M=10569051393 S=21
+base: frozen generator re-emitted, identical to rtl/base.v: True
+pams: HPC2 gadgets 40 (kernel 38), random bits/cycle 120, decision latency 29 cycles, alignment+gadget FFs ~3101, multiplier M=10321339 S=21
+pams: frozen generator re-emitted, identical to rtl/pams.v: True
+base_x: identical to rtl/base.v up to the module name: True
+{'design': 'base_x', 'gadgets': 57, 'kernel_gadgets': 55, 'rnd_bits': 171, 'latency': 31, 'ffs_model': 3595}
+pams_x: identical to rtl/pams.v up to the module name: True
+{'design': 'pams_x', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 29, 'ffs_model': 3101}
+{'design': 'base_j', 'gadgets': 57, 'kernel_gadgets': 55, 'rnd_bits': 171, 'latency': 31, 'ffs_model': 3067}
+{'design': 'base_p', 'gadgets': 57, 'kernel_gadgets': 55, 'rnd_bits': 171, 'latency': 32, 'ffs_model': 3595}
+{'design': 'base_jp', 'gadgets': 57, 'kernel_gadgets': 55, 'rnd_bits': 171, 'latency': 32, 'ffs_model': 3067}
+{'design': 'base_bk', 'gadgets': 75, 'kernel_gadgets': 73, 'rnd_bits': 225, 'latency': 17, 'ffs_model': 2867}
+{'design': 'base_bkp', 'gadgets': 75, 'kernel_gadgets': 73, 'rnd_bits': 225, 'latency': 18, 'ffs_model': 2867}
+{'design': 'hoc', 'gadgets': 59, 'kernel_gadgets': 57, 'rnd_bits': 177, 'latency': 33, 'ffs_model': 3911}
+{'design': 'hoc_jp', 'gadgets': 59, 'kernel_gadgets': 57, 'rnd_bits': 177, 'latency': 34, 'ffs_model': 3299}
+{'design': 'bos', 'gadgets': 91, 'kernel_gadgets': 89, 'rnd_bits': 273, 'latency': 31, 'ffs_model': 6625}
+{'design': 'bos_j', 'gadgets': 91, 'kernel_gadgets': 89, 'rnd_bits': 273, 'latency': 31, 'ffs_model': 5713}
+{'design': 'pams_j', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 29, 'ffs_model': 2393}
+{'design': 'pams_p', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 30, 'ffs_model': 3101}
+{'design': 'pams_jp', 'gadgets': 40, 'kernel_gadgets': 38, 'rnd_bits': 120, 'latency': 30, 'ffs_model': 2393}
+== 17:46:14 base
+base: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base: area 21598 [21597, 21598] tclk 1.649 [1.649, 1.650] FF 1565 gadgets 57 rnd 171 lat 31 gate True dom True comp True
+== 17:51:33 pams
+pams: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams: area 16998 [16998, 17046] tclk 1.487 [1.487, 1.487] FF 1309 gadgets 40 rnd 120 lat 29 gate True dom True comp True
+== 17:55:20 base_j
+base_j: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base_j: area 19915 [19915, 19947] tclk 1.646 [1.643, 1.646] FF 1171 gadgets 57 rnd 171 lat 31 gate True dom True comp True
+== 17:59:52 base_p
+base_p: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base_p: area 21940 [21940, 21940] tclk 1.388 [1.388, 1.388] FF 1665 gadgets 57 rnd 171 lat 32 gate True dom True comp True
+== 18:04:47 base_jp
+base_jp: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base_jp: area 20048 [20048, 20052] tclk 1.457 [1.457, 1.457] FF 1271 gadgets 57 rnd 171 lat 32 gate True dom True comp True
+== 18:09:19 base_bk
+base_bk: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base_bk: area 20731 [20650, 20761] tclk 1.715 [1.715, 1.723] FF 711 gadgets 75 rnd 225 lat 17 gate True dom True comp True
+== 18:12:56 base_bkp
+base_bkp: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+base_bkp: area 21019 [21019, 21082] tclk 1.512 [1.512, 1.532] FF 811 gadgets 75 rnd 225 lat 18 gate True dom True comp True
+== 18:13:57 hoc
+hoc: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+hoc: area 22583 [22576, 22583] tclk 1.773 [1.769, 1.780] FF 1744 gadgets 59 rnd 177 lat 33 gate True dom True comp True
+== 18:15:05 hoc_jp
+hoc_jp: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+hoc_jp: area 20948 [20948, 20948] tclk 1.438 [1.411, 1.438] FF 1381 gadgets 59 rnd 177 lat 34 gate True dom True comp True
+== 18:16:06 bos
+bos: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+bos: area 28604 [28604, 28675] tclk 1.642 [1.642, 1.662] FF 2171 gadgets 91 rnd 273 lat 31 gate True dom True comp True
+== 18:17:58 bos_j
+bos_j: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+bos_j: area 26843 [26843, 26898] tclk 1.633 [1.631, 1.641] FF 1777 gadgets 91 rnd 273 lat 31 gate True dom True comp True
+== 18:19:38 pams_j
+pams_j: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams_j: area 15812 [15812, 15902] tclk 1.565 [1.493, 1.565] FF 1041 gadgets 40 rnd 120 lat 29 gate True dom True comp True
+== 18:20:31 pams_p
+pams_p: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams_p: area 17349 [17349, 17455] tclk 1.306 [1.206, 1.306] FF 1379 gadgets 40 rnd 120 lat 30 gate True dom True comp True
+== 18:21:30 pams_jp
+pams_jp: 6001 coefficients, 4434 matching; mismatches 0; 1079/1079 ciphertext decisions (558 accept), mismatches 0
+pams_jp: area 16207 [16175, 16228] tclk 1.234 [1.234, 1.330] FF 1111 gadgets 40 rnd 120 lat 30 gate True dom True comp True
+== 18:22:33 mul12 (Coron lower-bound block)
+mul12 1241.156 48 1.164795
+== 2026-10-20 18:22:34 done

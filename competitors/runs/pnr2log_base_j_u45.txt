@@ -1,0 +1,21 @@
+flow C synth {'area': 19803.168, 'ff': 1171, 'cells': 4597, 'unexpected_warnings': 0}
+METRIC synth_cell_area 19807.689
+METRIC parasitics rcx_extracted
+METRIC slack_in2reg 1.852060
+METRIC slack_reg2reg 0.182168
+METRIC slack_reg2out 1.519644
+METRIC slack_in2out 1e9
+METRIC period_target 2.0
+METRIC period_achieved 1.8178320000000001
+METRIC hold_wns 0.0028168301821687295
+METRIC cell_area 21994.742
+METRIC core_area_um2 43716.301999999996
+METRIC die_area_um2 45710.44
+METRIC instances 22587
+METRIC buffers 2050
+METRIC drc_violations 0
+METRIC done 1
+real	1m31.965s
+METRIC wirelength_um 75794
+METRIC vias 53820
+METRIC power_total_w 4.76e-02

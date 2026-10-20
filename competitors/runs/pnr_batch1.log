@@ -1,0 +1,15 @@
+== base_j_u45 period_achieved 1.8178320000000001 hold_wns 0.0028168301821687295 cell_area 21994.742 die_area_um2 45710.44 drc_violations 0 done 1 
+== base_j_u50 period_achieved 1.817387 hold_wns 0.0033634068704377464 cell_area 21896.854 die_area_um2 41223.211225 drc_violations 0 done 1 
+== base_j_u55 period_achieved 1.826749 hold_wns 0.005545355998018918 cell_area 21924.254 die_area_um2 37548.750625 drc_violations 0 done 1 
+== base_p_u45 period_achieved 1.532669 hold_wns 0.007846529204028911 cell_area 24233.396 die_area_um2 50580.01 drc_violations 0 done 1 
+== base_p_u50 period_achieved 1.526801 hold_wns 0.005045908278478137 cell_area 24279.416 die_area_um2 45610.009225 drc_violations 0 done 1 
+== base_p_u55 period_achieved 1.526932 hold_wns 0.006736500437039306 cell_area 24225.949 die_area_um2 41538.5161 drc_violations 0 done 1 
+== base_jp_u45 period_achieved 1.584201 hold_wns 0.007636738679804899 cell_area 22322.189 die_area_um2 46272.3121 drc_violations 0 done 1 
+== base_jp_u50 period_achieved 1.578883 hold_wns 0.0036051024297342605 cell_area 22232.014 die_area_um2 41728.275625 drc_violations 0 done 1 
+== base_jp_u55 period_achieved 1.572879 hold_wns 0.0036526477321085055 cell_area 22218.447 die_area_um2 38007.452025000006 drc_violations 0 done 1 
+== hoc_jp_u45 period_achieved 1.567378 hold_wns 0.00816075008446022 cell_area 23269.414 die_area_um2 48296.655224999995 drc_violations 0 done 1 
+== hoc_jp_u50 period_achieved 1.57276 hold_wns 0.0072869906615808085 cell_area 23230.312 die_area_um2 43551.5161 drc_violations 0 done 1 
+== hoc_jp_u55 period_achieved 1.5728360000000001 hold_wns 0.006219996915800351 cell_area 23215.414 die_area_um2 39666.697224999996 drc_violations 0 done 1 
+== pams_jp_u45 period_achieved 1.383054 hold_wns 0.007793835242232352 cell_area 17856.312 die_area_um2 37542.9376 drc_violations 0 done 1 
+== pams_jp_u50 period_achieved 1.4082400000000002 hold_wns 0.009619208479794883 cell_area 17844.080 die_area_um2 33865.200625000005 drc_violations 0 done 1 
+== pams_jp_u55 period_achieved 1.385284 hold_wns 0.005862435702819489 cell_area 17767.203 die_area_um2 30851.166025000002 drc_violations 0 done 1 

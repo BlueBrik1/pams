@@ -21,6 +21,7 @@ designs (module <name>_lane, identical ports/contract to rtl/pams.v and rtl/base
               decision = [s < W] ^ [s < q] ^ [s < q + W] ^ [s < 2q] ^ [s < 2q + W]  (the three windows are disjoint).
 usage: python3 -I cgen.py NAME [NAME ...]     writes competitors/rtl/NAME.v"""
 import re, sys
+sys.dont_write_bytecode = True        # do not leave __pycache__ in the frozen models/ directory
 from pathlib import Path
 CM = Path(__file__).resolve().parent; MV = CM.parents[1]
 sys.path.insert(0, str(MV / 'models'))
@@ -32,8 +33,9 @@ Q = 3329
 def parse(name):
     fam = re.match(r'(base|pams|hoc|bos)', name).group(1)
     sfx = name[len(fam):].lstrip('_')
-    if sfx in ('', 'x'): return fam, dict(j=False, p=False, bk=False)
-    return fam, dict(j='j' in sfx.replace('bk', ''), p='p' in sfx.replace('bk', ''), bk='bk' in sfx)
+    if sfx in ('', 'x'): return fam, dict(j=False, p=False, bk=False, r=False)
+    r = sfx.replace('bk', '')
+    return fam, dict(j='j' in r, p=2 if 'q' in r else int('p' in r), bk='bk' in sfx, r='r' in r)
 
 
 def acc(y, i, k, C, tt):            # share i, bit k of the share-wise value, delayed to stage tt
@@ -153,21 +155,46 @@ def kernel_bos(C, y, ths, jit, w=12):
     return out
 
 
+def split_mult(wm, M, pub):
+    """variant q: the constant multiplier x_i * M split into two registered halves (x = xh 2^6 + xl); the public
+    signals in pub (name: width) are delayed by the same stage into <name>q."""
+    regs = ', '.join(f'mh{i}, ml{i}' for i in range(3))
+    pd = ' '.join(f'{n}q <= {n};' for n in pub)
+    pdecl = ' '.join(f'reg [{w - 1}:0] {n}q;' for n, w in pub.items())
+    mul = ' '.join(f"mh{i} <= {{{wm - 6}'b0, x{i}r[11:6]}} * {wm}'d{M}; ml{i} <= {{{wm - 6}'b0, x{i}r[5:0]}} * {wm}'d{M};" for i in range(3))
+    return (f'''  // extra share-wise pipeline stage inside the multiplier (variant q): x_i = xh 2^6 + xl, partial products registered
+  reg [{wm - 1}:0] {regs}; {pdecl}
+  always @(posedge clk) begin {mul} {pd} end
+  wire [{wm - 1}:0] {', '.join(f"m{i} = (mh{i} << 6) + ml{i}" for i in range(3))};
+''')
+
+
 def build(name):
     fam, o = parse(name)
     C = G.Ckt(); P = int(o['p'])
     if fam == 'pams':
         K = 14; M, S = G.floor_mult(K); width = K
-        y_regs = (f'''  wire [47:0] m0 = {{36'b0, x0r}} * 48'd{M}, m1 = {{36'b0, x1r}} * 48'd{M}, m2 = {{36'b0, x2r}} * 48'd{M};
-  wire [13:0] s0 = m0 >> {S}, s1 = m1 >> {S}, s2 = m2 >> {S};
-''' + ('''  // extra share-wise pipeline stage after the multiplier (variant p)
+        y_regs = ((split_mult(48, M, {'lowr': 14, 'thr': 14}) if P == 2 else f'''  wire [47:0] m0 = {{36'b0, x0r}} * 48'd{M}, m1 = {{36'b0, x1r}} * 48'd{M}, m2 = {{36'b0, x2r}} * 48'd{M};
+''') + f'''  wire [13:0] s0 = m0 >> {S}, s1 = m1 >> {S}, s2 = m2 >> {S};
+''' + (f'''  // extra share-wise pipeline stage after the multiplier (variant p)
   reg [13:0] s0p, s1p, s2p, lowp, thp;
-  always @(posedge clk) begin s0p <= s0; s1p <= s1; s2p <= s2; lowp <= lowr; thp <= thr; end
+  always @(posedge clk) begin s0p <= s0; s1p <= s1; s2p <= s2; lowp <= {'lowrq' if P == 2 else 'lowr'}; thp <= {'thrq' if P == 2 else 'thr'}; end
   reg [13:0] y0, y1, y2, th2;
   always @(posedge clk) begin y0 <= s0p - lowp + 14'd2; y1 <= s1p; y2 <= s2p; th2 <= thp; end
 ''' if P else '''  reg [13:0] y0, y1, y2, th2;
   always @(posedge clk) begin y0 <= s0 - lowr + 14'd2; y1 <= s1; y2 <= s2; th2 <= thr; end
 '''))
+        assert not o['r'] or P, 'r (public retiming) needs an extra front-end stage to retime into'
+        pub_regs = ('''  // variant r: the public window logic is split over the existing front-end stages (no added latency)
+  reg [2:0] qcr, qnr; reg [3:0] e0r; reg [10:0] c0r; reg [11:0] x0r, x1r, x2r;
+  always @(posedge clk) begin qcr <= qc; qnr <= qn; e0r <= e0; c0r <= c0; x0r <= x0q; x1r <= x1q; x2r <= x2q; end
+  wire [13:0] lowr = (({3'b0, c0r} << 1) - 14'd1) * (14'd1 << e0r) + qcr;
+  wire [13:0] thr = (14'd2 << e0r) - 14'd1 + qnr - qcr;
+''' if o['r'] else '''  wire [13:0] low0 = (({3'b0, c0} << 1) - 14'd1) * (14'd1 << e0) + qc;
+  wire [13:0] th0 = (14'd2 << e0) - 14'd1 + qn - qc;
+  reg [13:0] lowr, thr; reg [11:0] x0r, x1r, x2r;
+  always @(posedge clk) begin lowr <= low0; thr <= th0; x0r <= x0q; x1r <= x1q; x2r <= x2q; end
+''')
         front = f'''
   // stage 1: public window constants from (c, d); K = 14, e = 13 - d.
   //   r_c = ((1 - 2c) q) mod 2^(d+1);  r_{{c+1}} = (r_c - 2q) mod 2^(d+1);  qq(r) = floor(r 2^e / q) in [0, 4]
@@ -182,11 +209,7 @@ def build(name):
   wire [11:0] pr = (12'd1 - {{c0, 1'b0}}) * 12'd{Q};
   wire [11:0] rc = pr & rmask, rn = (pr - 12'd{(2 * Q) % 4096}) & rmask;
   wire [2:0] qc = qq(rc, e0), qn = qq(rn, e0);
-  wire [13:0] low0 = (({{3'b0, c0}} << 1) - 14'd1) * (14'd1 << e0) + qc;
-  wire [13:0] th0 = (14'd2 << e0) - 14'd1 + qn - qc;
-  reg [13:0] lowr, thr; reg [11:0] x0r, x1r, x2r;
-  always @(posedge clk) begin lowr <= low0; thr <= th0; x0r <= x0q; x1r <= x1q; x2r <= x2q; end
-  // stage 2: share-wise modulus switch floor(x_i 2^14 / q) = (x_i * {M}) >> {S}; share 0 pre-aligned by -Low_c + 2
+{pub_regs}  // stage 2: share-wise modulus switch floor(x_i 2^14 / q) = (x_i * {M}) >> {S}; share 0 pre-aligned by -Low_c + 2
 {y_regs}'''
         t0 = 3 + P
         y = [[C.m([f'y0[{k}]', None, None], t0) for k in range(width)], [C.m([None, f'y1[{k}]', None], t0) for k in range(width)],
@@ -200,11 +223,11 @@ def build(name):
             off = "((({13'b0, c0}) << 1) - 24'd1) * 24'd4096 - 24'd1"           # frozen text, (2c - 1) 2^12 - A
         else:
             off = f"((({{{W - 11}'b0, c0}}) << 1) - {W}'d1) * {W}'d{1 << (t - 1)}"  # (2c - 1) 2^13, A = 0
-        y_regs = (f'''  wire [{W + 35}:0] m0 = {{{W + 24}'b0, x0r}} * {W + 36}'d{M}, m1 = {{{W + 24}'b0, x1r}} * {W + 36}'d{M}, m2 = {{{W + 24}'b0, x2r}} * {W + 36}'d{M};
-  wire [{W - 1}:0] f0 = m0 >> {S}, f1 = m1 >> {S}, f2 = m2 >> {S};
+        y_regs = ((split_mult(W + 36, M, {'offr': W, 'enr': W, 'shr': 3}) if P == 2 else f'''  wire [{W + 35}:0] m0 = {{{W + 24}'b0, x0r}} * {W + 36}'d{M}, m1 = {{{W + 24}'b0, x1r}} * {W + 36}'d{M}, m2 = {{{W + 24}'b0, x2r}} * {W + 36}'d{M};
+''') + f'''  wire [{W - 1}:0] f0 = m0 >> {S}, f1 = m1 >> {S}, f2 = m2 >> {S};
 ''' + (f'''  // extra share-wise pipeline stage after the multiplier (variant p)
   reg [{W - 1}:0] fq0, fq1, fq2, offp, enp; reg [2:0] shp;
-  always @(posedge clk) begin fq0 <= f0; fq1 <= f1; fq2 <= f2; offp <= offr; enp <= enr; shp <= shr; end
+  always @(posedge clk) begin fq0 <= f0; fq1 <= f1; fq2 <= f2; {'offp <= offrq; enp <= enrq; shp <= shrq;' if P == 2 else 'offp <= offr; enp <= enr; shp <= shr;'} end
   wire [{W - 1}:0] s0 = fq0 >> shp, s1 = fq1 >> shp, s2 = fq2 >> shp;
   reg [{W - 1}:0] y0, y1, y2, en2;
   always @(posedge clk) begin y0 <= s0 - offp; y1 <= s1; y2 <= s2; en2 <= enp; end
