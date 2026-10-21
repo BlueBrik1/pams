@@ -1,0 +1,15 @@
+\section{Conclusion}\label{sec:conclusion}
+\PAMS{} verifies masked ML-KEM ciphertext coefficients exactly. It switches every arithmetic share to one fixed 14-bit representation, anchors it at the public interval start of the received coefficient, and compares the masked sum with a per-coefficient public threshold.
+
+Its ingredients are published: integer-error modulus switching, the $\lceil\log_2(nq)\rceil$ precision rule, interval anchoring and public-threshold comparison. Their combination makes the protected datapath independent of the compression width $d$.
+
+Built as a three-share HPC2 lane at one coefficient per cycle, and compared with the strongest conventional exact lane we could construct under the same gadget, flow and generic optimizations, \PAMS{} achieves the following:
+\begin{itemize}
+  \item 29.8\,\% fewer secure gadgets (40 vs.\ 57);
+  \item 29.8\,\% fewer fresh random bits per cycle (120 vs.\ 171);
+  \item 19.5\,\% less routed standard-cell area for the lane;
+  \item 18.5\,\% less estimated die area, consistently across seeds and clock targets;
+  \item comparable clock periods, without a demonstrated general speed advantage.
+\end{itemize}
+
+Its glitch-robust second-order probing security follows from SILVER-verified gadgets and PINI composition with mechanically checked preconditions, and PROLEAD detected no confirmed leakage. Transition robustness, randomness generation and physical leakage remain open, as for the baseline.

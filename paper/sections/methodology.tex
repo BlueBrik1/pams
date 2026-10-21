@@ -1,0 +1,102 @@
+\section{Experimental Methodology}\label{sec:method}
+
+\subsection{Designs and the design contract}
+Both designs implement one contract (\file{competitors/DESIGN\_CONTRACT.md}):
+\begin{itemize}
+  \item exact $[\Comp(x) = c]$ for all $x$, all $c$ and $d \in \{4,5,10,11\}$ selected per coefficient;
+  \item three canonical arithmetic input shares mod $q$, and three-share Boolean outputs that are never recombined;
+  \item one coefficient per cycle, sustained;
+  \item the same HPC2 gadget, the same share-local style, the same accumulator and the same control pipeline;
+  \item 3 fresh random bits per gadget per cycle, supplied externally.
+\end{itemize}
+
+\paragraph{The two finalists.}
+\begin{itemize}
+  \item \textbf{\sig{pams\_jqr}:} \PAMS{}.
+  \item \textbf{\sig{base\_jq}:} the Simple method~\cite{fritzmann2022,danvers2023}, with $y_i = \lfloor x_i 2^{24}/q \rfloor \gg (11 - d)$. It subtracts $(2c - 1)\,2^{12} - 1$, a $t = 13$ fractional-bit offset found exhaustively to be the minimal exact one (\cref{app:baseline}), and tests the top $d$ bits of a 24-bit sum for zero. The test uses a carry-free top region and an early OR tree.
+\end{itemize}
+
+\paragraph{Generic optimizations, applied to both.}
+\begin{itemize}
+  \item \textbf{j:} delay single-domain operand bits instead of 3-share sums.
+  \item \textbf{q:} two extra share-wise front-end pipeline stages, splitting the constant multiplier.
+\end{itemize}
+
+\paragraph{The PAMS-specific retiming r.}
+\PAMS{} additionally receives \textbf{r}, which retimes its public window logic into the existing stages. The baseline has no equivalent need. In the baseline's synthesis STA its public offset logic needs at most $0.595\ns$ (arrival plus setup), while all of its share-wise stages need about $1.0\ns$: partial products $1.027$, sum $1.017$, shift and offset $0.995$. In \PAMS{} the public stage is critical ($1.033\ns$) and the share-wise stages need $0.99$--$1.02\ns$ (\file{final/runs/pubpaths\_*.txt}). After these optimizations both designs are balanced at the limit of a two-stage front end.
+
+\paragraph{Why Simple is the baseline.}
+The competitor study (\cref{app:competitors}) also built and synthesized lanes of four other kinds:
+\begin{itemize}
+  \item a Bos-style exact interval check (91 gadgets);
+  \item HOCompress precision ($t = 14$, 59 gadgets);
+  \item Brent--Kung (X2X-style) prefix carries (75 gadgets);
+  \item a lower bound for Coron et al.'s arithmetic zero test, at least $33{,}500\um$ of unmasked multipliers alone.
+\end{itemize}
+All were dominated by Simple. The original, less optimized baseline of our first study is kept only as a historical reference.
+
+\subsection{Synthesis and static timing}
+\paragraph{Generation and synthesis.} RTL is generated deterministically by \file{competitors/models/cgen.py}. It is synthesized with:
+\begin{itemize}
+  \item Yosys 0.33~\cite{yosys}: \texttt{synth -flatten -noabc}, \texttt{dfflibmap};
+  \item ABC~\cite{brayton2010abc} with BUF\_X1 drive, a 5\,fF load and delay target $-D\,500$;
+  \item the Nangate45 typical library~\cite{nangate45}.
+\end{itemize}
+The \sig{hpc2} module is kept as a separate hierarchy level (\texttt{keep\_hierarchy}) so that gadget boundaries survive. Five mappings per design (ABC $-D$ 500 with 0, 3 or 6 extra pad modules, $-D$ 400, $-D$ 650) estimate mapping variability; medians are reported.
+
+\paragraph{Static timing.} OpenSTA 3.1.0~\cite{opensta} analyses four data-path groups (in2reg, reg2reg, reg2out, in2out) with I/O at the clock edge, 0.05\ns{} input transition and 5\,fF output load. The reported delay is the minimum clock period including setup.
+
+\paragraph{Why synthesis is not enough.} Synthesis area counts only cell area, and its timing ignores wires. After placement and routing, the following change area and delay:
+\begin{itemize}
+  \item clock-tree buffers, hold-fixing buffers, setup repair, tie cells and wire parasitics;
+  \item for designs dominated by registers, as these are, especially clock and hold buffering.
+\end{itemize}
+Physical results are therefore the basis of our final comparison.
+
+\subsection{Placement and routing}
+\paragraph{Flow.} We use OpenROAD~\cite{ajayi2019openroad} from the OpenROAD-flow-scripts image 26Q3, with the Nangate45 platform. The flow script (\file{final/tools/pnr\_final.tcl}) is identical for both designs:
+\begin{enumerate}
+  \item floorplan at 50\,\% utilization (aspect 1, 2\,\si{\micro\meter} core margin), I/O placement and PDN;
+  \item global placement at density 0.6, first wirelength-driven, then timing-driven;
+  \item repair\_design, detailed placement;
+  \item clock-tree synthesis (BUF\_X4/BUF\_X8);
+  \item setup repair, and hold repair with a 60\,\% buffer cap;
+  \item global routing (50 congestion iterations), setup repair, detailed routing (64 iterations);
+  \item filler insertion, and RCX parasitic extraction for final STA.
+\end{enumerate}
+Inputs are flow-C netlists: flow B with the platform's don't-use cells removed.
+
+\paragraph{Seeds.} We vary only the random seed of global placement and I/O placement. Seeds 1--7 were used for both designs at every target.
+\begin{itemize}
+  \item \textbf{Seeds give different layouts.} Between seeds 1 and 2 (and between 2 and 3), 84\,\% of the instances common to both runs move (mean displacement 11--12\,\si{\micro\meter}) and 170--171 of 181 I/O pins move (\file{final/models/placediff.py}).
+  \item \textbf{A seed reproduces its layout.} Repeating seed 1 at 2.0\ns{} reproduces the earlier unseeded run bit for bit.
+  \item \textbf{What the seeds sample.} The runs sample implementation variation of one netlist under one flow. They are not independent physical samples, and statistics are read in that sense.
+\end{itemize}
+
+\paragraph{Clock targets.} Earlier studies used a loose 2.0\ns{} target, which both designs beat by 40--45\,\%. We added two targets near their practical limits:
+\begin{itemize}
+  \item \textbf{1.2\ns:} both close timing with margin.
+  \item \textbf{1.1\ns:} both achieve about $1.07\ns$.
+\end{itemize}
+The bound was 21 runs per design, with a 90-minute wall-clock limit per run enforced by a watchdog. A run counts as \emph{valid} only if the flow finishes with zero DRC violations, RCX parasitics and non-negative hold slack. Every run is reported, including invalid ones.
+
+\subsection{Metrics}
+\begin{itemize}
+  \item \textbf{Synthesized area:} sum of the liberty areas of the mapped cells, including gadget internals.
+  \item \textbf{Routed cell area:} OpenROAD \texttt{design\_area} after routing, including inserted buffers and tie cells.
+  \item \textbf{Die area:} the floorplanned die at 50\,\% utilization. It scales with the synthesized area and is an estimate of footprint, not a packaged chip.
+  \item \textbf{Achieved period:} the target minus the worst setup slack over all four path groups, on RCX parasitics, with propagated clocks.
+  \item \textbf{Gadgets:} HPC2 instances in the RTL, equal in every netlist.
+  \item \textbf{Randomness:} the width of \sig{rnd}, 3 bits per gadget per cycle.
+  \item \textbf{Latency:} clock cycles from coefficient input to \sig{cvalid}, and from the last coefficient to \sig{dvalid}.
+  \item \textbf{Statistics:} exact two-sided rank-sum tests over all $\binom{14}{7}$ label assignments; the smallest attainable $p$ for 7 against 7 runs is $0.0006$.
+\end{itemize}
+Power was not measured. All numbers are EDA estimates.
+
+\subsection{Functional verification}
+Every design was simulated with Icarus Verilog~\cite{icarus} at RTL, at gate level, and as a routed netlist with liberty functions inlined. The systematic stimulus covers:
+\begin{itemize}
+  \item every interval boundary of every $(c, d)$: $a_c - 1$, $a_c$, $a_{c+1} - 1$, $a_{c+1}$;
+  \item every $x \in [0, q)$ for every $d$, against $c = \Comp(x)$ and against $c + 1$.
+\end{itemize}
+That is \num{39112} coefficients in \num{7096} ciphertexts, with shares that include zeros and $q - 1$. A random, accept-heavy stimulus adds \num{6001} coefficients and \num{1086} ciphertexts on the routed netlists. All designs showed 0 mismatches at every level (\cref{app:functional}).

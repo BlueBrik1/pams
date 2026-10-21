@@ -1,0 +1,101 @@
+% PAMS: Pre-Aligned Modulus Switching for exact second-order masked ML-KEM ciphertext verification.
+% Build: scripts/build.sh (pdflatex + bibtex, TinyTeX). Not submitted to, and not formatted for, any specific venue.
+\documentclass[10pt,twocolumn]{article}
+\usepackage[letterpaper,margin=0.75in,columnsep=0.25in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{graphicx}
+\usepackage{booktabs,multirow,tabularx,makecell,threeparttable}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc,backgrounds,shapes.geometric,decorations.pathreplacing}
+\usepackage[font=small,labelfont=bf,skip=4pt]{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage[capitalise,noabbrev]{cleveref}
+\usepackage{afterpage}
+\usepackage{placeins}
+
+\sisetup{group-separator={,},group-minimum-digits=4}
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{8pt plus 2pt minus 2pt}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% ---------------------------------------------------------------- notation (used consistently throughout)
+\newcommand{\PAMS}{PAMS}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Zq}{\mathbb{Z}_q}
+\newcommand{\F}{F_K}
+\newcommand{\Fk}[1]{F_{14}\!\left(#1\right)}
+\newcommand{\Comp}{\operatorname{Compress}_d}
+\newcommand{\Low}{\mathrm{Low}}
+\newcommand{\lt}{\mathrm{lt}}
+\newcommand{\sig}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{#1}}
+\newcommand{\um}{\,\si{\micro\meter\squared}}
+\newcommand{\ns}{\,\si{\nano\second}}
+
+% ---------------------------------------------------------------- Verilog listings: verbatim from the frozen RTL
+\definecolor{kw}{RGB}{0,0,150}\definecolor{cm}{RGB}{0,110,0}\definecolor{lnum}{RGB}{120,120,120}
+\lstdefinestyle{rtl}{language=Verilog,basicstyle=\ttfamily\scriptsize,keywordstyle=\color{kw}\bfseries,
+  commentstyle=\color{cm}\itshape,numbers=left,numberstyle=\tiny\color{lnum},numbersep=4pt,breaklines=true,
+  breakatwhitespace=false,postbreak=\mbox{\textcolor{lnum}{$\hookrightarrow$}\space},columns=fullflexible,
+  keepspaces=true,frame=tb,framerule=0.4pt,xleftmargin=1.2em,aboveskip=4pt,belowskip=2pt,showstringspaces=false}
+\lstset{style=rtl}
+\newcommand{\RTL}{../final/rtl/pams_jqr.v}
+\newcommand{\RTLB}{../final/rtl/base_jq.v}
+
+\title{\Large\bfseries PAMS: Pre-Aligned Modulus Switching for Exact Second-Order Masked\\ ML-KEM Ciphertext Verification in Hardware}
+\author{\textit{[Author names and affiliations to be supplied by the authors --- see AI\_USAGE\_DISCLOSURE.md]}}
+\date{Research snapshot \texttt{pams-publication-freeze-v1} \quad (manuscript draft, \today)}
+
+\begin{document}
+\twocolumn[
+\begin{@twocolumnfalse}
+\maketitle
+\input{sections/abstract}
+\vspace{1em}
+\end{@twocolumnfalse}
+]
+
+\input{sections/introduction}
+\input{sections/background}
+\input{sections/architecture}
+\input{sections/security}
+\input{sections/methodology}
+\input{sections/results}
+\input{sections/limitations}
+\input{sections/conclusion}
+
+\FloatBarrier
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\clearpage
+\onecolumn
+\appendix
+\input{appendices/mathematical_derivations}
+\input{appendices/verilog_walkthrough}
+\input{appendices/circuit_walkthrough}
+\input{appendices/extended_evidence}
+\end{document}

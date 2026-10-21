@@ -1,0 +1,43 @@
+\section{Introduction}\label{sec:intro}
+
+\paragraph{Post-quantum key establishment.}
+The public-key schemes in use today rest on integer factorization and discrete logarithms. A sufficiently large quantum computer would solve both problems efficiently~\cite{shor1997}. Data encrypted today can be recorded now and decrypted later, so the migration to quantum-resistant key establishment must precede such machines. In August 2024 NIST standardized ML-KEM, the Module-Lattice-Based Key-Encapsulation Mechanism derived from CRYSTALS-Kyber, as FIPS~203~\cite{fips203,bos2018kyber}. ML-KEM lets two parties agree on a shared 256-bit secret over a public channel. Its security rests on the module learning-with-errors problem, and it comes in three parameter sets: ML-KEM-512, -768 and -1024.
+
+\paragraph{Re-encryption checking.}
+ML-KEM obtains security against chosen-ciphertext attacks (IND-CCA2) from a variant of the Fujisaki--Okamoto transform~\cite{fujisaki1999,hofheinz2017}. Decapsulation decrypts the ciphertext, re-encrypts the recovered message deterministically, and compares the result with the received ciphertext. Only if every coefficient matches is the real shared key released; otherwise an implicit-rejection key is returned. The comparison is \emph{exact}: it must reject any ciphertext that differs in even one compressed coefficient.
+
+\paragraph{Why the check must be protected.}
+The re-encrypted ciphertext depends on the secret key. An adversary who can observe power or electromagnetic leakage, and who submits manipulated ciphertexts, can turn the success or failure of the check into an oracle on secret data. Generic side-channel attacks of this kind on CCA-secure lattice KEMs have been demonstrated~\cite{ravi2020}. Hardened implementations therefore \emph{mask} the computation. Each sensitive value $x$ is split into $n$ random shares whose sum (or XOR) equals $x$, and every intermediate value is computed on shares. Any $n-1$ observed intermediates are then statistically independent of $x$~\cite{ishai2003}. With $n = 3$ shares the implementation is \emph{second-order} masked.
+
+\paragraph{Why exact masked comparison is expensive.}
+In masked ML-KEM the re-encrypted coefficients are naturally available as \emph{arithmetic} shares modulo $q = 3329$. Checking them against the public ciphertext needs the compression function $\Comp$, a rounding of $2^d x/q$, followed by an equality test. Neither operation is linear in arithmetic shares mod $q$. Exact masked methods therefore convert to Boolean shares and evaluate an adder or comparator on them~\cite{bos2021masking,fritzmann2022,danvers2023,coron2023poly}. In hardware every nonlinear Boolean operation on shares must be a protected \emph{gadget}, such as HPC2~\cite{cassiers2021hpc}, which costs registers, area and fresh randomness. Pipelined at one coefficient per cycle, a second-order HPC2 gadget needs three fresh random bits per cycle, and in our flow it occupies about $180\um$. The number of gadgets thus directly sets the area of the verification lane and the bandwidth demanded from the random-number generator.
+
+\paragraph{The gap.}
+The strongest exact conventional method we found, the "Simple" approach of Fritzmann et al.\ and D'Anvers et al.~\cite{fritzmann2022,danvers2023}, switches every share to a power-of-two modulus with $d + 13$ bits. For ML-KEM-1024 ($d = 11$) the protected adder is therefore 24 bits wide. Coron et al.'s HOCompress~\cite{coron2023poly} uses 14 extra bits on top of the $d$ integer bits. Interval-based methods (Bos et al., Azouaoui et al.~\cite{bos2021masking,azouaoui2023}) avoid that width but need exact prime-modulus conversions. We found no published construction that removes the dependence of the protected width on $d$ while remaining exact.
+
+\paragraph{This work.}
+\PAMS{} combines three established mechanisms:
+\begin{itemize}
+  \item the integer-error share-wise modulus switch of Coron, G\'erard, Trannoy and Zeitoun~\cite{coron2023dil};
+  \item the precision rule $\lceil \log_2(nq) \rceil$ of HOCompress~\cite{coron2023poly};
+  \item the integer interval anchoring and public-threshold comparison of Bos et al.\ and Azouaoui et al.~\cite{bos2021masking,azouaoui2023}.
+\end{itemize}
+Each share is switched to one fixed 14-bit representation for every $d$. The public interval start of $c$ is subtracted on one share, and the masked sum is compared with a per-coefficient public threshold $\Theta_c$. The protected datapath becomes 14 bits wide for all ML-KEM parameter sets. This saves 17 of 57 gadgets relative to the Simple lane built from the same parts.
+
+\paragraph{Contributions.}
+\begin{enumerate}
+  \item \textbf{Datapath.} An exact masked ML-KEM ciphertext-coefficient verification datapath (\cref{sec:math}). It combines share-wise modulus switching into a fixed 14-bit representation with public interval anchoring and a per-coefficient threshold comparison, for $d \in \{4,5,10,11\}$. The mathematical components are published; to our knowledge, their combination for exact ML-KEM verification has not been described before (\cref{sec:related}).
+  \item \textbf{Implementation.} A complete three-share HPC2 RTL implementation at one coefficient per cycle, explained from equations to registers (\cref{sec:rtl,app:verilog}).
+  \item \textbf{Physical realization.} Gate-level and placed-and-routed evidence from real netlists and layouts (\cref{sec:circuit,app:circuit}).
+  \item \textbf{Matched evaluation.} A comparison against the strongest conventional exact lane we could build, with fairness controls and seeded physical design (\cref{sec:method,sec:results}). Across seven seeds and three clock targets, the \PAMS{} lane reduces routed cell area of the verification lane by \num{19.5}\,\% and gadgets and randomness by \num{29.8}\,\%, at comparable clock period.
+  \item \textbf{Security evidence and its limits.} The evidence is stated in the glitch-robust probing model (\cref{sec:security}), and the open questions are stated explicitly (\cref{sec:limits}).
+\end{enumerate}
+
+\paragraph{Organization.}
+\begin{itemize}
+  \item \Cref{sec:background} reviews ML-KEM compression, masking and the related work.
+  \item \Cref{sec:arch} develops \PAMS{} in three layers: the mathematics, the Verilog, and the circuit with its physical realization.
+  \item \Cref{sec:security} analyses security, \cref{sec:method} describes the experimental methodology, and \cref{sec:results} reports the results.
+  \item \Cref{sec:limits,sec:conclusion} discuss limitations and conclude.
+  \item The appendices give the complete derivations (\cref{app:math}), an annotated walkthrough of the Verilog (\cref{app:verilog}) and of the gate-level and physical circuit (\cref{app:circuit}), and extended security and experimental evidence (\cref{app:evidence}).
+\end{itemize}

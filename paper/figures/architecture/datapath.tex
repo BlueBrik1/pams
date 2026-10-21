@@ -1,0 +1,64 @@
+% PAMS datapath (pams_jqr). Conceptual diagram reconstructed by hand from final/rtl/pams_jqr.v (signal names, widths
+% and stages from the source; see FIGURE_PROVENANCE.md). Not an automatically extracted circuit.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,>={Stealth[length=1.6mm]},
+  reg/.style={draw,fill=white,minimum width=1.0cm,minimum height=0.46cm,inner sep=1.5pt,align=center},
+  op/.style={draw,rounded corners=2pt,fill=#1,minimum height=0.46cm,inner sep=2pt,align=center},
+  op/.default=blue!8,
+  lab/.style={font=\tiny,inner sep=1pt}]
+  % stage guides
+  \foreach \s/\x in {1/1.55,2/3.05,3/4.75,4/6.55,5/8.25} {
+    \draw[gray!40,dashed] (\x,-3.4) -- (\x,1.2);
+    \node[gray,font=\tiny] at (\x,1.45) {stage \s};
+  }
+  \node[gray,font=\tiny] at (11.75,1.45) {stages 5--31 (13 gadget levels $\times$ 2 cycles)};
+  \node[gray,font=\tiny] at (15.0,1.45) {stage 31};
+  \node[gray,font=\tiny] at (17.1,1.45) {stage 35};
+  % share lanes
+  \foreach \i/\y in {0/0.6,1/-0.2,2/-1.0} {
+    \node[lab,anchor=east] at (0.45,\y) {$x_{\i}$ [11:0]};
+    \node[reg] (q\i) at (1.55,\y) {\sig{x\i q}};
+    \node[reg] (r\i) at (3.05,\y) {\sig{x\i r}};
+    \node[op] (m\i) at (4.75,\y) {$\times M$ (split)\\[-1pt]\sig{mh\i}, \sig{ml\i}};
+    \node[op] (s\i) at (6.55,\y) {$\gg 21$\\[-1pt]\sig{s\i p} [13:0]};
+    \draw[->] (0.5,\y) -- (q\i); \draw[->] (q\i) -- (r\i); \draw[->] (r\i) -- (m\i); \draw[->] (m\i) -- (s\i);
+  }
+  \node[op=orange!12] (y0) at (8.25,0.6) {$+2-\mathrm{Low}_c$\\[-1pt]\sig{y0} [13:0]};
+  \node[reg] (y1) at (8.25,-0.2) {\sig{y1} [13:0]};
+  \node[reg] (y2) at (8.25,-1.0) {\sig{y2} [13:0]};
+  \draw[->] (s0) -- (y0); \draw[->] (s1) -- (y1); \draw[->] (s2) -- (y2);
+  % public lane
+  \node[lab,anchor=east] at (0.45,-2.6) {$c$ [10:0], mode};
+  \node[reg] (c0) at (1.55,-2.6) {\sig{c0}, \sig{d0}};
+  \node[op=gray!12] (pw) at (3.05,-2.6) {$e$, $\mathrm{qq}(r_c)$,\\[-1pt]$\mathrm{qq}(r_{c+1})$};
+  \node[op=gray!12] (lo) at (4.75,-2.6) {$\mathrm{Low}_c$, $\Theta_c$\\[-1pt]\sig{lowrq}, \sig{thrq}};
+  \node[reg] (lp) at (6.55,-2.6) {\sig{lowp}, \sig{thp}};
+  \node[reg] (th) at (8.25,-2.6) {\sig{th2} [13:0]};
+  \draw[->] (0.5,-2.6) -- (c0); \draw[->] (c0) -- (pw); \draw[->] (pw) -- (lo); \draw[->] (lo) -- (lp); \draw[->] (lp) -- (th);
+  \draw[->,gray] (lp.north east) .. controls (7.35,-1.7) and (7.35,0.0) .. node[lab,pos=0.25,right] {$\mathrm{Low}_c$} (y0.south west);
+  % masked kernel
+  \node[draw,thick,fill=orange!6,rounded corners=3pt,minimum width=4.7cm,minimum height=4.3cm] (k) at (11.75,-1.15) {};
+  \node[font=\scriptsize\bfseries] at (11.75,0.72) {masked kernel: 38 HPC2};
+  \foreach \t/\y in {{CSA: 13 maj (HPC2) $\to S, T$}/0.2, {ripple carry $c_2 \ldots c_{11}$: 10 HPC2}/-0.45,
+                    {comparator vs.\ $\Theta_c$: 10 HPC2}/-1.1,
+                    {zero test $Z_{13:11}$: 4 HPC2}/-1.75, {final AND $\to b$: 1 HPC2}/-2.4}
+    \node[op=orange!22,minimum width=4.3cm] at (11.75,\y) {\t};
+  \node[lab,align=center] at (11.75,-2.88) {+ share-local XORs and single-domain\\ delay registers};
+  \draw[->] (y0.east) -- (9.4,0.6); \draw[->] (y1.east) -- (9.4,-0.2); \draw[->] (y2.east) -- (9.4,-1.0);
+  \draw[->] (th.east) -- (9.4,-2.6);
+  \node[lab,anchor=north] (rnd) at (11.75,-3.55) {\sig{rnd}[113:0]: 3 fresh bits per gadget};
+  \draw[->,densely dotted] (rnd.north) -- (k.south);
+  % output and accumulator
+  \node[reg,minimum width=1.25cm] (cdec) at (15.0,-1.15) {\sig{cdec}[2:0]\\[-1pt]$b_0, b_1, b_2$};
+  \draw[->] (k.east) -- (cdec);
+  \node[op=orange!22,minimum width=2.0cm] (acc) at (17.1,-1.15) {\sig{uacc}, \sig{ufin}\\[-1pt]2 HPC2: $D = \wedge\, b$};
+  \draw[->] (cdec) -- (acc);
+  \node[lab] at (17.1,-1.85) {\sig{rnd}[119:114]};
+  \node[reg,minimum width=1.1cm] (dec) at (17.1,0.35) {\sig{dec}[2:0]};
+  \draw[->] (acc) -- (dec);
+  \node[lab,align=center] at (15.4,-3.05) {\sig{cvalid}, \sig{dvalid}: from the\\ \sig{vin}/\sig{first}/\sig{last} pipeline};
+  % legend
+  \node[op,minimum height=0.22cm,minimum width=0.4cm] at (0.9,-3.75) {}; \node[lab,anchor=west] at (1.2,-3.75) {share-local logic (one domain)};
+  \node[op=gray!12,minimum height=0.22cm,minimum width=0.4cm] at (0.9,-4.15) {}; \node[lab,anchor=west] at (1.2,-4.15) {public logic ($c$, $d$ only)};
+  \node[op=orange!22,minimum height=0.22cm,minimum width=0.4cm] at (5.3,-3.75) {}; \node[lab,anchor=west] at (5.6,-3.75) {HPC2 gadgets (all three domains)};
+  \node[reg,minimum height=0.22cm,minimum width=0.4cm] at (5.3,-4.15) {}; \node[lab,anchor=west] at (5.6,-4.15) {register stage};
+\end{tikzpicture}

@@ -1,0 +1,45 @@
+\section{Limitations}\label{sec:limits}
+Each limitation below states its consequence for the claims of this paper.
+
+\paragraph{Component-level evaluation.} \PAMS{} is a ciphertext-verification lane, not a full ML-KEM accelerator.
+\begin{itemize}
+  \item \textbf{Effect on scope.} The 19.5\,\% area reduction applies to this subsystem. In a complete masked decapsulation core, where NTT, sampling, hashing and the remaining conversions dominate, the relative saving is diluted by a factor we did not measure.
+  \item \textbf{Effect on integration cost.} Integration questions are open: how the upstream re-encryption delivers canonical shares at one coefficient per cycle, and how \sig{dec} drives a masked implicit-rejection selection.
+\end{itemize}
+
+\paragraph{One library, one flow, no silicon, no power.} All numbers are Yosys/ABC, OpenSTA and OpenROAD estimates in the Nangate45 typical corner.
+\begin{itemize}
+  \item \textbf{Not measured:} other technologies, multi-corner analysis, clock uncertainty and on-chip-variation derating, and fabricated chips.
+  \item \textbf{Power:} not reported. A vectorless estimate exists in the run directories but is not an energy measurement. Lower gadget and register counts make lower dynamic power plausible but unproven.
+\end{itemize}
+
+\paragraph{Randomness generation excluded.} The area figures exclude the random-number generator. The saving of 51 random bits per cycle reduces generator cost, for example from three to two unrolled-Trivium instances~\cite{cassiers2024rng}, but this was modelled in our earlier study, not implemented in the final comparison.
+
+\paragraph{Canonical input shares.} Both designs require $0 \le x_i < 3329$ and do not check it. If the upstream logic produced 12-bit shares outside that range, correctness, though not masking, would fail. The requirement must be met and documented at integration.
+
+\paragraph{Finite physical-design sampling.} Seven seeds at each of three targets, at one utilization, sample implementation variation of one netlist per design.
+\begin{itemize}
+  \item \textbf{Area:} the conclusion is insensitive to this, given complete separation at every target.
+  \item \textbf{Timing:} differences of 1--4\,\% lie within or near the seed spread. They depend on the target, and at the tightest target they vanish.
+  \item \textbf{Routing:} the 1.1\ns{} routing result (7/7 against 1/7) may not hold at lower utilization or with other router settings.
+\end{itemize}
+
+\paragraph{Pipeline latency.} Both designs were pipelined with two extra share-wise stages. Their decision latency is 35 (\PAMS{}) and 37 (baseline) cycles after the last coefficient, at one coefficient per cycle. For a full ML-KEM-1024 ciphertext of 1,280 coefficients, verification takes about 1,315 cycles in total; the 2-cycle difference is negligible. Deeper pipelining would trade further registers for shorter clock periods in both designs and was not explored.
+
+\paragraph{Security model.}
+\begin{itemize}
+  \item \textbf{Glitch-robust probing.} The supported claim is glitch-robust second-order probing security with ideal randomness, which rests on SILVER, the PINI theorem and our structural checker.
+  \item \textbf{Transitions.} Transition robustness is unproven: no applicable composition theorem exists for adjacent HPC2 executions.
+  \item \textbf{Physical leakage.} Physical leakage was not measured, and attacks on the comparison function itself apply to any masked comparator~\cite{hermelink2024}.
+  \item \textbf{Statistical evidence.} The PROLEAD evidence for the final circuit comes from a focused campaign, smaller than the campaign on the original design.
+\end{itemize}
+
+\paragraph{Architectural, not mathematical, novelty.} Every mathematical component of \PAMS{} is published~\cite{coron2023dil,coron2023poly,bos2021masking,azouaoui2023}, and exactness follows from the published lemma in a few lines. The contribution is the datapath and its measured consequence. A reader may judge the combination incremental; we claim only that we did not find it in the literature we reviewed.
+
+\paragraph{Incomplete access to recent prior art.} Some recent work could not be fully reviewed:
+\begin{itemize}
+  \item the comparison method of Buschkowski et al.~\cite{buschkowski2026}, since only the abstract was accessible;
+  \item one further 2026 first-order FPGA work, which we could not retrieve.
+\end{itemize}
+
+Our literature, patent and code search was targeted, not exhaustive.

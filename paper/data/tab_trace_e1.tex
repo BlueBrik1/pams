@@ -1,0 +1,10 @@
+1 & \sig{x$i$q}; \sig{c0}, \sig{d0} & \texttt{487, 1308, 1505; 0, 4} & registered shares $x_i$; $c$, $d$ \\
+2 & \sig{x$i$r}; \sig{qcr}, \sig{qnr}, \sig{e0r} & \texttt{487, 1308, 1505; 0, 4, 9} & $x_i$; $\mathrm{qq}(r_c)$, $\mathrm{qq}(r_{c+1})$, $e$ \\
+3 & \sig{mh$i$}, \sig{ml$i$} & \texttt{72249373, 402532221, 206426780, 288997492, 237390797, 340604187} & $\lfloor x_i/64\rfloor M$, $(x_i \bmod 64) M$ for $i = 0, 1, 2$ \\
+3 & \sig{lowrq} & \texttt{15872} & $\Low_c$ (Equation~(7)) \\
+4 & \sig{s$i$p}; \sig{lowp} & \texttt{2396, 6437, 7407; 15872} & $F_{14}(x_i)$; $\Low_c$ \\
+5 & \sig{y$i$}; \sig{th2} & \texttt{2910, 6437, 7407; 1027} & $\hat y_0, y_1, y_2$; $\Theta_c$ \\
+7 & \sig{g111} (recombined) & \texttt{1} & $T_1 = \mathrm{maj}$ of bit 0 of the three operands \\
+31 & \sig{g1542} (recombined); \sig{cvalid} & \texttt{1; 1} & $b = [Z < \Theta_c]$; decision marker \\
+31 & \sig{cdec} shares $(b_0, b_1, b_2)$ & \texttt{0, 1, 0} & $b_0 \oplus b_1 \oplus b_2 = 1$ \\
+\bottomrule

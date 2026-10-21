@@ -1,0 +1,160 @@
+\section{Security Analysis}\label{sec:security}
+
+\subsection{Claim and model}
+\paragraph{Claim.} We claim the following for \sig{pams\_jqr}, and identically for the baseline \sig{base\_jq}:
+\begin{quote}\itshape
+The lane is second-order secure in the glitch-robust probing model, i.e.\ against any two glitch-extended probes over any number of clock cycles, provided the \sig{rnd} input supplies fresh uniform independent bits every cycle and the input shares are a uniform canonical sharing.
+\end{quote}
+
+\paragraph{Leakage model.} Following the robust probing model~\cite{faust2018,cassiers2021hpc}:
+\begin{itemize}
+  \item a probe on a combinational wire reveals, for one cycle, every register output and primary input in that wire's combinational fan-in;
+  \item a probe on a register reveals its value.
+\end{itemize}
+
+\paragraph{What we do not claim.}
+\begin{itemize}
+  \item security in the transition-robust model;
+  \item security of any random-number generator;
+  \item resistance to physical attacks beyond probing, such as couplings, horizontal or vertical attacks, and fault injection.
+\end{itemize}
+\Cref{sec:sec-limits} discusses these.
+
+\subsection{Argument structure}
+The argument has three steps. Each is supported by a different kind of evidence, summarized in \cref{tab:secevidence}.
+
+\begin{table*}[t]\centering\small
+\caption{Security evidence for the final circuits. "Final" = the publication netlists of \sig{pams\_jqr} and \sig{base\_jq}; "frozen" = the original \sig{pams}/\sig{base} designs evaluated in Phase XII.}\label{tab:secevidence}
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{@{}p{3.3cm}p{2.6cm}Xp{3.4cm}@{}}
+\toprule
+property & tool / method & result & applies to \\
+\midrule
+HPC2 gadget is glitch-robust 2-PINI & SILVER~\cite{knichel2020silver} (formal, BDD-based) & both mapped gadget variants (v0, v1): probing, NI, PINI and uniformity secure at order 2 in the standard and robust models; robust SNI only at order 1, as expected for a PINI-but-not-SNI gadget. Three broken variants (unregistered refresh, mask reuse, recombination) fail. & every gadget of all 24 final synthesis / P\&R-input netlists is byte-identical to v0 or v1 \\
+gadget under transitions and pipelining & PROLEAD~\cite{mueller2022prolead} (statistical) & order 2, glitches + transitions, multivariate, four back-to-back executions, $2^{22}$ simulations: max $-\log_{10} p = 4.2$--$4.6$ over \num{6984} probing sets, no leakage; the three broken variants give $p \to 0$ & both gadget variants \\
+preconditions of trivial PINI composition & \file{compcheck.py} (structural; with negative controls) & no net outside gadgets depends on two share domains; every random bit reaches exactly one gadget $r$-port; gadget input/output share $i$ is domain $i$; every routed gadget equals the verified gadget cell by cell & 5 synthesis mappings, P\&R inputs, and all 40 valid and DRC-failing routed runs of both finalists \\
+constant time & cone analysis of \sig{cvalid}/\sig{dvalid} & timing outputs depend on no share and no random bit & 12 final netlists \\
+whole-lane leakage & PROLEAD, robust glitches + transitions & no confirmed leakage; negative controls detected (\cref{tab:prolead}) & final \sig{pams\_jqr} (focused) and frozen \sig{pams}/\sig{base} (extensive) \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+\paragraph{Step 1: the gadget.}
+Every nonlinear operation is an instance of one HPC2 module, kept as a separate hierarchy level during synthesis. Synthesis maps this module in exactly two ways (variants v0 and v1) across all mappings and all designs.
+\begin{itemize}
+  \item \textbf{SILVER.} It verifies each variant exhaustively as glitch-robust 2-PINI.
+  \item \textbf{PROLEAD.} It finds no leakage, even with transitions, when the gadget is executed every cycle.
+  \item \textbf{Final netlists.} Every gadget instance in the final netlists is one of these two byte-identical variants (\file{final/runs/gadget\_identity.json}).
+  \item \textbf{Routing.} P\&R adds buffers, resizes cells and ties constant shares inside gadget hierarchies. The G-check confirms that each routed gadget is still the verified gadget once those buffers are collapsed.
+\end{itemize}
+
+\paragraph{Step 2: composition.}
+Outside the gadgets, the lane consists only of:
+\begin{itemize}
+  \item share-local operations: per-share multipliers, XORs of two values of the same domain, delay registers;
+  \item public logic: the window constants and the control pipeline;
+  \item operations that combine a public value with one share: $-\Low_c + 2$ on share 0, $\bar\theta_k$ on share 0.
+\end{itemize}
+\Cref{fig:domains} shows the resulting structure. Three domain columns interact only through HPC2 gadgets, each fed by its own fresh random bits. For such a circuit the trivial composition theorem of PINI~\cite{cassiers2020pini}, extended to glitches in the HPC framework~\cite{cassiers2021hpc}, implies that the lane is glitch-robust 2-PINI.
+
+The theorem's preconditions are structural, and \file{compcheck.py} checks them mechanically on every netlist. The checker is our own code. It has negative controls: an exposed decision, a partial recombination and reused masks are all flagged.
+
+\begin{figure}[t]\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,>={Stealth[length=1.5mm]},
+  bx/.style={draw,fill=white,align=center,minimum width=1.25cm,minimum height=0.42cm,inner sep=1pt}]
+  \foreach \i/\x/\c in {0/0.8/blue!10,1/2.4/green!10,2/4.0/red!8} {
+    \fill[\c] (\x-0.75,-3.35) rectangle (\x+0.75,0.75);
+    \node at (\x,0.52) {domain \i};
+    \node[bx] at (\x,0) {$x_{\i}$};
+    \node[bx] at (\x,-0.7) {$F_{14}(x_{\i})$};
+    \node[bx] at (\x,-1.45) {$y_{\i}$ bits\\[-2pt]{\tiny (delayed)}};
+    \draw[->] (\x,-0.21) -- (\x,-0.49); \draw[->] (\x,-0.91) -- (\x,-1.18);
+  }
+  \node[draw,fill=gray!15,align=center,font=\tiny] (pub) at (6.05,-0.7) {public\\$\mathrm{Low}_c$, $\Theta_c$};
+  \draw[->,gray] (pub.west) -- (4.75,-0.7) node[pos=0.5,above,font=\tiny] {to share 0};
+  \node[draw,thick,fill=orange!25,minimum width=4.6cm,minimum height=0.5cm,font=\tiny] (g) at (2.4,-2.35) {HPC2 gadget: the only place shares meet};
+  \foreach \x in {0.8,2.4,4.0} \draw[->] (\x,-1.72) -- (\x,-2.1);
+  \foreach \x in {0.8,2.4,4.0} \draw[->] (\x,-2.6) -- (\x,-3.0);
+  \node at (0.8,-3.17) {$b_0$}; \node at (2.4,-3.17) {$b_1$}; \node at (4.0,-3.17) {$b_2$};
+  \node[align=left,font=\tiny] (rr) at (6.05,-2.35) {3 fresh bits\\ $r_{01}, r_{02}, r_{12}$};
+  \draw[->,densely dotted] (rr.west) -- (g.east);
+\end{tikzpicture}
+\caption{Share-domain structure of \PAMS{} (conceptual). Every computation on secret data happens within one domain column, apart from HPC2 gadgets. Public values enter only share 0. Each gadget consumes three fresh random bits and returns one output share per domain.}\label{fig:domains}
+\end{figure}
+
+\paragraph{Step 3: what changed from the frozen design.}
+The extensive Phase XII evaluation was done on the original \sig{pams}. The publication circuit \sig{pams\_jqr} differs from it in three ways:
+\begin{itemize}
+  \item single-domain operand bits are delayed instead of three-share sums;
+  \item each share's multiplier has an extra register stage;
+  \item the public window logic is retimed.
+\end{itemize}
+All three move registers within one domain or within public logic. None changes the gadget network, gadget inputs, gadget count or random-bit assignment. The composition argument therefore carries over unchanged, and its preconditions were re-checked on the final netlists. The \emph{statistical} whole-lane evidence for \sig{pams\_jqr}, however, is a focused campaign that is smaller than the frozen-design campaign (\cref{tab:prolead}). We do not claim that the two received identical testing.
+
+\subsection{Statistical leakage detection with PROLEAD}\label{sec:prolead}
+\paragraph{Configuration.} PROLEAD~\cite{mueller2022prolead} simulates the gate-level netlist and applies a fixed-versus-random G-test to the joint distribution of each probing set. We used:
+\begin{itemize}
+  \item the robust (glitch-extended) model with transitions enabled;
+  \item one simulation = a 36-coefficient ciphertext streamed at one coefficient per cycle;
+  \item a fixed group of boundary-adjacent coefficients that all match, against random coefficients;
+  \item fresh \sig{rnd} every cycle.
+\end{itemize}
+A fixture turns the tested value into a uniform canonical 3-sharing; its signals are excluded from probing. A self-test with one deliberately wrong coefficient makes PROLEAD's output check fail, which confirms that the simulated end cycle is right.
+
+\paragraph{Why flagged sets appear without leakage.} PROLEAD flags a probing set when $-\log_{10} p > 5$, a per-set threshold. A lane test evaluates $10^5$ to $10^6$ sets. Under the null hypothesis, the median of the \emph{maximum} $-\log_{10} p$ over $N$ independent sets is $-\log_{10}(1 - 2^{-1/N}) \approx \log_{10}(N/\ln 2)$, which is 5.0 for $N = \num{71568}$ and 5.85 for $N = \num{493055}$. Flags near those values are expected even for a leak-free circuit.
+
+\paragraph{Confirming a flag.} We therefore re-test every flagged set alone with more simulations. A real leak grows roughly linearly in $-\log_{10} p$ with the number of simulations; a multiple-testing artefact decays toward the single-test null. PROLEAD~3.1.0 does not seed its random generator in hardware mode, so a rerun with the same simulation count replays the same data. Confirmations therefore always use a larger count, whose first part equals the screening data.
+
+\begin{table}[t]\centering\small
+\caption{Lane-level PROLEAD results (robust glitches + transitions). "null" = expected maximum under no leakage. Confirmations re-test the flagged set alone with $2^{22}$ (frozen base o1: $2^{24}$) simulations.}\label{tab:prolead}
+\setlength{\tabcolsep}{2.5pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+netlist & order, cycles & sims & max & null & confirm \\
+\midrule
+\sig{pams\_jqr} & 1, all 72 & $2^{20}$ & 5.53 & 5.01 & 0.78 \\
+\sig{pams\_jqr} & 2, cycle 36 & $2^{18}$ & 5.21 & 5.85 & 0.44 \\
+\sig{pams\_jqr} NC partial recomb. & 2, 36 & $2^{16}$ & \textbf{41.4} & 5.85 & -- \\
+\midrule
+frozen \sig{pams} & 1, all 70 & $2^{22}$ & 4.47 & 4.99 & -- \\
+frozen \sig{pams} & 2, 34 & $2^{20}$ & 5.96 & 5.82 & 1.81 \\
+frozen \sig{base} & 1, all 72 & $2^{22}$ & 5.46 & 5.14 & 1.59 \\
+frozen \sig{base} & 2, 36 & $2^{20}$ & 6.79 & 6.11 & 1.20 \\
+frozen NC (4 controls) & 1--2 & $\le 2^{18}$ & 22.5--$\infty$ & $\le 6.1$ & -- \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Results.} \Cref{tab:prolead} summarizes the campaigns (details in \cref{app:prolead}).
+\begin{itemize}
+  \item \textbf{No confirmed leakage.} No probing set of any real design survives confirmation. Every flagged maximum decays to 0.4--1.8 when re-tested with more data.
+  \item \textbf{Negative controls detected.} Each function-changing control is found with a large margin above the null: an exposed decision, a partial recombination $b_0 \oplus b_1$ on an output, and a reused mask inside one gadget. The partial recombination on \sig{pams\_jqr} reaches $-\log_{10} p = 41.4$ against a null of 5.85.
+\end{itemize}
+
+\paragraph{What this does and does not show.} The results show that, at the stated simulation counts and in the simulated leakage model, no first- or second-order leakage was detected, and that the test can detect injected flaws. They are not a proof:
+\begin{itemize}
+  \item absence of detection is bounded by the number of simulations;
+  \item second order was evaluated at one steady-state cycle per lane;
+  \item the simulated leakage model is not a physical device.
+\end{itemize}
+
+\subsection{Remaining limitations of the security argument}\label{sec:sec-limits}
+\paragraph{Transitions.} Glitch-robust PINI composition does not imply transition robustness. Cassiers and Standaert's transition-robust composition theorem~\cite{cassiers2021trans} requires either O-PINI gadgets or PINI gadgets without adjacent executions. Neither holds here:
+\begin{itemize}
+  \item HPC2 is not O-PINI;
+  \item every gadget executes every cycle;
+  \item in the accumulator, execution $k$ feeds execution $k + 2$.
+\end{itemize}
+Our evidence for transitions is therefore only statistical. An O-PINI accumulator or idle cycles would make the theorem applicable. This is not implemented, and the same limitation applies to the baseline.
+
+\paragraph{Randomness.} The lane consumes 120 fresh bits per cycle but does not generate them.
+\begin{itemize}
+  \item With a deterministic PRNG (e.g.\ unrolled Trivium~\cite{cassiers2024rng}), the guarantee becomes computational.
+  \item The PRNG's own leakage lies outside this analysis.
+  \item Separate generator instances must be seeded independently.
+\end{itemize}
+
+\paragraph{Physical attacks.} Probing security of the comparison does not prevent the vertical and template attacks of Hermelink et al.~\cite{hermelink2024}. It also does not prevent implementation-level leakage caused by parallelism, as Ranney et al.\ observed on FPGA~\cite{ranney2026}. We performed no measurements on hardware.
+
+\paragraph{Integration.} The upstream sharing is assumed uniform and canonical. The decision shares must reach only masked consumers, and \sig{cdec} is a test output that must not be connected to unprotected logic.

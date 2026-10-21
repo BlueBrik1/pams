@@ -1,0 +1,252 @@
+\section{Extended Security and Experimental Evidence}\label{app:evidence}
+
+\subsection{Formal gadget verification (SILVER)}\label{app:silver}
+\paragraph{Method.} SILVER~\cite{knichel2020silver} represents every wire of a gate-level netlist as a reduced ordered binary decision diagram over the input shares and random bits. It decides probing security, NI, SNI and PINI exactly, by checking statistical independence of every probe combination. With glitch-extension enabled (the robust model) it also covers glitches.
+
+\paragraph{What was verified.}
+\begin{itemize}
+  \item \textbf{Inputs.} The verified objects are the mapped \sig{hpc2} modules extracted verbatim from the synthesized netlists, with only two edits: duplicate wire declarations removed, and SILVER port annotations added.
+  \item \textbf{Variants.} Across all mappings of all designs, synthesis produced exactly two distinct mapped variants, identified by the SHA-256 of the module text:
+  \begin{itemize}
+    \item v0: 12 of the 15 Phase XI mappings and all final P\&R inputs;
+    \item v1: one mapping of each design.
+  \end{itemize}
+  \item \textbf{Results.} Both variants are probing-, NI-, PINI- and uniformity-secure up to order 2 in the standard and robust models. SNI holds up to order 2 in the standard model but only order 1 in the robust model, which is consistent with HPC2's guarantee (PINI, not SNI).
+\end{itemize}
+
+\paragraph{Negative controls, all failing as required.}
+\begin{itemize}
+  \item the refresh $b_j \oplus r_{ij}$ left unregistered: robust PINI fails;
+  \item one random bit reused for two pairs: every property fails;
+  \item an output recombining two shares: every property fails.
+\end{itemize}
+
+\paragraph{Application to the final circuits.} \file{final/models/gadget\_identity.py} recomputes the module hash of every final netlist: 5 synthesis mappings and the P\&R input, for each of \sig{pams\_jqr}, \sig{base\_jq}, \sig{pams\_jpr} and \sig{base\_jp}. All 24 are v0 or v1.
+
+\subsection{Composition-precondition and structural checks}\label{app:compcheck}
+\paragraph{Checks.} \file{validation/structure/compcheck.py} loads a netlist, treats every gadget as a black box with ports $a[i]$, $b[i]$, $r[k]$, $c[i]$, and propagates share-domain labels: input $x_i$ and gadget output $c[i]$ belong to domain $i$. It then checks:
+\begin{description}[style=nextline,leftmargin=1.2em]
+  \item[D] No net outside a gadget depends on two share domains.
+  \item[R] Every \sig{rnd} bit reaches only the $r$-port of exactly one gadget, with three distinct bits per gadget, and all bits are used.
+  \item[P] Gadget input $a[i]$, $b[i]$ depends only on domain $i$ and public data.
+  \item[O] Lane output share $i$ of \sig{cdec} and \sig{dec} is domain $i$.
+  \item[G] For routed netlists only: after collapsing P\&R buffers and ignoring drive strength, every gadget instance equals the reference gadget cell by cell and pin by pin.
+\end{description}
+
+\paragraph{Negative controls (Phase XII).} Edited netlists are all detected:
+\begin{itemize}
+  \item exposed decision: D = 2;
+  \item partial recombination: D = 1;
+  \item mask reuse: R = 2;
+  \item a deliberately leaky lane: D = 71, P = 8.
+\end{itemize}
+
+\paragraph{Final results.} Pass on all of the following:
+\begin{itemize}
+  \item the 5 synthesis mappings and the P\&R input of both finalists (Phase XIII);
+  \item all 40 routed netlists of the Phase XIV campaign, i.e.\ every finished run including the DRC-failing ones (\file{final/runs/routed\_check\_final.jsonl}), with 0 G mismatches.
+\end{itemize}
+The checker is home-made; it is not an established tool. Its role is limited to mechanizing the preconditions of a published theorem, and its negative controls show that it detects violations.
+
+\subsection{PROLEAD configuration and complete results}\label{app:prolead}
+\paragraph{Gadget campaign.} Settings:
+\begin{itemize}
+  \item PROLEAD v3.1.0, library = PROLEAD's NANG45 entry;
+  \item order 2, transitions on, robust (non-relaxed) model, multivariate, clock cycles 1--6;
+  \item four back-to-back executions; fixed group $(a, b) = (1,1), (0,1), (1,0), (1,1)$ against random; fresh $r$;
+  \item $2^{22}$ simulations, \num{6984} probing sets.
+\end{itemize}
+Results: v0 max 4.58 (re-run 4.22), v1 4.17 (re-run 4.59), so no leakage. All three broken variants give $-\log_{10} p = \infty$.
+
+\paragraph{Lane campaigns.} Settings:
+\begin{itemize}
+  \item \textbf{Simulation.} One simulation streams a 36-coefficient ciphertext: 18 coefficients at $d = 11$, then 18 at $d = 5$. The fixed group uses boundary-adjacent matching coefficients; fresh \sig{rnd} every cycle.
+  \item \textbf{Probes.} Probes sit on flip-flop D-pin nets, gadget input nets and outputs; in the robust model every other wire's extended probe is a subset of these. The test is univariate (probes in the same cycle).
+  \item \textbf{Minimization.} "Trivial" minimization removes only duplicate probing sets.
+  \item \textbf{Fixture.} It generates the arithmetic sharing from uniform 32-bit words, at statistical distance below $2^{-20}$ from uniform per share, and is excluded from probing.
+\end{itemize}
+
+\Cref{tab:prolead-full} lists every lane run.
+
+\begin{table}[h]\centering\small
+\caption{All lane PROLEAD runs. "null" = median of the maximum $-\log_{10} p$ over the given number of independent sets without leakage.}\label{tab:prolead-full}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllrrrrl@{}}
+\toprule
+netlist & variant & order, cycles & simulations & probing sets & max & null & outcome \\
+\midrule
+\sig{pams\_jqr} & self-test (one wrong $c$) & 1, 36 & \num{4096} & 994 & -- & -- & output check fails, as required \\
+\sig{pams\_jqr} & frozen & 1, 1--72 & \num{1048576} & \num{71568} & 5.53 & 5.01 & confirm ($2^{22}$): 0.78 \\
+\sig{pams\_jqr} & frozen & 2, 36 & \num{262144} & \num{493055} & 5.21 & 5.85 & confirm ($2^{22}$): 0.44 \\
+\sig{pams\_jqr} & NC partial recombination & 2, 36 & \num{65536} & \num{494047} & 41.4 & 5.85 & \textbf{detected} \\
+\midrule
+frozen \sig{pams} & frozen & 1, 1--70 & \num{4194304} & \num{67130} & 4.47 & 4.99 & no flag \\
+frozen \sig{pams} & frozen & 1, 34 & \num{65536} & 910 & 2.63 & 3.12 & no flag \\
+frozen \sig{pams} & frozen & 2, 34 & \num{65536} & \num{459212} & 6.08 & 5.82 & confirm ($2^{22}$): 0.24 \\
+frozen \sig{pams} & frozen & 2, 34 & \num{1048576} & \num{459212} & 5.96 & 5.82 & confirm ($2^{22}$): 1.81 \\
+frozen \sig{base} & frozen & 1, 1--72 & \num{4194304} & \num{95976} & 5.46 & 5.14 & confirm ($2^{24}$): 1.59 \\
+frozen \sig{base} & frozen & 2, 36 & \num{1048576} & \num{887642} & 6.79 & 6.11 & confirm ($2^{22}$): 1.20 \\
+frozen \sig{pams} & NC exposed decision & 1, 31--36 & \num{65536} & \num{5760} & $\infty$ & 3.92 & \textbf{detected} \\
+frozen \sig{pams} & NC partial recombination & 2, 34 & \num{65536} & \num{460169} & 48.9 & 5.82 & \textbf{detected} \\
+frozen \sig{base} & NC partial recombination & 2, 36 & \num{65536} & \num{888973} & 22.5 & 6.11 & \textbf{detected} \\
+frozen \sig{pams} & NC mask reuse & 2, 34 & \num{262144} & \num{458254} & $\infty$ & 5.82 & \textbf{detected} \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\paragraph{Caveats.}
+\begin{enumerate}
+  \item PROLEAD~3.1.0 does not seed \texttt{rand()} in hardware mode. Confirmations therefore use a strictly larger simulation count, whose prefix equals the screening data. Rising evidence would indicate a leak; every confirmation instead decayed below 2.
+  \item The probe sets for second order cover one steady-state cycle per lane, not every cycle pair.
+  \item Statistical non-detection is not a proof.
+  \item FLINT aborted some runs inside PROLEAD's evaluation: 1 of 10 gadget runs and 4 early lane runs. All were re-run, and no aborted run is counted.
+\end{enumerate}
+
+\subsection{Benchmark configuration}\label{app:config}
+\paragraph{Synthesis.} \file{bfbench.py} (copied to \file{final/external/}), function \sig{synth}, with flow B:
+\begin{itemize}
+  \item \texttt{read\_verilog -sv}; \texttt{synth -top <lane> -flatten -noabc}; \texttt{dfflibmap -liberty <lib>};
+  \item \texttt{abc -liberty <lib> -constr <BUF\_X1 drive, 5 fF load> -D 500}; \texttt{clean}; \texttt{stat}.
+\end{itemize}
+The five mappings vary $-D$ (400, 650) and add 3 or 6 unrelated pad modules. Synthesis area varies by at most 0.6\,\% across mappings for every design.
+
+\paragraph{P\&R.} \file{final/tools/pnr\_final.tcl}, a copy of the earlier flow script with only the seed added.
+\begin{itemize}
+  \item \emph{Clock and I/O.} One clock on \sig{clk} at the target period; input delay 0 and output delay 0 relative to it; input transition 0.05\ns; output load 5\,fF; no clock uncertainty. Don't-use cells: \sig{TAPCELL\_X1}, \sig{FILLCELL\_X1}, \sig{AOI211\_X1}, \sig{OAI211\_X1}.
+  \item \emph{Floorplan and placement.} Floorplan utilization 0.5, aspect 1, 2\,\si{\micro\meter} core space; tracks and tapcells from the platform; PDN grid M1--M4--M7. Global placement density 0.6 (wirelength-driven, then timing-driven) with \texttt{-random\_seed}; pins on metal5/metal6 with \texttt{-random\_seed}.
+  \item \emph{Optimization and CTS.} \texttt{repair\_design}, \texttt{repair\_tie\_fanout}, detailed placement; CTS with root BUF\_X4 and buffers BUF\_X4/BUF\_X8 with sink clustering; \texttt{repair\_timing -setup}; \texttt{repair\_timing -hold -max\_buffer\_percent 60}.
+  \item \emph{Routing.} Signal layers metal2--metal10, clock metal4--metal10, layer adjustment 0.5; global route with 50 congestion iterations; post-GRT setup repair; \texttt{detailed\_route -droute\_end\_iter 64}; fillers.
+  \item \emph{Extraction.} RCX with the platform's \file{rcx\_patterns.rules}.
+\end{itemize}
+
+\subsection{Every P\&R run}\label{app:runs}
+\Cref{tab:pnr-runs} lists all 42 runs. The critical path is the worst setup path in \file{timing.rpt}, given as the RTL names of its launch and capture registers.
+
+\begin{table}[p]\centering\scriptsize
+\caption{All Phase XIV P\&R runs (utilization 50\,\%, density 0.6), generated by \file{paper/scripts/tables.py} from \file{final/runs/pnr\_stats.json}. Status: valid (0 DRC, RCX, hold met), DRC $n$ (finished with $n$ violations), TIMEOUT (stopped at 90 min, no result).}\label{tab:pnr-runs}
+\resizebox{\textwidth}{!}{\input{data/tab_pnr_runs.tex}}
+\end{table}
+
+\paragraph{Variation statistics} (valid runs; from \file{final/runs/pnr\_stats.json}):
+\begin{itemize}
+  \item \emph{Period standard deviation:} \PAMS{} 0.007 / 0.002 / 0.002\ns{} at 2.0 / 1.2 / 1.1\ns{}; baseline 0.041 / 0.003\ns{} (one valid run at 1.1).
+  \item \emph{Cell-area standard deviation:} 22 / 23 / 17\um{} (\PAMS{}) and 14 / 24\um{} (baseline).
+  \item \emph{Rank-sum $p$ (cell area):} 0.0006 at 2.0 and 1.2\ns{}.
+  \item \emph{Rank-sum $p$ (period):} 0.073 (2.0\ns) and 0.0006 (1.2\ns).
+\end{itemize}
+
+\paragraph{Failed and stopped runs.}
+\begin{itemize}
+  \item All are baseline runs at 1.1\ns: seeds 2, 3, 4 and 7 finished with 3, 1, 6 and 3 DRC violations. Their periods (1.069--1.073\ns) are reported but not used.
+  \item Seeds 1 and 6 were stopped at the 90-minute limit, after 126 and 90 minutes; seed 1 was then 40\,\% through a stubborn-tiles iteration with 13 violations.
+  \item No \PAMS{} run failed.
+  \item One campaign launch failed before running anything (a shell quoting error) and was relaunched from a script file.
+\end{itemize}
+
+\subsection{Functional verification}\label{app:functional}
+\begin{table}[h]\centering\small
+\caption{Functional verification of the final circuits (0 mismatches everywhere).}\label{tab:functional}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllrr@{}}
+\toprule
+netlist & level & stimulus & coefficients & ciphertexts (accepting) \\
+\midrule
+\sig{pams\_jqr}, \sig{base\_jq}, \sig{pams}, \sig{base} & RTL & systematic & \num{39112} each & \num{7096} (76) \\
+\sig{pams\_jqr}, \sig{base\_jq} & gate (mapping 0, P\&R input) & systematic & \num{39112} each & \num{7096} (76) \\
+\sig{pams\_jqr}, \sig{base\_jq} & routed (\file{final.v}, 2.0\ns{} target, seed 1) & systematic + random & \num{39112} + \num{6001} & \num{7096} + \num{1086} (573) \\
+\sig{pams\_jqr}, \sig{base\_jq} & RTL + 5 gate mappings (Phase XIII) & random & \num{6001} + $5 \times$ \num{1500} & \num{1079} (558) \\
+\bottomrule
+\end{tabular}}
+\end{table}
+The systematic stimulus (\file{final/models/fsim.py}) covers:
+\begin{itemize}
+  \item every interval boundary of every $(c, d)$;
+  \item every $x \in [0, q)$ for every $d$, against $c = \Comp(x)$ and $c + 1$;
+  \item share patterns rotating over random, $(x, 0, 0)$, $(0, x, 0)$, $(0, 0, x)$, $(q-1, q-1, x+2)$ and $(r, q - 1, \cdot)$.
+\end{itemize}
+The random stimulus is the frozen \file{models/sim.py}.
+
+\subsection{Competitor study}\label{app:competitors}
+\Cref{tab:competitors} lists the matched synthesis results of every design built in the competitor study (median of 5 mappings).
+\begin{itemize}
+  \item \textbf{Suffixes.}
+  \begin{itemize}
+    \item \sig{j}: just-in-time operands;
+    \item \sig{p}/\sig{q}: one/two extra front-end stages;
+    \item \sig{r}: \PAMS{} public retiming;
+    \item \sig{bk}: Brent--Kung carry;
+    \item \sig{hoc}: HOCompress precision;
+    \item \sig{bos}: Bos-style interval check.
+  \end{itemize}
+  \item \textbf{Coron et al.'s arithmetic zero test.} It was bounded rather than built. An exact path for $d = 10/11$ needs at least three masked mod-$q$ multiplications per coefficient, i.e.\ at least 27 partial products of $12 \times 12$ bits. One unmasked registered $12 \times 12$ multiplier synthesizes to $1{,}241\um$ under the same flow, so at least $33{,}500\um$ for the multipliers alone, about twice the whole \PAMS{} lane.
+  \item \textbf{Excluded.} Probabilistic comparisons (random linear combinations) are excluded because they are not exact.
+\end{itemize}
+
+\begin{table}[h]\centering\small
+\caption{Competitor study, synthesis (Nangate45, flow B, median of 5 mappings), generated from \file{competitors/runs/cbench.json}.}\label{tab:competitors}
+\input{data/tab_competitors.tex}
+\end{table}
+
+\subsection{Full cross-layer traceability}\label{app:traceability}
+\Cref{tab:trace} connects each operation from equation to measured cost. Gate-level regions are identified by register names, which survive synthesis, and by gadget instances. Combinational logic between registers is identified only as the fan-in cone of those registers, because synthesis restructures it.
+
+\begin{table}[h]\centering\scriptsize
+\caption{Cross-layer traceability (concise version in \cref{tab:map}; extended discussion in \file{paper/CROSS\_LAYER\_TRACEABILITY.md}).}\label{tab:trace}
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{@{}R{2.1cm}R{1.6cm}R{1.4cm}R{2.4cm}YR{0.8cm}R{1.7cm}R{1.9cm}@{}}
+\toprule
+operation & equation & Verilog lines & RTL signals & gate-level region (synthesized / routed) & stage & figure & cost (synthesis) \\
+\midrule
+arithmetic-share input & \cref{eq:target} & 21--26, 42--43 & \sig{x$i$}, \sig{x$i$q}, \sig{x$i$r} & 72 \sig{DFF\_X1} (Q = \sig{x$i$q}, \sig{x$i$r}) & 1--2 & \cref{fig:datapath} & $326\um$ \\
+share-wise modulus switch & \cref{eq:yi} & 48--54 & \sig{mh$i$}, \sig{ml$i$}, \sig{m$i$}, \sig{s$i$p} & fan-in cones of \sig{mh$i$}/\sig{ml$i$}/\sig{s$i$p} registers (XOR/XNOR trees, AOI/OAI carry chains); orange cells in \cref{fig:placement}; routed critical path at 1.2\ns{} & 3--4 & \cref{fig:datapath,fig:placement,fig:critpath} & $3{,}528\um$ (regs + logic, 3 shares) \\
+public anchor & \cref{eq:low} & 31--44, 48--54 & \sig{qc}, \sig{qcr}, \sig{e0r}, \sig{c0r}, \sig{lowr}, \sig{lowrq}, \sig{lowp} & fan-in cones of \sig{qcr}/\sig{lowrq}/\sig{lowp}; routed critical path at 2.0 and 1.1\ns{} & 2--4 & \cref{fig:datapath} & \multirow{2}{2cm}{$1{,}337\um$ (both, regs + logic)} \\
+public threshold & \cref{eq:thetaclosed} & 39--40, 45, 48--56 & \sig{qn}, \sig{qnr}, \sig{thr}, \sig{thrq}, \sig{thp}, \sig{th2} & fan-in cones of \sig{qnr}/\sig{thrq}/\sig{thp}/\sig{th2} & 2--5 & \cref{fig:datapath} & \\
+corrected share combination & \cref{eq:y0} & 56 & \sig{y0}, \sig{y1}, \sig{y2} & 42 \sig{DFF\_X1} (Q = \sig{y$i$}) + subtract logic on share 0 & 5 & \cref{fig:datapath} & $294\um$ \\
+protected comparison (CSA, ripple, comparator, zero test) & \cref{eq:Z,eq:b} & 58--1537 & \sig{ug111}--\sig{ug1542}, \sig{x$N$}, \sig{r$N$} & 38 \sig{hpc2} instances (exact boundary), 782 delay \sig{DFF\_X1}, 162 share-local XOR/XNOR cells at gadget inputs; blue/green cells in \cref{fig:placement} & 5--31 & \cref{fig:slice,fig:placement} & $6{,}853 + 3{,}558 + 256\um$ \\
+HPC2 nonlinear operation & -- & 4--19 & \sig{ra}, \sig{rb}, \sig{rr}, \sig{rbr}, \sig{p0}, \sig{u}, \sig{v} & 63 cells per instance: 30 DFF, 15 AND2, 6 XOR2, 12 XNOR2 & 2 cycles & \cref{fig:hpc2,fig:hpc2-mapped} & $180.35\um$ each \\
+ciphertext accumulation & \cref{eq:pred} & 2730--2746 & \sig{uacc}, \sig{ufin}, \sig{acc\_last}, \sig{vp}/\sig{fp}/\sig{lp} & 2 \sig{hpc2} + 3 DFF + control shift registers & 31--35 & \cref{fig:datapath} & $361 + 457\um$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Figure provenance}\label{app:provenance}
+\Cref{tab:provenance} classifies every figure by how it was made. "Conceptual" figures were drawn by hand in TikZ from the RTL and are not extracted circuits.
+
+\begin{table}[h]\centering\scriptsize
+\caption{Provenance of every figure (details in \file{paper/FIGURE\_PROVENANCE.md}).}\label{tab:provenance}
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\textwidth}{@{}R{2.4cm}YYR{1.6cm}R{2.2cm}@{}}
+\toprule
+figure & source artifact & extraction method & design & type \\
+\midrule
+\cref{fig:boundaries} & \file{models/\allowbreak pams.py} (reference functions) & \file{generate\_figures.py} \sig{fig\_math}, matplotlib & math & graph from data \\
+\cref{fig:datapath} & \file{final/\allowbreak rtl/\allowbreak pams\_jqr.v} & hand-drawn TikZ from source inspection & \sig{pams\_jqr} & conceptual \\
+\cref{fig:slice} & \file{competitors/\allowbreak runs/\allowbreak syn\_pams\_jqr\_p0/\allowbreak mapped.json} & fan-in extraction (\sig{dot\_slice}), Graphviz & \sig{pams\_jqr} & extracted gate level \\
+\cref{fig:placement} & \file{final/\allowbreak runs/\allowbreak pnr\_\{pams\_jqr,base\_jq\}\_T1.2\_s1/\allowbreak final.def}, \file{timing.rpt}; LEF sizes & DEF parsing (\sig{fig\_placement}), matplotlib & both & physical (EDA data) \\
+\cref{fig:domains} & architecture and composition argument & hand-drawn TikZ & -- & conceptual \\
+\cref{fig:area,fig:die,fig:timing,fig:gadgets,fig:random,fig:adp,fig:routing} & \file{final/\allowbreak runs/\allowbreak pnr\_stats.json}, \file{competitors/\allowbreak runs/\allowbreak cbench.json}, \file{final/\allowbreak data/\allowbreak gadget\_breakdown.csv} & \file{generate\_figures.py}, matplotlib & both & graphs from data \\
+\cref{fig:critpath} & \file{final/\allowbreak runs/\allowbreak pnr\_*\_T1.2\_s1/\allowbreak timing.rpt}, \file{final.v} & report parsing (\sig{fig\_critpath}) & both & timing data \\
+\cref{fig:hpc2} & \file{pams\_jqr.v} lines 4--19 & hand-drawn TikZ & \sig{hpc2} & conceptual \\
+\cref{fig:hpc2-mapped} & \file{competitors/\allowbreak runs/\allowbreak syn\_pams\_jqr\_p0/\allowbreak mapped.json} (module \sig{hpc2}) & full module export (\sig{dot\_hpc2}), Graphviz & \sig{hpc2} v0 & extracted gate level \\
+\cref{fig:layout} & \file{final/\allowbreak runs/\allowbreak pnr\_\{pams\_jqr,base\_jq\}\_T1.2\_s1/\allowbreak final.def} + platform LEF & OpenROAD \texttt{save\_image} (headless) & both & EDA layout export \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Reproduction and artifact identifiers}\label{app:repro}
+\paragraph{Commands.} Exact commands, with pinned versions (Ubuntu 24.04.4, Python 3.12.3, Yosys 0.33, Icarus Verilog 12.0, OpenSTA 3.1.0, OpenROAD from ORFS 26Q3-705-gecb3cfdeb, PROLEAD 3.1.0, TinyTeX/TeX Live 2026 for this paper), are in \file{final/FINAL\_REPRODUCIBILITY.md}. The main results reproduce with:
+\begin{lstlisting}[language=bash,numbers=none,basicstyle=\ttfamily\scriptsize]
+python3 -I validation/math/audit.py                 # exactness (checks A-G)
+bash final/models/fsim_all.sh                       # RTL + gate-level functional checks
+python3 -I final/models/gadget_identity.py          # gadgets == SILVER-verified variants
+bash final/tools/campaign1.sh                       # 42 seeded P&R runs (with final/tools/watchdog.sh)
+python3 -I final/models/pnr_stats.py                # statistics
+bash paper/scripts/build.sh -f                      # all paper figures, tables and this PDF
+\end{lstlisting}
+
+\paragraph{Identifiers.}
+\begin{itemize}
+  \item \sig{pams\_jqr.v}: SHA-256 \texttt{804fd73a263baacb371033015171519213d84cfa817dee9ba6ae2b3760ba0e7f};
+  \item \sig{base\_jq.v}: \texttt{e573286a2b1b4ead019699538be21b454bab359fdaeb4f62e273d137458f6533};
+  \item research snapshot: git tag \texttt{pams-publication-freeze-v1} (commit \texttt{d033f76}). Further hashes are in \file{final/PUBLICATION\_MANIFEST.md}.
+\end{itemize}

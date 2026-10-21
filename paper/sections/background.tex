@@ -1,0 +1,98 @@
+\section{Background}\label{sec:background}
+
+\subsection{ML-KEM arithmetic and ciphertext compression}\label{sec:mlkem}
+ML-KEM computes in the ring $R_q = \Zq[X]/(X^{256}+1)$ with the prime $q = 3329$~\cite{fips203}.
+\begin{itemize}
+  \item A polynomial has 256 coefficients in $\Zq = \{0, 1, \dots, q-1\}$, and addition and multiplication of coefficients are modulo $q$.
+  \item A ciphertext consists of $k$ polynomials $\mathbf u$ and one polynomial $v$, with $k = 2, 3, 4$ for ML-KEM-512/768/1024.
+  \item To shorten the ciphertext, every coefficient is \emph{compressed} to $d$ bits: $d_u = 10, 10, 11$ for $\mathbf u$ and $d_v = 4, 4, 5$ for $v$.
+\end{itemize}
+
+The four widths that occur are therefore $d \in \{4, 5, 10, 11\}$.
+
+\paragraph{Compression.} FIPS~203 defines, for $x \in \Zq$,
+\begin{equation}\label{eq:compress}
+  \Comp(x) \;=\; \Bigl\lceil \tfrac{2^d}{q}\, x \Bigr\rfloor \bmod 2^d
+  \;=\; \Bigl\lfloor \tfrac{2^{d+1} x + q}{2q} \Bigr\rfloor \bmod 2^d ,
+\end{equation}
+where $\lceil\cdot\rfloor$ rounds to the nearest integer with ties rounded up. The integer form on the right is the one the reference model uses (\file{models/pams.py}). Because $q$ is odd, $2^{d+1}x/q$ is never an odd integer for $x \in \Zq$, so no tie can occur. Decompression maps $y \in [0, 2^d)$ to $\lceil q y / 2^d \rfloor$.
+
+\paragraph{Compression intervals.} For fixed $d$, $\Comp$ is a non-decreasing step function on $\{0, \dots, q-1\}$ followed by a reduction mod $2^d$. Each value $c \in [0, 2^d)$ is therefore taken on a cyclic interval of $\Zq$:
+\begin{equation}\label{eq:interval}
+\begin{aligned}
+  \Comp(x) = c &\iff x \in I_c = [a_c, a_{c+1}) \ \text{(cyclically)},\\
+  a_c &= \Bigl\lceil \tfrac{(2c-1)\,q}{2^{d+1}} \Bigr\rceil \bmod q .
+\end{aligned}
+\end{equation}
+\Cref{app:math-intervals} derives \cref{eq:interval}. The interval for $c = 0$ wraps around zero: for $d = 4$, $I_0 = \{3225, \dots, 3328, 0, \dots, 104\}$. The interval widths are $\{208, 209\}$, $\{104, 105\}$, $\{3, 4\}$ and $\{1, 2\}$ for $d = 4, 5, 10, 11$.
+
+\paragraph{The verification predicate.}
+During decapsulation, the re-encryption produces coefficients $x$ of $\mathbf u'$ and $v'$, and the received ciphertext supplies compressed coefficients $c$. The check is
+\begin{equation}\label{eq:pred}
+  D \;=\; \bigwedge_{\text{all coefficients}} \bigl[\, \Comp(x) = c \,\bigr] ,
+\end{equation}
+where the conjunction runs over $256(k+1)$ coefficients with the appropriate $d$ per polynomial. $D = 1$ selects the real shared key and $D = 0$ the implicit-rejection key. The coefficient $c$ is public, but $x$ and $D$ are sensitive until the selection has been made.
+
+\subsection{Masking}\label{sec:masking}
+\paragraph{Shares.} Masking splits a sensitive value into $n$ shares whose combination equals it:
+\begin{itemize}
+  \item \emph{arithmetic} shares mod $q$: $x = x_0 + x_1 + x_2 \bmod q$, each $x_i \in \Zq$;
+  \item \emph{Boolean} shares: $b = b_0 \oplus b_1 \oplus b_2$.
+\end{itemize}
+
+In a uniform sharing any $n-1$ shares are jointly uniform and independent of the secret. With $n = 3$ an adversary who observes two shares learns nothing.
+
+\emph{Example.} $x = 3300$ can be shared as $(487, 1308, 1505)$: $487 + 1308 + 1505 = 3300$. Any two of the three numbers are uniformly distributed when the sharing is chosen at random.
+
+\paragraph{Linear and nonlinear operations.} Adding a public constant to one share, adding two sharings share-wise, or XOR-ing Boolean sharings are \emph{share-local} (linear) operations. Each output share depends on one input share, so they cost no randomness and no extra security reasoning. A nonlinear operation such as the AND $c = a \wedge b$ of two Boolean sharings needs the cross products $a_i b_j$ for $i \ne j$. Those must be re-randomized with fresh random bits and separated by registers, or a single probe could combine information from two shares. Converting an arithmetic sharing into a Boolean one (A2B) or comparing a masked value needs Boolean addition. Boolean addition is nonlinear (carries are AND/majority functions), and it is the dominant cost of every exact masked comparison.
+
+\paragraph{Probing model and glitches.} In the $t$-probing model~\cite{ishai2003} the adversary observes the values of $t$ wires; $t = 2$ for second order with three shares. In hardware a combinational wire can glitch and briefly expose any input of its logic cone. The \emph{glitch-robust} probing model~\cite{faust2018} therefore extends each probe to all register outputs and primary inputs that feed the probed wire combinationally in that cycle. \emph{Transitions}, the leakage of consecutive values on one wire or register, form a further model~\cite{cassiers2021trans}.
+
+\paragraph{HPC2 and PINI.} Probe-Isolating Non-Interference (PINI)~\cite{cassiers2020pini} is a gadget property: any $t$ probes inside a gadget can be simulated with at most $t$ input-share indices, the same indices as the probes' own share domains. A circuit built only from PINI gadgets, in which every wire stays in one share domain outside gadgets, is itself PINI. This is \emph{trivial composition}. HPC2~\cite{cassiers2021hpc} is a glitch-robust PINI AND gadget for any order:
+\begin{itemize}
+  \item for three shares it consumes $\binom{3}{2} = 3$ fresh random bits per execution;
+  \item it has a latency of two clock cycles;
+  \item it can start a new execution every cycle.
+\end{itemize}
+
+Its structure is shown in \cref{app:hpc2}. In this work every nonlinear operation on masked data is one HPC2 AND; majority, OR and comparator steps are expressed through it.
+
+\subsection{Related work}\label{sec:related}
+\paragraph{Exact masked ciphertext comparison.}
+\begin{itemize}
+  \item \textbf{Bos et al.}~\cite{bos2021masking} anchor the comparison at the integer interval of \cref{eq:interval}. They perform two range checks per coefficient, each the most significant bit of an exact arithmetic-to-Boolean conversion \emph{modulo $q$}.
+  \item \textbf{Fritzmann et al.}~\cite{fritzmann2022} compute a masked $\Comp$ by switching every share to $2^{d+f}$ with $f$ fractional bits, converting to Boolean, and dropping the fractional bits.
+  \item \textbf{D'Anvers et al.}~\cite{danvers2022,danvers2023} generalize the methods into a framework of pre-processing, A2B and post-processing. Their exact "Simple" method subtracts the scaled compressed value and tests the top $d$ bits for zero. Their faster hybrid and Galois-field methods accept a collision probability and are therefore not exact.
+  \item \textbf{Coron et al.}~\cite{coron2023poly} give HOCompress, a modulus switch to $2^{d+\alpha}$ with $\alpha = \lceil \log_2(qn) \rceil$ followed by A2B, and arithmetic zero tests. Their multi-coefficient batching uses random linear combinations, which again are not exact.
+  \item \textbf{Coron, G\'erard, Trannoy and Zeitoun}~\cite{coron2023dil} (Dilithium) state the share-wise switching lemma that \PAMS{} uses: the floor-sum of the shares differs from the switched secret by an integer error $0 \le e \le n-1$.
+  \item \textbf{Azouaoui et al.}~\cite{azouaoui2023} compare a masked value with a public bound through a carry-only adder (SecLeq) after an exact mod-$q$ conversion.
+\end{itemize}
+
+\paragraph{Conversion hardware.} Norga et al.~\cite{norga2024x2x} and Shahmirzadi and Hutter~\cite{shahmirzadi2024} design A2B/B2A hardware. X2X uses Brent--Kung adders and, for its largest savings, DOM gadgets with explicit refresh~\cite{gross2016dom}, a different composition model from PINI. Bronchain and Cassiers~\cite{bronchain2022} bitslice conversions in software.
+
+\paragraph{Masked ML-KEM hardware.}
+\begin{itemize}
+  \item Kamucheka et al.~\cite{kamucheka2022} present a first-order FPGA design.
+  \item HOPE-MLKEM~\cite{camacho2026hope} provides a configurable high-order design. In the released RTL we inspected, its comparison path recombines shares before compression.
+  \item Buschkowski et al.~\cite{buschkowski2026} automate mixed-domain masking for an arbitrary-order ML-KEM core. We could read only the abstract, which does not describe the comparison.
+  \item Ranney et al.~\cite{ranney2026} implement a higher-order masked comparison on FPGA and report first-order leakage due to parallelism.
+  \item Hermelink et al.~\cite{hermelink2024} show that $t$-probing security of the FO comparison is not sufficient in practice against vertical attacks.
+\end{itemize}
+
+\paragraph{What \PAMS{} takes and what it adds.}
+\PAMS{} takes from prior work:
+\begin{itemize}
+  \item the switching lemma~\cite{coron2023dil};
+  \item the precision $\lceil \log_2 (3q) \rceil = 14$~\cite{coron2023poly};
+  \item the integer interval anchor~\cite{bos2021masking};
+  \item the public-threshold comparison~\cite{azouaoui2023}.
+\end{itemize}
+
+What it combines differently is the following. A \emph{single} $d$-independent 14-bit switch of the shares is anchored at the integer interval start, and the decision is one threshold comparison whose public threshold depends on $(c, d)$. This replaces both the $d$-dependent block test of Simple/HOCompress ($d + 13$ or $d + 14$ bits) and the prime-modulus conversions of Bos and Azouaoui. Fritzmann et al.\ explicitly consider interval comparison and set it aside for $d \ge 2$~\cite[\S2.2.3]{fritzmann2022}; the per-coefficient threshold is what removes that obstacle. We make no claim of a new mathematical identity: exactness follows from the published lemma in a few lines (\cref{sec:exact}).
+
+\paragraph{Choice of baseline.}
+\begin{itemize}
+  \item In the comparison of D'Anvers et al.~\cite{danvers2023}, the Simple method is the fastest \emph{exact} method.
+  \item In our own hardware study (\cref{sec:method}), it was also the strongest family. Bos-style interval checking, HOCompress precision and Brent--Kung prefix carries all gave larger lanes. The Coron arithmetic zero test is bounded from below by more area than the whole \PAMS{} lane (\cref{app:competitors}).
+  \item We therefore compare against the best Simple lane we could build. It is not claimed to be optimal among all possible circuits.
+\end{itemize}

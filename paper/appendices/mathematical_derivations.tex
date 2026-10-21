@@ -1,0 +1,235 @@
+\section{Complete Mathematical Derivations}\label{app:math}
+This appendix derives every formula used by \PAMS{} from the FIPS~203 definitions. It uses the notation of \cref{sec:math}: $q = 3329$, $n = 3$, $K = 14$, $F_K(v) = \lfloor 2^K v/q \rfloor$ for integers $v$, and canonical shares $x_i \in [0, q)$. The computational checks quoted were run on the frozen reference implementation (\file{models/pams.py}, \file{validation/math/}) and re-run for this paper where stated.
+
+\subsection{Compression}\label{app:math-compress}
+FIPS~203 defines $\Comp(x) = \lceil (2^d/q)\,x \rfloor \bmod 2^d$, where $\lceil y \rfloor$ is $y$ rounded to the nearest integer with ties rounded up, i.e.\ $\lceil y \rfloor = \lfloor y + \tfrac12 \rfloor$. Hence
+\begin{equation}
+  \Comp(x) = \Bigl\lfloor \frac{2^d x}{q} + \frac12 \Bigr\rfloor \bmod 2^d = \Bigl\lfloor \frac{2^{d+1} x + q}{2q} \Bigr\rfloor \bmod 2^d .
+\end{equation}
+A tie would require $2^{d+1}x + q \equiv 0 \pmod{2q}$. The left side is odd because $q$ is odd, while $2q$ is even, so ties never occur. The reference function \sig{compress} in \file{models/pams.py} implements exactly the integer form \texttt{((x << d) * 2 + Q) // (2 * Q) \% (1 << d)}.
+
+\subsection{Compression intervals}\label{app:math-intervals}
+Fix $d$ and $c \in [0, 2^d)$, and treat $x$ as an integer in $[0, q)$. Let $u = \lfloor (2^{d+1}x + q)/(2q) \rfloor \in [0, 2^d]$ be the value before the reduction mod $2^d$. Then $\Comp(x) = c$ iff $u = c$, or $u = 2^d$ and $c = 0$.
+\begin{itemize}
+  \item \emph{Case $u = c$.} We need $c \le (2^{d+1}x + q)/(2q) < c + 1$, i.e.\ $(2c - 1)q/2^{d+1} \le x < (2c + 1)q/2^{d+1}$. The upper bound is never an integer because $(2c+1)q$ is odd, so the integer solutions are
+  \[ \Bigl\lceil \tfrac{(2c-1)q}{2^{d+1}} \Bigr\rceil \le x \le \Bigl\lceil \tfrac{(2c+1)q}{2^{d+1}} \Bigr\rceil - 1 . \]
+  \item \emph{Case $u = 2^d$, $c = 0$.} We need $x \ge (2^{d+1} - 1)q/2^{d+1} = q - q/2^{d+1}$. These values are the integers in $[q - \lfloor q/2^{d+1} \rfloor, q)$.
+\end{itemize}
+For $c = 0$ the first case gives $0 \le x \le \lceil q/2^{d+1} \rceil - 1$ (the lower bound $\lceil -q/2^{d+1} \rceil$ is negative). Together with the second case this is the \emph{cyclic} interval that starts at $q - \lfloor q/2^{d+1} \rfloor = \lceil -q/2^{d+1} \rceil \bmod q$.
+
+In all cases, therefore,
+\begin{equation}\label{eq:app-interval}
+  \Comp(x) = c \iff x \in [a_c, a_{c+1}) \text{ cyclically in } \Zq, \qquad a_c = \Bigl\lceil \frac{(2c-1)q}{2^{d+1}} \Bigr\rceil \bmod q ,
+\end{equation}
+with $a_{2^d} = a_0$. The reference model checks this closed form against the starts found by scanning $\Comp$, for all four $d$ (Phase XII check A). \Cref{tab:widths} lists the resulting parameters.
+
+\begin{table}[h]\centering\small
+\caption{Per-width parameters (computed with \file{models/pams.py}). The interval for $c = 0$ wraps through $q-1 \to 0$ when $a_0 > a_1$.}\label{tab:widths}
+\begin{tabular}{@{}rrrrrrrrr@{}}
+\toprule
+$d$ & $e = 13-d$ & $2^d$ values of $c$ & widths $|I_c|$ & $a_0$ & $a_1$ & $I_0$ wraps & $\Theta_c$ range & cases $(x,j,c)$ \\
+\midrule
+4 & 9 & 16 & 208, 209 & 3225 & 105 & yes & 1022--1027 & \num{159792} \\
+5 & 8 & 32 & 104, 105 & 3277 & 53 & yes & 510--515 & \num{319584} \\
+10 & 3 & 1024 & 3, 4 & 3328 & 2 & yes & 13--19 & \num{10226688} \\
+11 & 2 & 2048 & 1, 2 & 0 & 1 & no & 3--9 & \num{20453376} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Share-wise modulus switching and the integer error}\label{app:math-lemma}
+\paragraph{Floor remainders.} For any integer $v \ge 0$ write
+\begin{equation}
+  2^K v = q\,F_K(v) + \rho(v), \qquad \rho(v) = 2^K v \bmod q \in [0, q).
+\end{equation}
+Equivalently $F_K(v) = 2^K v/q - \varphi(v)$, where $\varphi(v) = \rho(v)/q \in [0, 1)$ is the fractional part discarded by the floor.
+
+\paragraph{Sum of switched shares.} Let $\sum_i x_i = x + kq$ with $x \in [0, q)$ and $k \in \{0, \dots, n-1\}$; $k$ is the number of times the share sum wraps mod $q$. Then
+\begin{align}
+  \sum_{i=0}^{n-1} F_K(x_i) &= \frac{2^K}{q}\sum_i x_i - \sum_i \varphi(x_i)
+    = \frac{2^K x}{q} + 2^K k - \sum_i \varphi(x_i) \notag\\
+  &= F_K(x) + \varphi(x) + 2^K k - \sum_i \varphi(x_i). \label{eq:app-sum}
+\end{align}
+The left side and $F_K(x) + 2^K k$ are integers, so $j := \sum_i \varphi(x_i) - \varphi(x)$ is an integer. Since $0 \le \sum_i \varphi(x_i) < n$ and $0 \le \varphi(x) < 1$, we have $-1 < j < n$, hence $j \in \{0, \dots, n-1\}$. Reducing \cref{eq:app-sum} mod $2^K$ gives \cref{lem:switch}:
+\begin{equation}
+  \sum_i F_K(x_i) \equiv F_K(x) - j \pmod{2^K}, \qquad j = \frac{\sum_i \rho(x_i) - \rho(x)}{q} \in \{0, 1, 2\}.\label{eq:app-lemma}
+\end{equation}
+
+\paragraph{Fractional-error interpretation.} Each share loses a fractional part $\varphi(x_i) < 1$ in its floor. The losses of the three shares add up, while the floor of the secret loses only $\varphi(x)$. The total excess loss $j$ is an integer between 0 and $n-1 = 2$. In the hardware this error is invisible: it is a function of all three shares jointly, and no domain can compute it.
+
+\paragraph{Reachability.} $j = 2$ requires $\sum_i \varphi(x_i) \ge 2 + \varphi(x)$, i.e.\ all three shares lose large fractions. For $K = 14$, all three values of $j$ occur for 3,327 of the 3,329 values of $x$, found by enumerating all $3329^3$ triples (\file{validation/math/lemma.c}). The proof must therefore handle every $j \in \{0, 1, 2\}$ for every $x$.
+
+\paragraph{The correction term.} Adding the public constant $n - 1 = 2$ to one share turns the error into a non-negative offset:
+\begin{equation}
+  \sum_i F_K(x_i) + 2 \equiv F_K(x) + (2 - j), \qquad 2 - j \in [0, 2].
+\end{equation}
+This is the "$y_1 \leftarrow y_1 + (n - 1)$" step of ModSwitch~\cite{coron2023dil}. In \PAMS{} the constant is added to share 0 together with $-\Low_c$ (RTL line 56: \sig{y0 <= s0p - lowp + 14'd2}).
+
+\subsection{Properties of \texorpdfstring{$F_K$}{F\_K}}\label{app:math-gap}
+\paragraph{Quasi-periodicity.} For any integer $v$, $F_K(v + q) = \lfloor 2^K v/q + 2^K \rfloor = F_K(v) + 2^K$. Hence $F_K(v) \bmod 2^K$ depends only on $v \bmod q$, and $F_K$ maps the circle $\Zq$ onto the circle $\Z_{2^K}$ while preserving order.
+
+\paragraph{Gaps.} For any integer $v$,
+\[ F_K(v+1) - F_K(v) = \frac{2^K}{q} + \varphi(v) - \varphi(v+1) \in \Bigl(\frac{2^K}{q} - 1, \frac{2^K}{q} + 1\Bigr). \]
+It is an integer, so it equals $\lfloor 2^K/q \rfloor$ or $\lceil 2^K/q \rceil$. For $K = 14$: $2^{14}/q = 4.9216\ldots$, so every step is 4 or 5, and $g = 4$. The step across the wrap is $F_{14}(q) - F_{14}(q-1) = 16384 - 16379 = 5$. For $K = 13$ the steps are 2 or 3; for $K = 15$, 9 or 10 (re-computed for this paper).
+
+\subsection{Public anchors}\label{app:math-anchors}
+\paragraph{Definition.} $\Low_c = F_K(a_c) \bmod 2^K$. The RTL must compute it from $(c, d)$ without a division.
+
+\paragraph{Closed form.} Let $A_c = \lceil (2c-1)q/2^{d+1} \rceil$ be the integer interval start before the reduction mod $q$; it is negative for $c = 0$. Write $A_c\,2^{d+1} = (2c-1)q + r_c$ with $r_c = (-(2c-1)q) \bmod 2^{d+1} = ((1 - 2c)\,q) \bmod 2^{d+1} \in [0, 2^{d+1})$. Then, with $e = K - d - 1 = 13 - d$,
+\begin{equation}
+  \frac{2^K A_c}{q} = \frac{2^{e}\bigl((2c-1)q + r_c\bigr)}{q} = (2c-1)\,2^{e} + \frac{r_c\,2^{e}}{q},
+\end{equation}
+and because $(2c-1)2^e$ is an integer,
+\begin{equation}\label{eq:app-low}
+  F_K(A_c) = (2c-1)\,2^{e} + \mathrm{qq}(r_c), \qquad \mathrm{qq}(r) = \Bigl\lfloor \frac{r\,2^{e}}{q} \Bigr\rfloor .
+\end{equation}
+By quasi-periodicity $F_K(a_c) \equiv F_K(A_c) \pmod{2^K}$, so \cref{eq:app-low} taken mod $2^{14}$ is $\Low_c$, which is \cref{eq:low}.
+
+\paragraph{Range of $\mathrm{qq}$.} Since $r_c < 2^{d+1}$, $r_c 2^e < 2^{14} = 16384 < 5q = 16645$, so $\mathrm{qq}(r_c) \in [0, 4]$. The RTL computes it with four comparisons against $q, 2q, 3q, 4q$ (function \sig{qq}, line 34).
+
+\paragraph{The residue $r_c$.} In the RTL, \sig{pr} $= (1 - 2c)\,q \bmod 2^{12}$ (line 38), computed as a 12-bit product. Masking with $2^{d+1} - 1$ (\sig{rmask}) gives $r_c$, because $d + 1 \le 12$. The reference \sig{low\_formula} equals $\lfloor a_c 2^K/q \rfloor$ for every $(c, d)$: this is asserted inside \sig{check\_pams}, and the RTL constants match for all 3,120 pairs (check C).
+
+\subsection{Public thresholds}\label{app:math-theta}
+\paragraph{Definition.} $\Theta_c = F_K(a_{c+1}) - F_K(a_c) - 1 \bmod 2^K$. Note $A_{c+1} = \lceil (2c+1)q/2^{d+1} \rceil$, and $(2c+1)q = (2c-1)q + 2q$, so $r_{c+1} = (r_c - 2q) \bmod 2^{d+1}$.
+
+\paragraph{Closed form.} Substituting \cref{eq:app-low} for $c$ and $c+1$:
+\begin{equation}\label{eq:app-theta}
+  \Theta_c = (2c+1)2^e - (2c-1)2^e + \mathrm{qq}(r_{c+1}) - \mathrm{qq}(r_c) - 1 = 2^{e+1} - 1 + \mathrm{qq}(r_{c+1}) - \mathrm{qq}(r_c) .
+\end{equation}
+This is the RTL's \sig{thr} (line 45, with \sig{rn} $= r_{c+1}$ on line 39, since $2q \bmod 2^{12} = 2562$).
+
+\paragraph{Wrap at the last $c$.} For $c = 2^d - 1$, $A_{2^d} = A_0 + q$, so $F_K(A_{2^d}) = F_K(A_0) + 2^K$ and $\Theta_{2^d - 1}$ is consistent mod $2^K$. The closed form needs no special case, because $r_{2^d} = r_0$.
+
+\paragraph{Range.} \Cref{eq:app-theta} gives $\Theta_c \in [2^{e+1} - 5, 2^{e+1} + 3]$. The observed ranges are listed in \cref{tab:widths}, with a maximum of 1027 at $d = 4$. Hence $\Theta_c < 2^{11}$ always, which permits the split comparator (\cref{app:math-split}).
+
+\subsection{Exactness}\label{app:math-exact}
+\cref{prop:exact} is restated with all details.
+
+\paragraph{Setup.} Let $D_c = F_K(\tilde a) - F_K(a_c)$, where $\tilde a \in (a_c, a_c + q]$ is the representative of $a_{c+1}$. Then $0 < D_c < 2^K$ and $\Theta_c = D_c - 1$ as an integer. For $\tilde x \in [a_c, a_c + q)$ representing $x$, let $\Delta = F_K(\tilde x) - F_K(a_c)$. By quasi-periodicity and \cref{lem:switch},
+\begin{equation}
+  Z \equiv \sum_i F_K(x_i) + 2 - \Low_c \equiv \Delta + (2 - j) \pmod{2^K}, \qquad 0 \le \Delta < 2^K .
+\end{equation}
+$\Delta$ is non-decreasing in $\tilde x$ and increases by at least $g = 4$ per step of $\tilde x$.
+
+\paragraph{Member, $\tilde x \in [a_c, \tilde a)$.} $\Delta \le F_K(\tilde a - 1) - F_K(a_c) \le D_c - 4$. So $0 \le \Delta + 2 - j \le D_c - 2 = \Theta_c - 1$. The integer value is already in $[0, 2^K)$, so $Z = \Delta + 2 - j < \Theta_c$.
+
+\paragraph{Non-member, $\tilde x \in [\tilde a, a_c + q)$.} $\Delta \ge D_c$ and $\Delta \le F_K(a_c + q - 1) - F_K(a_c) = 2^K - (F_K(a_c + q) - F_K(a_c + q - 1)) \le 2^K - 4$. So $\Theta_c + 1 = D_c \le \Delta + 2 - j \le 2^K - 2$. Again the value lies in $[0, 2^K)$, so $Z \ge \Theta_c + 1 > \Theta_c$.
+
+\paragraph{Wraparound.} The argument never splits into cases on whether $I_c$ wraps: the representatives $\tilde x$, $\tilde a$ live on the line $[a_c, a_c + q]$, and quasi-periodicity transfers the result to $\Z_{2^K}$. Two wrap phenomena are handled uniformly:
+\begin{itemize}
+  \item \emph{interval wrap:} $I_0$ for $d \in \{4, 5, 10\}$, for example E1 with $x = 3300 \in [3225, 105)$;
+  \item \emph{switched-value wrap:} non-members just below $a_c$, which map to $Z$ near $2^{14}$. For example E4: $\Delta = F_{14}(3224) + 2^{14} - F_{14}(3225) = 15867 + 16384 - 15872 = 16379$, and $2 - j = 0$, so $Z = 16379$.
+\end{itemize}
+
+\paragraph{Machine check.} Independently of this argument, \file{validation/math/audit.py} (check D) evaluates $[Z < \Theta_c] = [\Comp(x) = c]$ for every $x \in [0, q)$, $j \in \{0, 1, 2\}$, $c$ and $d$: \num{31159440} cases in total (\cref{tab:widths}), with 0 mismatches. Because \cref{lem:switch} reduces every canonical share triple to some $(x, j)$, this enumeration alone is a complete proof. Phase XII also verified the lemma itself over all \num{36892780289} triples.
+
+\paragraph{Tightness.} The extreme values are $\max(Z - \Theta_c) = -1$ over all members and $\min(Z - \Theta_c) = +1$ over all non-members, for every $d$ (re-computed for this paper). Example E2 attains the non-member bound with $Z = 10 = \Theta_c + 1$.
+
+\subsection{The split comparator}\label{app:math-split}
+Since $\Theta_c < 2^{11}$,
+\begin{equation}
+  [Z < \Theta_c] = [Z_{13:11} = 0] \wedge [Z_{10:0} < \Theta_{c,10:0}] .
+\end{equation}
+\begin{itemize}
+  \item If any of bits 13--11 of $Z$ is set, then $Z \ge 2^{11} > \Theta_c$ and both sides are 0.
+  \item Otherwise $Z = Z_{10:0}$ and $\Theta_c = \Theta_{c,10:0}$, so the two comparisons coincide.
+\end{itemize}
+The RTL computes the low comparison with a ripple comparator over bits 0--10. It computes the zero test of bits 11--13 with the carry-free test of MATHEMATICS.md~\S5, in which only bit 11 needs the ripple carry, and combines both with one AND gadget. Phase XII check D also evaluated the split form exhaustively, with 0 mismatches.
+
+\subsection{Why 13 bits fail in the share-wise floor model}\label{app:math-k13}
+At $K = 13$ the switching steps are 2 or 3, while the error range $\{0, 1, 2\}$ has width 3, so neighbouring values can collide. Phase XII (check F) found, for every $d$, a member and a non-member whose \emph{reachable} share triples give the same $\sum_i F_{13}(x_i) \bmod 2^{13}$:
+
+\begin{center}\small
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+$d$ & $c$ & member $x$ (shares) & non-member $x$ (shares) & common sum & colliding pairs \\
+\midrule
+4 & 3 & 728 (728, 0, 0) & 729 (703, 13, 13) & 1791 & 14 \\
+5 & 6 & 676 (676, 0, 0) & 677 (651, 13, 13) & 1663 & 28 \\
+10 & 0 & 1 (1, 0, 0) & 2 (3305, 13, 13) & 2 & 896 \\
+11 & 0 & 0 (0, 0, 0) & 1 (3326, 2, 2) & 0 & 1794 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Take $d = 11$: $F_{13}(3326) = \lfloor 3326 \cdot 8192/3329 \rfloor = 8184$ and $F_{13}(2) = 4$, so the sum is $8184 + 4 + 4 = 8192 \equiv 0 \pmod{2^{13}}$. That is the same switched sum as for the triple $(0, 0, 0)$. Any function of the switched sum must therefore give the same answer for $x = 0$ (a member of $I_0$) and $x = 1$ (not a member), so no such function is exact. The argument uses only the model's own ingredients. It does not exclude circuits that switch shares differently or convert modulo $q$.
+
+\subsection{The Simple baseline}\label{app:baseline}
+\paragraph{Construction.} The baseline computes $y_i = \lfloor x_i 2^{24}/q \rfloor \gg (11 - d) = \lfloor x_i 2^{13+d}/q \rfloor$; nested floors of non-negative values are exact. It then forms
+\[ Z_B = \sum_i y_i - \bigl((2c - 1)2^{12} - A\bigr) \bmod 2^{13+d}, \qquad b = [\text{bits } 13 \ldots 12 + d \text{ of } Z_B \text{ are } 0] . \]
+\Cref{lem:switch} holds for every $K$, so exactness again reduces to all $(x, j, c, d)$.
+
+\paragraph{Offset search.} Exhaustively, $t = 13$ fractional bits with offset $A = 1$ is exact for all $d$, while the naive $A = 0$ fails at $d = 11$. At $t = 12$ there is no exact offset $A \in [-300, 300)$. At $t = 14$ (the HOCompress precision) $A \in \{0, 1, 2\}$ are exact. The baseline's protected width is therefore $13 + d \le 24$ bits, against 14 for \PAMS{}: the Simple rule needs fractional precision $2^t \gtrsim 6q$ around a half-integer anchor, while \PAMS{} needs only $2^K \ge 3q$ around an integer anchor.
+
+\subsection{Worked examples with RTL signals}\label{app:math-examples}
+\Cref{tab:ex-rtl} repeats \cref{tab:examples} with the RTL signal holding each value and the stage at which it was read in simulation. Stage $s$ means the value is visible $s$ clock edges after the coefficient was applied. All values were read from the simulated \sig{pams\_jqr} and agree with the reference model (\file{paper/scripts/examples.py}, which asserts equality).
+
+\begin{table}[h]\centering\small
+\caption{Worked examples as RTL register contents (decimal).}\label{tab:ex-rtl}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+quantity & RTL signal (stage) & E1 & E2 & E3 & E4 \\
+\midrule
+$d$, $c$ & \sig{d0}, \sig{c0} (1) & 4, 0 & 11, 1000 & 10, 300 & 4, 0 \\
+$x_0, x_1, x_2$ & \sig{x0r}, \sig{x1r}, \sig{x2r} (2) & 487, 1308, 1505 & 1722, 3208, 26 & 2345, 2243, 3046 & 3076, 3166, 311 \\
+$y_0 = F_{14}(x_0)$ & \sig{s0p} (4) & 2396 & 8474 & 11541 & 15138 \\
+$y_1 = F_{14}(x_1)$ & \sig{s1p} (4), \sig{y1} (5) & 6437 & 15788 & 11039 & 15581 \\
+$y_2 = F_{14}(x_2)$ & \sig{s2p} (4), \sig{y2} (5) & 7407 & 127 & 14991 & 1530 \\
+$\Low_c$ & \sig{lowp} (4) & 15872 & 7997 & 4793 & 15872 \\
+$\hat y_0 = y_0 + 2 - \Low_c$ & \sig{y0} (5) & 2910 & 479 & 6750 & 15652 \\
+$\Theta_c$ & \sig{th2} (5) & 1027 & 9 & 14 & 1027 \\
+$Z$ (never formed in the clear) & -- & 370 & 10 & 12 & 16379 \\
+$Z_{13:11}$, $Z_{10:0}$ & -- & 0, 370 & 0, 10 & 0, 12 & 7, 2043 \\
+$j$ & -- & 1 & 2 & 0 & 2 \\
+$b = [Z < \Theta_c]$ & $\oplus$ \sig{cdec} (31) & 1 & 0 & 1 & 0 \\
+$\Comp(x)$ & -- & 0 & 1001 & 300 & 15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For E2, the values check by hand:
+\begin{itemize}
+  \item $a_{1000} = \lceil 1999 \cdot 3329/4096 \rceil = \lceil 1624.67 \rceil = 1625$ and $a_{1001} = 1627$, so $x = 1627$ is the first value of $I_{1001}$.
+  \item $\Low_{1000} = F_{14}(1625) = \lfloor 1625 \cdot 16384/3329 \rfloor = 7997$, $F_{14}(1627) = 8007$, so $\Theta = 8007 - 7997 - 1 = 9$.
+  \item The shares switch to $(8474, 15788, 127)$ with sum $24389 \equiv 8005 = F_{14}(1627) - 2$, so $j = 2$.
+  \item $Z = 8005 + 2 - 7997 = 10 = \Theta + 1$: rejected, with the minimum margin.
+\end{itemize}
+
+The other three examples check in the same way. In each case the last line uses \cref{eq:app-z-direct} below, which avoids the shares altogether.
+\begin{itemize}
+  \item \emph{E1} ($d = 4$, $c = 0$, member of the wrapped interval). $\Comp(3300) = \lfloor 16 \cdot 3300/3329 \rceil \bmod 16 = \lfloor 15.86 \rceil \bmod 16 = 0$. The shares $487 + 1308 + 1505 = 3300$ switch to $y = (2396, 6437, 7407)$ with sum $16240 = F_{14}(3300) - 1$, so $j = 1$. Then $\hat y_0 = 2396 + 2 - 15872 \equiv 2910$, and $Z = 2910 + 6437 + 7407 = 16754 \equiv 370 < 1027 = \Theta_0$: accepted.
+  \item \emph{E3} ($d = 10$, $c = 300$, last member of its interval). $a_{300} = \lceil 599 \cdot 3329/2048 \rceil = 974$ and $a_{301} = \lceil 601 \cdot 3329/2048 \rceil = 977$. $F_{14}(974) = 4793 = \Low_{300}$, $F_{14}(977) = 4808$, $\Theta_{300} = 14$, and $F_{14}(976) = 4803$. The shares sum to $2345 + 2243 + 3046 = 7634 \equiv 976$ and switch to $(11541, 11039, 14991)$ with sum $37571 \equiv 4803$, so $j = 0$. $Z = 4803 + 2 - 4793 = 12 = \Theta - 2$: accepted. For this $x$, $Z = 12 - j$, so $j = 0$ already gives the largest value over all sharings. The member bound $\Theta - 1$ of \cref{prop:exact} is reached for other $(x, c, d)$ (\cref{app:math-exact}).
+  \item \emph{E4} ($d = 4$, $c = 0$, the value just before the wrapped interval, $x = a_0 - 1 = 3224$). $F_{14}(3224) = 15867$. The shares $3076 + 3166 + 311 \equiv 3224$ switch to $(15138, 15581, 1530)$ with sum $32249 \equiv 15865 = F_{14}(x) - 2$, so $j = 2$. Then $Z = 15865 + 2 - 15872 = -5 \equiv 16379 = 2^{14} - 5$. The high bits $Z_{13:11} = 7$ are non-zero, so the split comparator (\cref{app:math-split}) rejects without consulting the low comparison.
+\end{itemize}
+The direct formula used in the last step of each item follows from \cref{eq:app-lemma} and the anchoring $\hat y_0 = y_0 + 2 - \Low_c$:
+\begin{equation}
+  Z \equiv F_{14}(x) - j + 2 - \Low_c \pmod{2^{14}} .\label{eq:app-z-direct}
+\end{equation}
+It shows why the shares themselves do not matter for correctness: they enter only through $j \in \{0, 1, 2\}$.
+
+\subsection{Complete window constants for \texorpdfstring{$d = 4$ and $d = 5$}{d = 4 and d = 5}}\label{app:math-windows}
+\Cref{tab:windows} lists every public constant the RTL computes for the two short widths, $d = 4$ ($e = 9$) and $d = 5$ ($e = 8$). The table is generated by \file{paper/scripts/appendix\_data.py}, which asserts for each row that
+\begin{itemize}
+  \item the closed forms of \cref{eq:low,eq:thetaclosed} equal the definitions $F_{14}(a_c) \bmod 2^{14}$ and $F_{14}(a_{c+1}) - F_{14}(a_c) - 1$;
+  \item the recurrence $r_{c+1} = (r_c - 2q) \bmod 2^{d+1}$ agrees with the direct $r_{c+1} = ((1 - 2(c+1))q) \bmod 2^{d+1}$;
+  \item every $x$ in the listed interval has $\Comp(x) = c$.
+\end{itemize}
+The two long widths ($d = 10, 11$, with 1,024 and 2,048 rows) follow the same pattern and are covered by the exhaustive machine check of \cref{app:math-exact}.
+
+\paragraph{What the table shows.}
+\begin{itemize}
+  \item \emph{Widths.} For $d = 4$, 15 intervals have 208 values and the wrapped interval $I_0$ has 209. For $d = 5$, 31 have 104 and $I_0$ has 105. These match \cref{tab:widths}.
+  \item \emph{Thresholds.} Because $\mathrm{qq} \in [0, 4]$, $\Theta_c - (2^{e+1} - 1) = \mathrm{qq}(r_{c+1}) - \mathrm{qq}(r_c)$ is small. For $d = 4$ it takes the values $-1$ (4 times), $0$ (11 times) and $+4$ (once, at $c = 0$), so $\Theta_c \in \{1022, 1023, 1027\}$. For $d = 5$, $\Theta_c \in \{510, 511, 515\}$. The largest threshold always belongs to the wrapped interval.
+  \item \emph{Anchors.} Consecutive anchors differ by $2^{e+1} + \mathrm{qq}(r_{c+1}) - \mathrm{qq}(r_c) = \Theta_c + 1$. For example, $\Low_1 - \Low_0 = 516 - 15872 \equiv 1028 = \Theta_0 + 1$ for $d = 4$.
+  \item \emph{Residues.} $r_c$ runs through the odd residues modulo $2^{d+1}$, decreasing by $2q \bmod 2^{d+1}$ per step (by 2 for $d = 4$, since $2q = 6658 \equiv 2 \pmod{32}$; also by 2 for $d = 5$, since $6658 \equiv 2 \pmod{64}$).
+\end{itemize}
+
+\begin{table}[p]\centering\scriptsize
+\caption{All public window constants for $d = 4$ (top, 16 rows) and $d = 5$ (bottom, 32 rows). $a_c$: interval start; width $= |I_c|$; $r_c = ((1-2c)q) \bmod 2^{d+1}$; $\mathrm{qq}(r) = \lfloor r 2^e/q \rfloor$; $\Low_c$ and $\Theta_c$ as computed by RTL lines 44--45. Every row is checked against the definitions by \file{paper/scripts/appendix\_data.py}.}\label{tab:windows}
+\begin{tabular}{@{}rrrrrrrrr@{}}
+\toprule
+$d$ & $c$ & $a_c$ & width & $r_c$ & $\mathrm{qq}(r_c)$ & $\mathrm{qq}(r_{c+1})$ & $\Low_c$ & $\Theta_c$ \\
+\midrule
+\input{data/tab_windows.tex}
+\end{tabular}
+\end{table}

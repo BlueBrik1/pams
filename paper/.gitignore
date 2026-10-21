@@ -1,0 +1,10 @@
+# build intermediates (PAMS_paper.pdf is the committed output)
+main.aux
+main.bbl
+main.blg
+main.log
+main.out
+main.pdf
+build.log
+_preview/
+scripts/__pycache__/

@@ -1,0 +1,10 @@
+\begin{abstract}
+\noindent
+ML-KEM decapsulation (FIPS~203) re-encrypts the recovered message and accepts the received ciphertext only if the re-encryption matches it exactly. Because this check operates on secret-dependent intermediates, side-channel-protected implementations must evaluate it on masked data. The comparison is not linear in the arithmetic shares, so in hardware it requires protected nonlinear gadgets and a supply of fresh randomness every cycle. We present \PAMS{} (pre-aligned modulus switching), a datapath for the exact masked comparison $\Comp(x) = c$ for all ML-KEM compression widths $d \in \{4,5,10,11\}$.
+
+\PAMS{} combines three published ingredients into a new protected datapath: share-wise modulus switching with an integer error bound, a precision of $\lceil \log_2(3q) \rceil = 14$ bits, and public interval anchoring with a per-coefficient public threshold. Every share is switched to one fixed 14-bit representation for all four widths. The decision becomes a single masked comparison against a public threshold.
+
+We implement \PAMS{} as a three-share, second-order, HPC2-based RTL lane at one coefficient per cycle. We compare it with the strongest conventional exact lane we could construct, the Simple method with the same gadget, flow and generic optimizations. In Nangate45 synthesis and seeded OpenROAD place-and-route, \PAMS{} needs \num{29.8}\,\% fewer secure gadgets (40 vs.\ 57) and \num{29.8}\,\% fewer fresh random bits per cycle (120 vs.\ 171). The lane (not a complete ML-KEM accelerator) uses \num{19.5}\,\% less routed standard-cell area and \num{18.5}\,\% less estimated die area. Clock periods are comparable; no general speed advantage is demonstrated.
+
+Glitch-robust second-order probing security rests on SILVER-verified gadgets, the PINI composition theorem and netlist-level precondition checks; PROLEAD finds no confirmed leakage. Transition robustness, randomness generation and physical leakage remain open. All results are EDA-tool estimates for a verification subsystem, not silicon measurements.
+\end{abstract}

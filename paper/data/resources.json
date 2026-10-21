@@ -1,0 +1,172 @@
+{
+ "pams_jqr": {
+  "hpc2_instances": 40,
+  "hpc2_area_each": 180.348,
+  "hpc2_ff_each": 30,
+  "hpc2_area": 7213.92,
+  "total": 17022.13799999997,
+  "groups": {
+   "FF: accumulator": {
+    "cells": 3,
+    "area": 13.566
+   },
+   "FF: aligned operands y_i": {
+    "cells": 42,
+    "area": 189.924
+   },
+   "FF: alignment registers (delay chains)": {
+    "cells": 782,
+    "area": 3536.204
+   },
+   "FF: control pipeline": {
+    "cells": 98,
+    "area": 443.156
+   },
+   "FF: front-end registers with Yosys-internal net names": {
+    "cells": 2,
+    "area": 9.044
+   },
+   "FF: input registers (public c, d)": {
+    "cells": 11,
+    "area": 49.742
+   },
+   "FF: input registers (shares)": {
+    "cells": 36,
+    "area": 162.792
+   },
+   "FF: public constant registers": {
+    "cells": 83,
+    "area": 375.326
+   },
+   "FF: share-wise front end: partial products": {
+    "cells": 159,
+    "area": 718.998
+   },
+   "FF: share-wise front end: register x_r": {
+    "cells": 36,
+    "area": 162.792
+   },
+   "FF: share-wise front end: switched value": {
+    "cells": 42,
+    "area": 189.924
+   },
+   "logic -> aligned operands y_i": {
+    "cells": 87,
+    "area": 104.006
+   },
+   "logic -> alignment registers (delay chains)": {
+    "cells": 15,
+    "area": 22.078
+   },
+   "logic -> front-end registers with Yosys-internal net names": {
+    "cells": 2,
+    "area": 1.33
+   },
+   "logic -> masked kernel: gadget input XOR network": {
+    "cells": 162,
+    "area": 256.424
+   },
+   "logic -> public constant registers": {
+    "cells": 783,
+    "area": 961.324
+   },
+   "logic -> share-wise front end: partial products": {
+    "cells": 1972,
+    "area": 2274.034
+   },
+   "logic -> share-wise front end: switched value": {
+    "cells": 303,
+    "area": 334.362
+   },
+   "logic -> shared": {
+    "cells": 2,
+    "area": 3.192
+   }
+  }
+ },
+ "base_jq": {
+  "hpc2_instances": 57,
+  "hpc2_area_each": 180.348,
+  "hpc2_ff_each": 30,
+  "hpc2_area": 10279.836000000001,
+  "total": 21096.99199999996,
+  "groups": {
+   "FF: accumulator": {
+    "cells": 3,
+    "area": 13.566
+   },
+   "FF: aligned operands y_i": {
+    "cells": 72,
+    "area": 325.584
+   },
+   "FF: alignment registers (delay chains)": {
+    "cells": 876,
+    "area": 3961.272
+   },
+   "FF: control pipeline": {
+    "cells": 104,
+    "area": 470.288
+   },
+   "FF: front-end registers with Yosys-internal net names": {
+    "cells": 7,
+    "area": 31.654
+   },
+   "FF: input registers (public c, d)": {
+    "cells": 11,
+    "area": 49.742
+   },
+   "FF: input registers (shares)": {
+    "cells": 36,
+    "area": 162.792
+   },
+   "FF: public constant registers": {
+    "cells": 86,
+    "area": 388.892
+   },
+   "FF: share-wise front end: partial products": {
+    "cells": 197,
+    "area": 890.834
+   },
+   "FF: share-wise front end: register x_r": {
+    "cells": 36,
+    "area": 162.792
+   },
+   "FF: share-wise front end: switched value": {
+    "cells": 72,
+    "area": 325.584
+   },
+   "logic -> aligned operands y_i": {
+    "cells": 334,
+    "area": 501.41
+   },
+   "logic -> alignment registers (delay chains)": {
+    "cells": 34,
+    "area": 54.264
+   },
+   "logic -> front-end registers with Yosys-internal net names": {
+    "cells": 19,
+    "area": 19.95
+   },
+   "logic -> masked kernel: gadget input XOR network": {
+    "cells": 181,
+    "area": 266.266
+   },
+   "logic -> public constant registers": {
+    "cells": 70,
+    "area": 75.012
+   },
+   "logic -> share-wise front end: partial products": {
+    "cells": 1968,
+    "area": 2405.97
+   },
+   "logic -> share-wise front end: switched value": {
+    "cells": 425,
+    "area": 606.746
+   },
+   "logic -> shared": {
+    "cells": 87,
+    "area": 104.538
+   }
+  }
+ }
+}

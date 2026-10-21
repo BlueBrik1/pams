@@ -1,0 +1,22 @@
+{
+ "pams_jqr": {
+  "start": "_8799_",
+  "start_q": "x1r[5]",
+  "end": "_8676_",
+  "end_q": "ml1[23]",
+  "arrival": 1.2359,
+  "clock_latency": 0.1793,
+  "slack": 0.1074,
+  "cells": 22
+ },
+ "base_jq": {
+  "start": "_8662_",
+  "start_q": "x0r[9]",
+  "end": "_8440_",
+  "end_q": "mh0[31]",
+  "arrival": 1.2689,
+  "clock_latency": 0.196,
+  "slack": 0.0893,
+  "cells": 24
+ }
+}
