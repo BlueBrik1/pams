@@ -4,13 +4,14 @@ LaTeX sources of *PAMS: Pre-Aligned Modulus Switching for Exact Second-Order Mas
 
 - **Status:** manuscript draft. It has not been submitted to, or formatted for, any venue.
 - **Authors:** the author block is a placeholder. See `AI_USAGE_DISCLOSURE.md`.
-- **Built PDF:** `PAMS_paper.pdf`, 47 pages:
-  - main text: pp. 1–19;
-  - references: pp. 19–21;
-  - Appendix A (mathematics): pp. 22–27;
-  - Appendix B (Verilog): pp. 28–35;
-  - Appendix C (gates and layout): pp. 36–40;
-  - Appendix D (evidence): pp. 41–47.
+- **Built PDF:** `PAMS_paper.pdf`, 48 pages, frozen as git tag `pams-paper-freeze-v1`:
+  - main text: pp. 1–20;
+  - references: pp. 20–22;
+  - Appendix A (mathematics): pp. 23–28;
+  - Appendix B (Verilog): pp. 29–37;
+  - Appendix C (gates and layout): pp. 37–42;
+  - Appendix D (evidence): pp. 42–48.
+- **Final review:** `review/` holds the internal audits of the mathematics, security, novelty, results, figures and RTL, and bibliography. Start with `review/FINAL_REVIEW_SUMMARY.md`. The review was done by the AI system that produced the work, so it is not an external peer review.
 
 ## Build
 
@@ -64,6 +65,16 @@ Their SHA-256 hashes are listed in `FIGURE_PROVENANCE.md`. They are re-created b
 - `scripts/md2tex.py`, `scripts/wrap_tables.py`: one-off source conversions.
 - `scripts/envcheck.sh`, `scripts/tex_setup.sh`: environment check and TeX package installation.
 - `scripts/layout_try.sh`, `scripts/run_figs.sh`: wrappers for the OpenROAD image export and the figure run.
+
+### Final-review scripts (read-only checks; outputs in `review/*.json`)
+
+| script | checks |
+|---|---|
+| `scripts/audit_math.py` | Interval form, closed forms, and Proposition 1 with its tight bounds over all 31,159,440 (x, j, c, d) cases. Also the reachability of j, the gaps, the K = 13 witness, and the multiplier on 12-bit inputs. About 1 s. |
+| `scripts/audit_results.py` | Recomputes every headline number and the exact rank-sum p-values from the frozen P&R and synthesis data. |
+| `scripts/audit_rtl.py` | Listing ranges, signal names, gadget count, rnd slices, delay registers, file sizes. |
+| `scripts/hires.sh` | Renders selected pages at high resolution for figure inspection. |
+| `scripts/dot_try.sh` | Compares Graphviz layout variants of the gate-level figures (used to choose the final spacing and routing). |
 
 ## Layout
 

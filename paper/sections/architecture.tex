@@ -151,7 +151,7 @@ Let $K = 14$, $d \in \{4,5,10,11\}$, $c \in [0, 2^d)$ and canonical shares $x_0,
 
 \emph{Non-members} ($\tilde a \le \tilde x \le a_c + q - 1$). Here $\Delta \ge D_c$, and $\Delta \le F_K(a_c + q - 1) - F_K(a_c) \le 2^K - g$. Hence $\Theta_c + 1 = D_c \le \Delta + 2 - j \le 2^K - g + 2 = 2^K - 2$. Again no wrap occurs, and $Z \ge \Theta_c$.
 \end{proof}
-The bounds are tight. Evaluating every $(x, j, c, d)$ for this paper gives $\max(Z - \Theta_c) = -1$ over members and $\min(Z - \Theta_c) = +1$ over non-members. Phase XII's exhaustive check of the decision rule over all $3329 \cdot 3 \cdot (2^4 + 2^5 + 2^{10} + 2^{11})$ cases found 0 mismatches. Together with \cref{lem:switch}, that enumeration is an independent machine proof (\cref{app:math-exact}).
+The bounds are tight. Evaluating every $(x, j, c, d)$ for this paper gives $\max(Z - \Theta_c) = -1$ over members and $\min(Z - \Theta_c) = +1$ over non-members. Phase XII's exhaustive check of the decision rule over all $3329 \cdot 3 \cdot (2^4 + 2^5 + 2^{10} + 2^{11})$ cases found 0 mismatches. Together with \cref{lem:switch}, that enumeration is a second, computational proof for the stated input contract, assuming the enumeration script is correct (\cref{app:math-exact}). This review re-ran the bound check (\file{paper/scripts/audit\_math.py}), but did not repeat the $3329^3$ lemma enumeration.
 
 \begin{remark}[scope of the 14-bit requirement]\label{rem:k13}
 The proof needs $g \ge 4$ for the chosen offset and threshold. Any exact rule on $Z$ needs $g \ge 3$, because an error range of width 3 must fit between neighbouring switched values. The first $K$ with $\lfloor 2^K/q \rfloor \ge 3$ is $K = 14$. At $K = 13$ ($g = 2$), members and non-members collide on \emph{reachable} share triples for every $d$. For example, at $d = 11$, $x = 0$ shared as $(0, 0, 0)$ and $x = 1$ shared as $(3326, 2, 2)$ give the same switched sum. So no decision function of $Z$ can be exact.
@@ -159,7 +159,12 @@ The proof needs $g \ge 4$ for the chosen offset and threshold. Any exact rule on
 This lower bound holds \emph{only in the share-wise floor model}, where $y_i = \lfloor 2^K x_i/q \rfloor$ and the decision depends only on $\sum y_i$ plus public offsets. It is not a lower bound for all masked circuits: other conversions (prime-modulus A2B, rounding with share-dependent offsets) are outside it.
 \end{remark}
 
-\emph{Canonical shares.} \Cref{lem:switch} and the multiplier constant both assume $x_i < q$. A non-canonical 12-bit input $x_i \in [3329, 4095]$ would break correctness, not masking: the constant multiplier is wrong for $x_i \in [3329, 4005]$. Neither \PAMS{} nor the baseline checks its inputs, so canonical shares are an interface requirement on the upstream masked re-encryption, for both designs alike.
+\emph{Canonical shares.} The proof is stated for canonical shares $x_i < q$, and the hardware is verified only for them. Two facts bound what happens outside that range.
+\begin{itemize}
+  \item The proof of \cref{lem:switch} does not itself use $x_i < q$: it holds for any non-negative integer shares.
+  \item The 12-bit constant multiplier equals $F_{14}$ (mod $2^{14}$) on every 12-bit input except $x_i = 3329$ and $x_i = 4005$, where it is one too small.
+\end{itemize}
+Our review searched non-canonical inputs only by sampling and found no wrong decision, but it did not analyse them completely. Such inputs would affect correctness, not masking. Neither \PAMS{} nor the baseline checks its inputs, so canonical shares are an interface requirement on the upstream masked re-encryption, for both designs alike.
 
 \paragraph{G.~Worked examples.} \Cref{tab:examples} traces four coefficients through \cref{eq:yi,eq:y0,eq:Z,eq:b}.
 \begin{itemize}
@@ -317,7 +322,7 @@ Synthesis keeps every \sig{hpc2} instance as a separate module, so the gadget bo
 \caption{Real mapped subcircuit around the bit-1 gadgets of \sig{pams\_jqr}, automatically extracted from \file{competitors/runs/syn\_pams\_jqr\_p0/mapped.json} (Yosys flow B, mapping 0) and drawn with Graphviz.
 \textbf{Gadgets:} \sig{ug111} (CSA majority, bit 0), \sig{ug134} (carry $c_2$) and \sig{ug128} (comparator step $\lt_2$).
 \textbf{Other cells:} green = \sig{DFF\_X1} (Q net named), yellow = combinational cells.
-\textbf{Edge labels:} the receiving pin (gadget ports \sig{a}/\sig{b}, cell inputs \sig{A}/\sig{B}).}\label{fig:slice}
+\textbf{Edges:} solid = into gadget port \sig{a} or cell input \sig{A}; dashed = into gadget port \sig{b} or cell input \sig{B}.}\label{fig:slice}
 \end{figure*}
 
 \paragraph{Physical level.}

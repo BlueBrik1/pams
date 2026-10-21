@@ -1,10 +1,11 @@
 \section{Security Analysis}\label{sec:security}
 
 \subsection{Claim and model}
-\paragraph{Claim.} We claim the following for \sig{pams\_jqr}, and identically for the baseline \sig{base\_jq}:
+\paragraph{Claim.} We claim the following for \sig{pams\_jqr}, and identically for the baseline \sig{base\_jq}. It is a \emph{conditional} claim, derived from a formal gadget result, a published composition theorem and a structural check of that theorem's preconditions:
 \begin{quote}\itshape
-The lane is second-order secure in the glitch-robust probing model, i.e.\ against any two glitch-extended probes over any number of clock cycles, provided the \sig{rnd} input supplies fresh uniform independent bits every cycle and the input shares are a uniform canonical sharing.
+The lane is second-order secure in the glitch-robust probing model, i.e.\ against any two glitch-extended probes over any number of clock cycles. This holds provided that (i) the \sig{rnd} input supplies fresh uniform independent bits every cycle; (ii) the input shares are a uniform canonical sharing, independent across coefficients; and (iii) our structural checker correctly establishes the composition preconditions on each netlist.
 \end{quote}
+The claim is \emph{not} the output of a single tool that verified the whole circuit. No tool proved the complete lane; whole-lane evidence is statistical (\cref{sec:prolead}).
 
 \paragraph{Leakage model.} Following the robust probing model~\cite{faust2018,cassiers2021hpc}:
 \begin{itemize}
@@ -43,7 +44,7 @@ whole-lane leakage & PROLEAD, robust glitches + transitions & no confirmed leaka
 Every nonlinear operation is an instance of one HPC2 module, kept as a separate hierarchy level during synthesis. Synthesis maps this module in exactly two ways (variants v0 and v1) across all mappings and all designs.
 \begin{itemize}
   \item \textbf{SILVER.} It verifies each variant exhaustively as glitch-robust 2-PINI.
-  \item \textbf{PROLEAD.} It finds no leakage, even with transitions, when the gadget is executed every cycle.
+  \item \textbf{PROLEAD.} It finds no leakage, with glitches and transitions, in four back-to-back executions of each variant. This is statistical evidence; SILVER's proof covers a single execution without transitions.
   \item \textbf{Final netlists.} Every gadget instance in the final netlists is one of these two byte-identical variants (\file{final/runs/gadget\_identity.json}).
   \item \textbf{Routing.} P\&R adds buffers, resizes cells and ties constant shares inside gadget hierarchies. The G-check confirms that each routed gadget is still the verified gadget once those buffers are collapsed.
 \end{itemize}
@@ -55,9 +56,16 @@ Outside the gadgets, the lane consists only of:
   \item public logic: the window constants and the control pipeline;
   \item operations that combine a public value with one share: $-\Low_c + 2$ on share 0, $\bar\theta_k$ on share 0.
 \end{itemize}
-\Cref{fig:domains} shows the resulting structure. Three domain columns interact only through HPC2 gadgets, each fed by its own fresh random bits. For such a circuit the trivial composition theorem of PINI~\cite{cassiers2020pini}, extended to glitches in the HPC framework~\cite{cassiers2021hpc}, implies that the lane is glitch-robust 2-PINI.
+\Cref{fig:domains} shows the resulting structure. Three domain columns interact only through HPC2 gadgets, each fed by its own fresh random bits. For such a circuit, the trivial composition theorem of PINI~\cite{cassiers2020pini}, extended to glitches in the HPC framework~\cite{cassiers2021hpc}, implies that the lane is glitch-robust 2-PINI. Cassiers and Standaert restate this extension as a glitch-robust composability lemma~\cite[Lemma~1]{cassiers2021trans}. Its preconditions are:
+\begin{itemize}
+  \item every gadget execution is glitch-robust PINI;
+  \item the logic between gadgets is share-isolating, i.e.\ it never connects two circuit shares;
+  \item gadget connections respect share indices;
+  \item the gadget executions form a DAG.
+\end{itemize}
+Glitches that propagate \emph{between} gadgets, for example through an HPC2 output XOR into a downstream share-local XOR network, are covered by the share-isolation principle rather than by the gadget proof. The DAG condition holds for the time-unrolled lane: the only feedback is the accumulator, which runs through registers and becomes acyclic when unrolled. Every gate of an HPC2 instance belongs to a single execution in any given cycle.
 
-The theorem's preconditions are structural, and \file{compcheck.py} checks them mechanically on every netlist. The checker is our own code. It has negative controls: an exposed decision, a partial recombination and reused masks are all flagged.
+The structural preconditions are checked mechanically by \file{compcheck.py} on every netlist. The checker is our own code and has not been independently reviewed; a defect in it would leave a precondition unverified. It does have negative controls: an exposed decision, a partial recombination and reused masks are all flagged.
 
 \begin{figure}[t]\centering
 \begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,>={Stealth[length=1.5mm]},
@@ -70,8 +78,9 @@ The theorem's preconditions are structural, and \file{compcheck.py} checks them 
     \node[bx] at (\x,-1.45) {$y_{\i}$ bits\\[-2pt]{\tiny (delayed)}};
     \draw[->] (\x,-0.21) -- (\x,-0.49); \draw[->] (\x,-0.91) -- (\x,-1.18);
   }
-  \node[draw,fill=gray!15,align=center,font=\tiny] (pub) at (6.05,-0.7) {public\\$\mathrm{Low}_c$, $\Theta_c$};
-  \draw[->,gray] (pub.west) -- (4.75,-0.7) node[pos=0.5,above,font=\tiny] {to share 0};
+  % public values enter share 0 only: the box sits left of domain 0 and points at its y_0 operand (anchoring, theta bits)
+  \node[draw,fill=gray!15,align=center,font=\tiny] (pub) at (-1.05,-1.45) {public\\$\mathrm{Low}_c$, $\Theta_c$};
+  \draw[->,gray] (pub.east) -- (0.17,-1.45);
   \node[draw,thick,fill=orange!25,minimum width=4.6cm,minimum height=0.5cm,font=\tiny] (g) at (2.4,-2.35) {HPC2 gadget: the only place shares meet};
   \foreach \x in {0.8,2.4,4.0} \draw[->] (\x,-1.72) -- (\x,-2.1);
   \foreach \x in {0.8,2.4,4.0} \draw[->] (\x,-2.6) -- (\x,-3.0);
@@ -128,25 +137,33 @@ frozen NC (4 controls) & 1--2 & $\le 2^{18}$ & 22.5--$\infty$ & $\le 6.1$ & -- \
 
 \paragraph{Results.} \Cref{tab:prolead} summarizes the campaigns (details in \cref{app:prolead}).
 \begin{itemize}
-  \item \textbf{No confirmed leakage.} No probing set of any real design survives confirmation. Every flagged maximum decays to 0.4--1.8 when re-tested with more data.
+  \item \textbf{No confirmed leakage.} No probing set of any real design survives confirmation. Every flagged maximum decays to 0.2--1.8 when re-tested with more data (all six confirmations are listed in \cref{tab:prolead-full}).
   \item \textbf{Negative controls detected.} Each function-changing control is found with a large margin above the null: an exposed decision, a partial recombination $b_0 \oplus b_1$ on an output, and a reused mask inside one gadget. The partial recombination on \sig{pams\_jqr} reaches $-\log_{10} p = 41.4$ against a null of 5.85.
 \end{itemize}
 
 \paragraph{What this does and does not show.} The results show that, at the stated simulation counts and in the simulated leakage model, no first- or second-order leakage was detected, and that the test can detect injected flaws. They are not a proof:
 \begin{itemize}
   \item absence of detection is bounded by the number of simulations;
-  \item second order was evaluated at one steady-state cycle per lane;
+  \item second order was evaluated at one steady-state cycle per lane, and probing sets near the \sig{dvalid} cycle were not tested at second order;
+  \item the final \sig{pams\_jqr} campaign covers only its mapping-0 synthesis netlist (gadget variant v0). It is smaller than the frozen-design campaign (first order $2^{20}$ vs.\ $2^{22}$ simulations; second order $2^{18}$ vs.\ $2^{20}$) and has one negative control instead of four;
+  \item no lane-level PROLEAD test was run on the final baseline \sig{base\_jq}; its statistical evidence comes from the frozen \sig{base};
   \item the simulated leakage model is not a physical device.
 \end{itemize}
 
 \subsection{Remaining limitations of the security argument}\label{sec:sec-limits}
-\paragraph{Transitions.} Glitch-robust PINI composition does not imply transition robustness. Cassiers and Standaert's transition-robust composition theorem~\cite{cassiers2021trans} requires either O-PINI gadgets or PINI gadgets without adjacent executions. Neither holds here:
+\paragraph{Transitions.} Glitch-robust PINI composition does not imply transition robustness. Cassiers and Standaert's composition theorem for transitions~\cite[Theorem~2, Corollary~2]{cassiers2021trans} gives two options:
 \begin{itemize}
-  \item HPC2 is not O-PINI;
-  \item every gadget executes every cycle;
-  \item in the accumulator, execution $k$ feeds execution $k + 2$.
+  \item iterated transition-robust O-PINI gadgets;
+  \item transition-robust PINI gadgets with no adjacent executions.
 \end{itemize}
-Our evidence for transitions is therefore only statistical. An O-PINI accumulator or idle cycles would make the theorem applicable. This is not implemented, and the same limitation applies to the baseline.
+Their Proposition~4 relaxes the adjacency condition for a structural gadget all of whose executions are mutually parallel, provided that gadget is iterated transition-robust PINI. None of these conditions is established here:
+\begin{itemize}
+  \item HPC2 is not O-PINI~\cite{cassiers2021trans}.
+  \item Every gadget executes every cycle, so its executions are adjacent.
+  \item The datapath gadgets' executions for different coefficients are parallel (no path connects them). However, we have not established that the mapped HPC2 is iterated transition-robust PINI; SILVER's proof covers glitches only.
+  \item In the accumulator, execution $k$ feeds execution $k + 2$, so its executions are not all parallel.
+\end{itemize}
+Transition and glitch+transition robustness are therefore \emph{unproven}; our evidence for them is only statistical. An O-PINI accumulator or idle cycles might make a published theorem applicable, but this is not implemented, and the same limitation applies to the baseline.
 
 \paragraph{Randomness.} The lane consumes 120 fresh bits per cycle but does not generate them.
 \begin{itemize}

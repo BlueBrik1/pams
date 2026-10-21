@@ -15,7 +15,7 @@ Each limitation below states its consequence for the claims of this paper.
 
 \paragraph{Randomness generation excluded.} The area figures exclude the random-number generator. The saving of 51 random bits per cycle reduces generator cost, for example from three to two unrolled-Trivium instances~\cite{cassiers2024rng}, but this was modelled in our earlier study, not implemented in the final comparison.
 
-\paragraph{Canonical input shares.} Both designs require $0 \le x_i < 3329$ and do not check it. If the upstream logic produced 12-bit shares outside that range, correctness, though not masking, would fail. The requirement must be met and documented at integration.
+\paragraph{Canonical input shares.} Both designs require $0 \le x_i < 3329$ and do not check it. If the upstream logic produced 12-bit shares outside that range, correctness (not masking) could fail. The constant multiplier is inexact at $x_i = 3329$ and $4005$, and non-canonical inputs were not analysed completely (\cref{sec:exact}). The requirement must be met and documented at integration.
 
 \paragraph{Finite physical-design sampling.} Seven seeds at each of three targets, at one utilization, sample implementation variation of one netlist per design.
 \begin{itemize}
@@ -28,7 +28,7 @@ Each limitation below states its consequence for the claims of this paper.
 
 \paragraph{Security model.}
 \begin{itemize}
-  \item \textbf{Glitch-robust probing.} The supported claim is glitch-robust second-order probing security with ideal randomness, which rests on SILVER, the PINI theorem and our structural checker.
+  \item \textbf{Glitch-robust probing.} The supported claim is conditional: glitch-robust second-order probing security with ideal randomness and canonical uniform input sharings. It rests on SILVER (formal, gadget only), the published PINI theorem, and our structural checker. The checker is unreviewed project code, and no tool verified the whole lane formally.
   \item \textbf{Transitions.} Transition robustness is unproven: no applicable composition theorem exists for adjacent HPC2 executions.
   \item \textbf{Physical leakage.} Physical leakage was not measured, and attacks on the comparison function itself apply to any masked comparator~\cite{hermelink2024}.
   \item \textbf{Statistical evidence.} The PROLEAD evidence for the final circuit comes from a focused campaign, smaller than the campaign on the original design.
@@ -36,10 +36,9 @@ Each limitation below states its consequence for the claims of this paper.
 
 \paragraph{Architectural, not mathematical, novelty.} Every mathematical component of \PAMS{} is published~\cite{coron2023dil,coron2023poly,bos2021masking,azouaoui2023}, and exactness follows from the published lemma in a few lines. The contribution is the datapath and its measured consequence. A reader may judge the combination incremental; we claim only that we did not find it in the literature we reviewed.
 
-\paragraph{Incomplete access to recent prior art.} Some recent work could not be fully reviewed:
+\paragraph{Incomplete access to recent prior art.} The final review (2026-10-21) made one more bounded retrieval attempt. Two recent works could still not be fully reviewed, because their full texts were refused (HTTP 403):
 \begin{itemize}
-  \item the comparison method of Buschkowski et al.~\cite{buschkowski2026}, since only the abstract was accessible;
-  \item one further 2026 first-order FPGA work, which we could not retrieve.
+  \item Buschkowski et al.~\cite{buschkowski2026}. Their abstract describes design-space exploration of mixed-domain masking and an arbitrary-order ML-KEM decapsulation core, but does not mention the comparison method.
+  \item A 2026 \emph{PeerJ Computer Science} article on first-order unified ML-DSA/ML-KEM hardware (article cs-4003).
 \end{itemize}
-
-Our literature, patent and code search was targeted, not exhaustive.
+Either could describe a masked ciphertext comparison. Our literature, patent and code search was targeted, not exhaustive, and an unsuccessful search does not establish novelty.

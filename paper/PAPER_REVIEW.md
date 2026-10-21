@@ -1,5 +1,7 @@
 # Adversarial self-review of the manuscript
 
+> **Superseded in part by the final review (2026-10-21).** The final technical review and publication freeze are recorded in `review/`. Start with `review/FINAL_REVIEW_SUMMARY.md`; it lists the resolved findings, unresolved issues, publication limitations and frozen claims. Where this file and `review/` differ, `review/` is authoritative. In particular, the bibliography status below is superseded by `review/BIBLIOGRAPHY_AUDIT.md`: the HOPE-MLKEM pages and DOI and the Hermelink pages are now filled in, and the two uncited entries were removed. This file records the earlier self-review of the first complete draft.
+
 The manuscript was reviewed against the frozen evidence (`final/`, tag `pams-publication-freeze-v1`) and against the constraints of the manuscript directive. The review was done by the same AI system that wrote the paper (see `AI_USAGE_DISCLOSURE.md`), so it is **not** an independent review. A human reader should repeat at least the checks marked ★.
 
 ## 1. Checks performed

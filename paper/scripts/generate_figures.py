@@ -298,7 +298,8 @@ def dot_hpc2():
             for b in bs:
                 if not isinstance(b, int): continue
                 (drv if p in OUTP else sinks).setdefault(b, []).append((cn, p))
-    L = ['digraph hpc2 {', 'rankdir=LR; nodesep=0.12; ranksep=0.35; node [fontname="Helvetica", fontsize=9, shape=box, style="rounded,filled", fillcolor="#f2f2f2", height=0.25];',
+    # final review: wider spacing with spline routing keeps every edge off every node (ortho merged edges into shared corridors)
+    L = ['digraph hpc2 {', 'rankdir=LR; splines=true; nodesep=0.35; ranksep=0.7; node [fontname="Helvetica", fontsize=9, shape=box, style="rounded,filled", fillcolor="#f2f2f2", height=0.25];',
          'edge [arrowsize=0.4, penwidth=0.6];']
     for p, v in m['ports'].items():
         if p == 'clk': continue
@@ -353,7 +354,8 @@ def dot_slice(gadgets=('ug111', 'ug128', 'ug134'), depth=3):
                 keep.add(src[0])
                 if lvl + 1 < depth and not m['cells'][src[0]]['type'].startswith('DFF') and m['cells'][src[0]]['type'] != 'hpc2':
                     frontier.append((src[0], lvl + 1))
-    L = ['digraph slice {', 'rankdir=LR; nodesep=0.1; ranksep=0.3; node [fontname="Helvetica", fontsize=8, shape=box, style="rounded,filled", height=0.22];',
+    # final review: pin names are encoded by line style instead of edge labels, which piled up where edges converge
+    L = ['digraph slice {', 'rankdir=LR; splines=true; nodesep=0.35; ranksep=0.7; node [fontname="Helvetica", fontsize=8, shape=box, style="rounded,filled", height=0.22];',
          'edge [arrowsize=0.35, penwidth=0.5, fontsize=6, fontname="Helvetica"];']
     for cn in keep:
         c = m['cells'][cn]; t = c['type']
@@ -367,11 +369,12 @@ def dot_slice(gadgets=('ug111', 'ug128', 'ug134'), depth=3):
             nn = netname.get(z[0], '') if z else ''
             nn = '(ABC-internal net)' if nn.startswith('$') else nn
             L.append(f'"{cn}" [label="{t}\\n{nn}", fillcolor="#fcf3cf"];')
+    sty = lambda p: 'dashed' if p.lower() == 'b' else 'solid'        # gadget pin a / cell pin A solid, b / B dashed
     for s, dname, p in sorted(edges):
         if s.startswith('IN:'):
-            L.append(f'"{s}" [label="{s[3:]}", shape=ellipse, fillcolor="#eeeeee"];'); L.append(f'"{s}" -> "{dname}" [label="{p}"];')
-        else:
-            L.append(f'"{s}" -> "{dname}" [label="{p}"];')
+            L.append(f'"{s}" [label="{s[3:]}", shape=ellipse, fillcolor="#eeeeee"];')
+        assert p.lower() in ('a', 'b'), p
+        L.append(f'"{s}" -> "{dname}" [style={sty(p)}];')
     L.append('}')
     f = FIG / 'gates' / 'slice_bit1.dot'; f.write_text('\n'.join(L))
     subprocess.run(['dot', '-Tpdf', str(f), '-o', str(FIG / 'gates' / 'slice_bit1.pdf')], check=True)

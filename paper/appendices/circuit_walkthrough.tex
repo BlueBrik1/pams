@@ -70,26 +70,64 @@ cell & \PAMS{} & baseline & cell & \PAMS{} & baseline \\
 Every output share depends combinationally only on registers of its own domain. The 30 flip-flops make a gadget exactly 30 of the lane's 2,494 flip-flops. Both mapped variants (v0, v1) were verified by SILVER, and every instance in every final netlist is one of them.
 
 \begin{figure}[h]\centering
+% final review: redrawn on an orthogonal grid. ra[0] feeds all three ANDs, so one wire crossing is unavoidable;
+% it is drawn as a bridge (the rbr wire passes over the ra bus). No boxes, labels or arrowheads overlap.
 \begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,>={Stealth[length=1.5mm]},
-  r/.style={draw,fill=green!12,minimum width=1.25cm,minimum height=0.45cm,align=center},
-  g/.style={draw,fill=yellow!15,rounded corners=2pt,minimum height=0.45cm,align=center}]
-  \node at (0,2.3) {inputs}; \node at (2.4,2.3) {cycle 1 registers}; \node at (5.2,2.3) {cycle 2 registers}; \node at (8.2,2.3) {output (comb.)};
-  \node (a) at (0,1.5) {$a_0$}; \node (b) at (0,0.7) {$b_1, b_2$}; \node (rin) at (0,-0.1) {$r_{01}, r_{02}$};
-  \node[r] (ra) at (2.4,1.5) {\sig{ra[0]}\\$a_0$};
-  \node[g] (xr) at (1.2,0.3) {$\oplus$};
-  \node[r] (rbr) at (2.4,0.3) {\sig{rbr}\\$b_1{\oplus}r_{01},\ b_2{\oplus}r_{02}$};
-  \node[r] (rr) at (2.4,-0.7) {\sig{rr}\\$r_{01}, r_{02}$};
-  \node[r] (rb) at (2.4,2.25-1.0) {\sig{rb[0]}\\$b_0$};
-  \node[g] (pa) at (4.0,1.5) {AND}; \node[r] (p) at (5.2,1.5) {\sig{p0[0]}\\$a_0 b_0$};
-  \node[g] (va) at (4.0,0.3) {AND}; \node[r] (v) at (5.2,0.3) {\sig{v[1:0]}\\$a_0(b_j{\oplus}r_{0j})$};
-  \node[g] (ua) at (4.0,-0.7) {AND\\($\bar a_0$)}; \node[r] (u) at (5.2,-0.7) {\sig{u[1:0]}\\$\bar a_0\, r_{0j}$};
-  \node[g] (xo) at (7.0,0.4) {5-input\\XOR}; \node (c) at (8.4,0.4) {$c_0$};
-  \draw[->] (a) -- (ra); \draw[->] (b) -- (xr); \draw[->] (rin) -- (xr); \draw[->] (xr) -- (rbr); \draw[->] (rin) |- (rr);
-  \draw[->] (ra) -- (pa); \draw[->] (rb) -- (pa); \draw[->] (pa) -- (p);
-  \draw[->] (ra) -- (va); \draw[->] (rbr) -- (va); \draw[->] (va) -- (v);
-  \draw[->] (ra.east) -- (ua); \draw[->] (rr) -- (ua); \draw[->] (ua) -- (u);
-  \draw[->] (p) -- (xo); \draw[->] (v) -- (xo); \draw[->] (u) -- (xo); \draw[->] (xo) -- (c);
-  \node[font=\tiny,align=left] at (4.6,-1.6) {shown for output share 0; shares 1 and 2 are identical with $(i,j) \in \{(1,0),(1,2)\}$, $\{(2,0),(2,1)\}$.\\ Every $r_{ij}$ is used by share $i$ (in $u_{ij}$, $v_{ij}$) and, through $b_i{\oplus} r_{ji}$, by share $j$.};
+  r/.style={draw,fill=green!12,minimum width=1.3cm,minimum height=0.5cm,align=center,inner sep=2pt},
+  g/.style={draw,fill=yellow!15,rounded corners=2pt,minimum width=0.85cm,minimum height=0.5cm,align=center,inner sep=2pt},
+  w/.style={->,rounded corners=1pt},
+  bridge/.style={w,preaction={draw,white,line width=3pt,-}}]
+  % column headers
+  \node[gray] at (0,2.75) {inputs}; \node[gray] at (3.1,2.75) {cycle 1 registers};
+  \node[gray] at (5.3,2.75) {cycle 2 logic}; \node[gray] at (7.4,2.75) {cycle 2 registers}; \node[gray] at (9.6,2.75) {output (comb.)};
+  % inputs
+  \node[anchor=east] (b0) at (0.45,2.05) {$b_0$};
+  \node[anchor=east] (a0) at (0.45,1.2) {$a_0$};
+  \node[anchor=east] (bj) at (0.45,0.12) {$b_1, b_2$};
+  \node[anchor=east] (rin) at (0.45,-0.5) {$r_{01}, r_{02}$};
+  % cycle 1
+  \node[g,minimum width=0.5cm] (xr) at (1.45,0.0) {$\oplus$};
+  \node[r] (rb) at (3.1,2.05) {\sig{rb[0]}: $b_0$};
+  \node[r] (ra) at (3.1,1.2) {\sig{ra[0]}: $a_0$};
+  \node[r,minimum width=2.1cm] (rbr) at (3.1,0.0) {\sig{rbr[1:0]}: $b_j{\oplus}r_{0j}$};
+  \node[r] (rr) at (3.1,-1.2) {\sig{rr[1:0]}: $r_{0j}$};
+  % cycle 2
+  \node[g] (pa) at (5.3,1.6) {AND};
+  \node[g] (va) at (5.3,0.2) {AND};
+  \node[g] (ua) at (5.3,-1.0) {AND};
+  \node[r] (p) at (7.4,1.6) {\sig{p0[0]}\\$a_0 b_0$};
+  \node[r] (v) at (7.4,0.2) {\sig{v[1:0]}\\$a_0(b_j{\oplus}r_{0j})$};
+  \node[r] (u) at (7.4,-1.0) {\sig{u[1:0]}\\$\bar a_0\, r_{0j}$};
+  \node[g,minimum width=1.1cm,minimum height=0.95cm] (xo) at (9.6,0.2) {5-input\\XOR};
+  \node (c) at (10.9,0.2) {$c_0$};
+  % cycle-1 wiring
+  \draw[w] (b0) -- (rb);
+  \draw[w] (a0) -- (ra);
+  \draw[w] (bj.east) -- (xr.west |- 0,0.12);
+  \draw[w] (rin.east) -- (0.85,-0.5) |- (xr.west |- 0,-0.12);
+  \draw[w] (0.85,-0.5) |- (rr.west);
+  \fill (0.85,-0.5) circle (1.2pt);
+  \draw[w] (xr) -- (rbr);
+  % ra bus to the three ANDs (the a input of each); the a-bar of the lowest AND comes from the QN output
+  \draw (ra.east) -- (4.35,1.2);
+  \draw[w] (4.35,1.2) |- (pa.west |- 0,1.5);
+  \draw[w] (4.35,1.2) |- (va.west |- 0,0.3);
+  \draw[w] (4.35,1.2) |- (ua.west |- 0,-0.9);
+  \node[font=\tiny,below=1pt] at (ua.south) {input $\bar a_0$ from \sig{QN}};
+  \fill (4.35,1.2) circle (1.2pt); \fill (4.35,0.3) circle (1.2pt);
+  % the other AND inputs
+  \draw[w] (rb.east) -- (4.6,2.05) |- (pa.west |- 0,1.7);
+  \draw[bridge] (rbr.east) -- (4.6,0.0) |- (va.west |- 0,0.1);
+  \draw[w] (rr.east) -- (4.6,-1.2) |- (ua.west |- 0,-1.1);
+  % cycle 2 and output
+  \draw[w] (pa) -- (p); \draw[w] (va) -- (v); \draw[w] (ua) -- (u);
+  \draw[w] (p.east) -- (8.75,1.6) |- (xo.west |- 0,0.5);
+  \draw[w] (v.east) -- (xo.west |- 0,0.2);
+  \draw[w] (u.east) -- (8.75,-1.0) |- (xo.west |- 0,-0.1);
+  \draw[w] (xo) -- (c);
+  \node[font=\tiny,align=left,anchor=north west] at (-0.5,-1.75) {Shown for output share 0 ($j \in \{1, 2\}$); shares 1 and 2 are identical with $j \in \{0, 2\}$ and $j \in \{0, 1\}$.\\
+    Each random bit $r_{ij}$ ($i < j$) is shared by output shares $i$ and $j$: share $i$ uses it in $u_{ij}$ and, as $b_j \oplus r_{ij}$, in $v_{ij}$;\\
+    share $j$ uses it in $u_{ji}$ and, as $b_i \oplus r_{ij}$, in $v_{ji}$ (\sig{pams\_jqr.v} lines 11--14).};
 \end{tikzpicture}
 \caption{HPC2 gadget structure for output share 0 (conceptual, reconstructed from \file{pams\_jqr.v} lines 4--19). Two register layers separate the refresh $b_j \oplus r_{ij}$ from the cross products, so no glitch combines two shares.}\label{fig:hpc2}
 \end{figure}

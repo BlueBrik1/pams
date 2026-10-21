@@ -1,5 +1,5 @@
 digraph hpc2 {
-rankdir=LR; nodesep=0.12; ranksep=0.35; node [fontname="Helvetica", fontsize=9, shape=box, style="rounded,filled", fillcolor="#f2f2f2", height=0.25];
+rankdir=LR; splines=true; nodesep=0.35; ranksep=0.7; node [fontname="Helvetica", fontsize=9, shape=box, style="rounded,filled", fillcolor="#f2f2f2", height=0.25];
 edge [arrowsize=0.4, penwidth=0.6];
 P_a0 [label="a[0]", shape=ellipse, fillcolor="#d6eaf8"];
 P_a1 [label="a[1]", shape=ellipse, fillcolor="#d6eaf8"];

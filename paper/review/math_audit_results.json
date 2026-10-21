@@ -1,0 +1,37 @@
+{
+ "widths_d4": [
+  208,
+  209
+ ],
+ "widths_d5": [
+  104,
+  105
+ ],
+ "widths_d10": [
+  3,
+  4
+ ],
+ "widths_d11": [
+  1,
+  2
+ ],
+ "pairs": 3120,
+ "theta_min": 3,
+ "theta_max": 1027,
+ "cases": 31159440,
+ "mismatches": 0,
+ "member_max_Z_minus_Theta": -1,
+ "nonmember_min_Z_minus_Theta": 1,
+ "x_with_j2_reachable": 3327,
+ "j_reachability": "j=0,1 for all x; j=2 iff rho(x) <= q-3 (constructive witnesses checked for every x)",
+ "lemma_random_triples": 40000,
+ "steps_K14": [
+  4,
+  5
+ ],
+ "steps_K13": [
+  2,
+  3
+ ],
+ "multiplier_first_failure_at_or_above_q": 3329
+}

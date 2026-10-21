@@ -50,7 +50,12 @@ No figure was produced with an AI image generator. No conceptual figure is label
 
 ## Notes on each extracted figure
 
-- **Figure 3.** Only the cells inside the fan-in cone of the three named gadgets are shown, to depth 3. Some internal nets are labelled "(ABC-internal net)" because ABC renamed them, so no RTL name survives. Synthesis merged and transformed logic: the figure shows the mapped cells as they are, and the text does not claim a one-to-one equation-to-gate correspondence.
+- **Figure 3.** Only the cells inside the fan-in cone of the three named gadgets are shown, to depth 3. Some internal nets are labelled "(ABC-internal net)" because ABC renamed them, so no RTL name survives. Synthesis merged and transformed logic: the figure shows the mapped cells as they are, and the text does not claim a one-to-one equation-to-gate correspondence. Since the final review, the receiving pin is encoded by edge style (solid = gadget port a / cell input A, dashed = b / B) instead of edge labels, and Graphviz spacing was widened so that no edge crosses a node. The netlist content is unchanged.
+- **Figures 2, 5 and 14 (conceptual).** These were revised in the final review (`review/FIGURE_AND_RTL_AUDIT.md`):
+  - Figure 2 draws share 0 next to the public lane, so the Low_c arrow crosses no other lane.
+  - Figure 5's public arrow now enters domain 0. It previously pointed into domain 2.
+  - Figure 14 was redrawn without overlaps from RTL lines 10–14.
+- **Figure 15.** Graphviz spacing was widened in the final review, so that no edge crosses a cell. The cell list is unchanged (`data/hpc2_mapped_cells.json`).
 - **Figure 4.** Tap and filler cells are omitted. Buffers include the OpenROAD timing-repair buffers (`+ SOURCE TIMING`), which are drawn last. The two panels share one scale.
 - **Figure 12.** The first bar is the clock network latency at the launch flip-flop. The cell names are those in `timing.rpt`. There are 21 combinational cells on the PAMS path.
 - **Figure 16.** OpenROAD's own renderer at 0.1 µm per pixel, halved for the document. Both panels are at the same scale, so the PAMS image is 0.903 times the width of the baseline image.

@@ -1,0 +1,402 @@
+{
+ "listings": [
+  {
+   "file": "architecture.tex",
+   "rtl": "\\RTL",
+   "first": 21,
+   "last": 26,
+   "heading": [
+    "21",
+    "26"
+   ]
+  },
+  {
+   "file": "architecture.tex",
+   "rtl": "\\RTL",
+   "first": 31,
+   "last": 45,
+   "heading": [
+    "31",
+    "45"
+   ]
+  },
+  {
+   "file": "architecture.tex",
+   "rtl": "\\RTL",
+   "first": 47,
+   "last": 56,
+   "heading": [
+    "47",
+    "56"
+   ]
+  },
+  {
+   "file": "architecture.tex",
+   "rtl": "\\RTL",
+   "first": 1500,
+   "last": 1502,
+   "heading": null
+  },
+  {
+   "file": "architecture.tex",
+   "rtl": "\\RTL",
+   "first": 1538,
+   "last": 1548,
+   "heading": null
+  },
+  {
+   "file": "architecture.tex",
+   "rtl": "\\RTL",
+   "first": 2730,
+   "last": 2746,
+   "heading": [
+    "2730",
+    "2746"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 1,
+   "last": 19,
+   "heading": [
+    "4",
+    "19"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 21,
+   "last": 26,
+   "heading": [
+    "21",
+    "26"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 28,
+   "last": 45,
+   "heading": [
+    "28",
+    "45"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 46,
+   "last": 56,
+   "heading": [
+    "46",
+    "56"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 58,
+   "last": 78,
+   "heading": [
+    "58",
+    "90"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 85,
+   "last": 90,
+   "heading": [
+    "77",
+    "78"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 1500,
+   "last": 1505,
+   "heading": [
+    "1500",
+    "1537"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 1530,
+   "last": 1537,
+   "heading": [
+    "1500",
+    "1537"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 1538,
+   "last": 1560,
+   "heading": [
+    "1538",
+    "2729"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTL",
+   "first": 2730,
+   "last": 2746,
+   "heading": [
+    "2730",
+    "2746"
+   ]
+  },
+  {
+   "file": "verilog_walkthrough.tex",
+   "rtl": "\\RTLB",
+   "first": 28,
+   "last": 46,
+   "heading": null
+  }
+ ],
+ "listing_problems": [],
+ "unknown_signals": {
+  "A": [
+   "architecture.tex"
+  ],
+  "AND2": [
+   "circuit_walkthrough.tex"
+  ],
+  "AND2_X1": [
+   "architecture.tex",
+   "circuit_walkthrough.tex"
+  ],
+  "AOI21": [
+   "circuit_walkthrough.tex"
+  ],
+  "AOI211_X1": [
+   "extended_evidence.tex"
+  ],
+  "AOI21_X1": [
+   "circuit_walkthrough.tex"
+  ],
+  "AOI221": [
+   "circuit_walkthrough.tex"
+  ],
+  "B": [
+   "architecture.tex"
+  ],
+  "Ckt": [
+   "verilog_walkthrough.tex"
+  ],
+  "DFF_X1": [
+   "architecture.tex",
+   "circuit_walkthrough.tex",
+   "extended_evidence.tex"
+  ],
+  "FILLCELL_X1": [
+   "extended_evidence.tex"
+  ],
+  "INV_X1": [
+   "circuit_walkthrough.tex"
+  ],
+  "MUX2_X1": [
+   "circuit_walkthrough.tex"
+  ],
+  "NAND2": [
+   "circuit_walkthrough.tex"
+  ],
+  "NAND2_X1": [
+   "circuit_walkthrough.tex"
+  ],
+  "NOR2": [
+   "circuit_walkthrough.tex"
+  ],
+  "NOR2_X1": [
+   "circuit_walkthrough.tex"
+  ],
+  "OAI21": [
+   "circuit_walkthrough.tex"
+  ],
+  "OAI211_X1": [
+   "extended_evidence.tex"
+  ],
+  "OAI21_X1": [
+   "circuit_walkthrough.tex"
+  ],
+  "OAI221": [
+   "circuit_walkthrough.tex"
+  ],
+  "QN": [
+   "circuit_walkthrough.tex"
+  ],
+  "TAPCELL_X1": [
+   "extended_evidence.tex"
+  ],
+  "XNOR2": [
+   "architecture.tex",
+   "circuit_walkthrough.tex"
+  ],
+  "XNOR2_X1": [
+   "architecture.tex",
+   "circuit_walkthrough.tex"
+  ],
+  "XOR2": [
+   "circuit_walkthrough.tex"
+  ],
+  "XOR2_X1": [
+   "architecture.tex",
+   "circuit_walkthrough.tex"
+  ],
+  "_8676_": [
+   "circuit_walkthrough.tex"
+  ],
+  "_8799_": [
+   "circuit_walkthrough.tex"
+  ],
+  "a111": [
+   "verilog_walkthrough.tex"
+  ],
+  "base": [
+   "extended_evidence.tex",
+   "security.tex"
+  ],
+  "base_jp": [
+   "extended_evidence.tex"
+  ],
+  "bk": [
+   "extended_evidence.tex"
+  ],
+  "bos": [
+   "extended_evidence.tex"
+  ],
+  "check_pams": [
+   "mathematical_derivations.tex"
+  ],
+  "compress": [
+   "mathematical_derivations.tex"
+  ],
+  "dot_hpc2": [
+   "extended_evidence.tex"
+  ],
+  "dot_slice": [
+   "extended_evidence.tex"
+  ],
+  "fig_critpath": [
+   "extended_evidence.tex"
+  ],
+  "fig_math": [
+   "extended_evidence.tex"
+  ],
+  "fig_placement": [
+   "extended_evidence.tex"
+  ],
+  "floor_mult": [
+   "verilog_walkthrough.tex"
+  ],
+  "fq": [
+   "results.tex"
+  ],
+  "hoc": [
+   "extended_evidence.tex"
+  ],
+  "kernel_pams2": [
+   "verilog_walkthrough.tex"
+  ],
+  "kernel_pams_split": [
+   "verilog_walkthrough.tex"
+  ],
+  "low_formula": [
+   "mathematical_derivations.tex"
+  ],
+  "mh": [
+   "results.tex"
+  ],
+  "n111": [
+   "verilog_walkthrough.tex"
+  ],
+  "pams": [
+   "architecture.tex",
+   "extended_evidence.tex",
+   "security.tex"
+  ],
+  "pams_jpr": [
+   "extended_evidence.tex"
+  ],
+  "r111": [
+   "extended_evidence.tex",
+   "verilog_walkthrough.tex"
+  ],
+  "synth": [
+   "extended_evidence.tex"
+  ],
+  "x111": [
+   "extended_evidence.tex",
+   "verilog_walkthrough.tex"
+  ]
+ },
+ "facts": {
+  "pams_lines": 2747,
+  "base_lines": 3167,
+  "pams_hpc2": 40,
+  "base_hpc2": 57,
+  "pams_rnd": true,
+  "base_rnd": true,
+  "hpc2_module": [
+   false,
+   true
+  ],
+  "delay_assignments": 1190,
+  "gadget_lines": [
+   1500,
+   1537
+  ],
+  "rnd_slices_ok": true,
+  "rnd_slices_checked": 40,
+  "gadget_order": [
+   "ug111",
+   "ug128",
+   "ug134",
+   "ug153",
+   "ug173",
+   "ug187",
+   "ug227",
+   "ug251",
+   "ug267",
+   "ug319",
+   "ug347",
+   "ug365",
+   "ug429",
+   "ug461",
+   "ug481",
+   "ug557",
+   "ug593",
+   "ug615",
+   "ug703",
+   "ug743",
+   "ug767",
+   "ug867",
+   "ug911",
+   "ug937",
+   "ug1049",
+   "ug1097",
+   "ug1125",
+   "ug1249",
+   "ug1301",
+   "ug1331",
+   "ug1341",
+   "ug1417",
+   "ug1438",
+   "ug1449",
+   "ug1470",
+   "ug1483",
+   "ug1535",
+   "ug1542",
+   "uacc",
+   "ufin"
+  ]
+ }
+}

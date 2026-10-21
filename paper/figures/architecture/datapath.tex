@@ -13,8 +13,8 @@
   \node[gray,font=\tiny] at (11.75,1.45) {stages 5--31 (13 gadget levels $\times$ 2 cycles)};
   \node[gray,font=\tiny] at (15.0,1.45) {stage 31};
   \node[gray,font=\tiny] at (17.1,1.45) {stage 35};
-  % share lanes
-  \foreach \i/\y in {0/0.6,1/-0.2,2/-1.0} {
+  % share lanes; share 0 is drawn next to the public lane so that the Low_c arrow crosses no other lane
+  \foreach \i/\y in {2/0.6,1/-0.2,0/-1.0} {
     \node[lab,anchor=east] at (0.45,\y) {$x_{\i}$ [11:0]};
     \node[reg] (q\i) at (1.55,\y) {\sig{x\i q}};
     \node[reg] (r\i) at (3.05,\y) {\sig{x\i r}};
@@ -22,9 +22,9 @@
     \node[op] (s\i) at (6.55,\y) {$\gg 21$\\[-1pt]\sig{s\i p} [13:0]};
     \draw[->] (0.5,\y) -- (q\i); \draw[->] (q\i) -- (r\i); \draw[->] (r\i) -- (m\i); \draw[->] (m\i) -- (s\i);
   }
-  \node[op=orange!12] (y0) at (8.25,0.6) {$+2-\mathrm{Low}_c$\\[-1pt]\sig{y0} [13:0]};
+  \node[op=orange!12] (y0) at (8.25,-1.0) {$+2-\mathrm{Low}_c$\\[-1pt]\sig{y0} [13:0]};
   \node[reg] (y1) at (8.25,-0.2) {\sig{y1} [13:0]};
-  \node[reg] (y2) at (8.25,-1.0) {\sig{y2} [13:0]};
+  \node[reg] (y2) at (8.25,0.6) {\sig{y2} [13:0]};
   \draw[->] (s0) -- (y0); \draw[->] (s1) -- (y1); \draw[->] (s2) -- (y2);
   % public lane
   \node[lab,anchor=east] at (0.45,-2.6) {$c$ [10:0], mode};
@@ -34,7 +34,7 @@
   \node[reg] (lp) at (6.55,-2.6) {\sig{lowp}, \sig{thp}};
   \node[reg] (th) at (8.25,-2.6) {\sig{th2} [13:0]};
   \draw[->] (0.5,-2.6) -- (c0); \draw[->] (c0) -- (pw); \draw[->] (pw) -- (lo); \draw[->] (lo) -- (lp); \draw[->] (lp) -- (th);
-  \draw[->,gray] (lp.north east) .. controls (7.35,-1.7) and (7.35,0.0) .. node[lab,pos=0.25,right] {$\mathrm{Low}_c$} (y0.south west);
+  \draw[->,gray] (lp.north east) -- node[lab,pos=0.45,right] {$\mathrm{Low}_c$} (y0.south west);
   % masked kernel
   \node[draw,thick,fill=orange!6,rounded corners=3pt,minimum width=4.7cm,minimum height=4.3cm] (k) at (11.75,-1.15) {};
   \node[font=\scriptsize\bfseries] at (11.75,0.72) {masked kernel: 38 HPC2};
@@ -43,7 +43,7 @@
                     {zero test $Z_{13:11}$: 4 HPC2}/-1.75, {final AND $\to b$: 1 HPC2}/-2.4}
     \node[op=orange!22,minimum width=4.3cm] at (11.75,\y) {\t};
   \node[lab,align=center] at (11.75,-2.88) {+ share-local XORs and single-domain\\ delay registers};
-  \draw[->] (y0.east) -- (9.4,0.6); \draw[->] (y1.east) -- (9.4,-0.2); \draw[->] (y2.east) -- (9.4,-1.0);
+  \draw[->] (y2.east) -- (9.4,0.6); \draw[->] (y1.east) -- (9.4,-0.2); \draw[->] (y0.east) -- (9.4,-1.0);
   \draw[->] (th.east) -- (9.4,-2.6);
   \node[lab,anchor=north] (rnd) at (11.75,-3.55) {\sig{rnd}[113:0]: 3 fresh bits per gadget};
   \draw[->,densely dotted] (rnd.north) -- (k.south);

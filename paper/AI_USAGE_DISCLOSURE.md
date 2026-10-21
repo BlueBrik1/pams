@@ -29,6 +29,10 @@ The work was carried out by **Claude Code**, Anthropic's agentic coding tool, ru
 - the companion documents, including this one;
 - the adversarial self-review in `PAPER_REVIEW.md`.
 
+**Final review (2026-10-21)**
+- The same AI system carried out the final technical and editorial review recorded in `review/`. It audited the mathematics, security, novelty, results, figures, RTL and bibliography, corrected the manuscript, and froze it.
+- Because the reviewer is the system that produced the work, this review is **internal**. It is not an independent or external peer review, a formal certification, or a confirmation of novelty.
+
 The design files and measurement results are outputs of the open-source EDA tools listed above, run by the AI system. The paper reports those outputs. It does not report AI-estimated numbers. Where the text gives a number, the number was read from a tool output or computed by a script in the repository. `FIGURE_PROVENANCE.md` and Appendix D list the sources.
 
 ## What no AI system did
@@ -43,7 +47,7 @@ This session does not know the following, and none of it has been filled in:
 
 - [ ] **Authors and affiliations.** The title page carries an editable placeholder. No affiliation is implied.
 - [ ] **The human role.** Describe what the human participants did: problem selection, the phase directives, review of results and text, and any independent re-runs or checks.
-- [ ] **Independent verification.** State whether a person has independently re-run the main results (`final/FINAL_REPRODUCIBILITY.md`), checked the proofs in Section 3.1 and Appendix A, or read the RTL. If no one has, say so.
+- [ ] **Independent verification.** State whether a person has independently re-run the main results (`final/FINAL_REPRODUCIBILITY.md`), checked the proofs in Section 3.1 and Appendix A, or read the RTL. If no one has, say so. `review/FINAL_REVIEW_SUMMARY.md` lists the checks that most need an external expert.
 - [ ] **Venue policy.** Check the AI-use policy of any venue the paper is sent to, and adapt this disclosure (for example, an acknowledgment or methods statement) to it. The paper is not formatted for, submitted to or accepted by any venue.
 - [ ] **Accountability.** Confirm which named persons take responsibility for the content.
 

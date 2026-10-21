@@ -1,0 +1,451 @@
+{
+ "2.0": {
+  "pams_jqr": {
+   "n_runs": 7,
+   "n_valid": 7,
+   "n_finished": 7,
+   "period_median": 1.1555490000000002,
+   "period_range": [
+    1.146306,
+    1.165449
+   ],
+   "cell_median_valid": 18734.379,
+   "cell_median_finished": 18734.379,
+   "cell_range_finished": [
+    18705.92,
+    18771.088
+   ],
+   "die_median": 35596.368899999994,
+   "buffers_median": 1543.0,
+   "wire_range": [
+    57761.0,
+    58070.0
+   ],
+   "adp_median": 21629.128228929003
+  },
+  "base_jq": {
+   "n_runs": 7,
+   "n_valid": 7,
+   "n_finished": 7,
+   "period_median": 1.19824,
+   "period_range": [
+    1.141676,
+    1.2551619999999999
+   ],
+   "cell_median_valid": 23284.576,
+   "cell_median_finished": 23284.576,
+   "cell_range_finished": [
+    23266.486,
+    23309.047
+   ],
+   "die_median": 43693.5409,
+   "buffers_median": 2048.0,
+   "wire_range": [
+    72122.0,
+    73208.0
+   ],
+   "adp_median": 27900.51034624
+  },
+  "cell_improvement_finished": 0.1954167857726935,
+  "cell_improvement_valid": 0.1954167857726935,
+  "die_improvement": 0.1853173680414627,
+  "period_diff": 0.03562808786219773,
+  "period_p": 0.07284382284382285,
+  "adp_improvement": 0.22477660944134514,
+  "cell_every_pams_below_every_base": true,
+  "cell_p": 0.0005827505827505828
+ },
+ "1.2": {
+  "pams_jqr": {
+   "n_runs": 7,
+   "n_valid": 7,
+   "n_finished": 7,
+   "period_median": 1.093602,
+   "period_range": [
+    1.090887,
+    1.09682
+   ],
+   "cell_median_valid": 18749.543,
+   "cell_median_finished": 18749.543,
+   "cell_range_finished": [
+    18710.176,
+    18778.004
+   ],
+   "die_median": 35596.368899999994,
+   "buffers_median": 1558.0,
+   "wire_range": [
+    57943.0,
+    58239.0
+   ],
+   "adp_median": 20532.376579707998
+  },
+  "base_jq": {
+   "n_runs": 7,
+   "n_valid": 7,
+   "n_finished": 7,
+   "period_median": 1.104864,
+   "period_range": [
+    1.102163,
+    1.110657
+   ],
+   "cell_median_valid": 23303.729,
+   "cell_median_finished": 23303.729,
+   "cell_range_finished": [
+    23277.66,
+    23338.043
+   ],
+   "die_median": 43693.5409,
+   "buffers_median": 2081.0,
+   "wire_range": [
+    72887.0,
+    73585.0
+   ],
+   "adp_median": 25760.741905787003
+  },
+  "cell_improvement_finished": 0.19542734984602672,
+  "cell_improvement_valid": 0.19542734984602672,
+  "die_improvement": 0.1853173680414627,
+  "period_diff": 0.010193109740203377,
+  "period_p": 0.0005827505827505828,
+  "adp_improvement": 0.20295864712283318,
+  "cell_every_pams_below_every_base": true,
+  "cell_p": 0.0005827505827505828
+ },
+ "1.1": {
+  "pams_jqr": {
+   "n_runs": 7,
+   "n_valid": 7,
+   "n_finished": 7,
+   "period_median": 1.0675780000000001,
+   "period_range": [
+    1.0622530000000001,
+    1.0700370000000001
+   ],
+   "cell_median_valid": 18785.984,
+   "cell_median_finished": 18785.984,
+   "cell_range_finished": [
+    18776.938,
+    18827.746
+   ],
+   "die_median": 35596.368899999994,
+   "buffers_median": 1604.0,
+   "wire_range": [
+    58067.0,
+    58506.0
+   ],
+   "adp_median": 20067.100758390003
+  },
+  "base_jq": {
+   "n_runs": 7,
+   "n_valid": 1,
+   "n_finished": 5,
+   "period_median": 1.0657910000000002,
+   "period_range": [
+    1.0657910000000002,
+    1.0657910000000002
+   ],
+   "cell_median_valid": 23366.504,
+   "cell_median_finished": 23366.504,
+   "cell_range_finished": [
+    23343.363,
+    23393.635
+   ],
+   "die_median": 43693.5409,
+   "buffers_median": 2136.0,
+   "wire_range": [
+    72529.0,
+    73494.0
+   ],
+   "adp_median": 24903.809664664004
+  },
+  "cell_improvement_finished": 0.19602932471198942,
+  "cell_improvement_valid": 0.19602932471198942,
+  "die_improvement": 0.1853173680414627,
+  "cell_every_pams_below_every_base": true
+ },
+ "cbench_keys": [
+  "base",
+  "pams",
+  "base_j",
+  "base_p",
+  "base_jp",
+  "base_bk",
+  "base_bkp",
+  "hoc",
+  "hoc_jp",
+  "bos",
+  "bos_j",
+  "pams_j",
+  "pams_p",
+  "pams_jp",
+  "base_q",
+  "base_jq",
+  "hoc_jq",
+  "pams_q",
+  "pams_jq",
+  "pams_jpr",
+  "pams_jqr"
+ ],
+ "synth_pams_jqr": {
+  "gadgets": 40,
+  "rnd_bits": 120,
+  "decision_latency": 31,
+  "rtl_pass": true,
+  "maps": [
+   {
+    "k": 0,
+    "D": 500,
+    "area": 17022.138,
+    "ff": 1294,
+    "cells": 4660,
+    "tclk": 1.032593,
+    "crit_group": "reg2reg",
+    "crit_start": "_8758_",
+    "crit_end": "_8735_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "pams_jqr (gate-level): 1506 coefficients, 1121 matching; mismatches 0; 282/282 ciphertext decisions (144 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "pams_jqr_lane: 4660 cells (40 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 12
+   },
+   {
+    "k": 1,
+    "D": 500,
+    "area": 17018.148,
+    "ff": 1294,
+    "cells": 4653,
+    "tclk": 1.032593,
+    "crit_group": "reg2reg",
+    "crit_start": "_8745_",
+    "crit_end": "_8722_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "pams_jqr (gate-level): 1501 coefficients, 1149 matching; mismatches 0; 265/265 ciphertext decisions (150 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "pams_jqr_lane: 4653 cells (40 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 11
+   },
+   {
+    "k": 2,
+    "D": 500,
+    "area": 17000.592,
+    "ff": 1294,
+    "cells": 4647,
+    "tclk": 1.041138,
+    "crit_group": "reg2reg",
+    "crit_start": "_8731_",
+    "crit_end": "_8709_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "pams_jqr (gate-level): 1501 coefficients, 1133 matching; mismatches 0; 275/275 ciphertext decisions (142 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "pams_jqr_lane: 4647 cells (40 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 11
+   },
+   {
+    "k": 3,
+    "D": 400,
+    "area": 17022.138,
+    "ff": 1294,
+    "cells": 4660,
+    "tclk": 1.032593,
+    "crit_group": "reg2reg",
+    "crit_start": "_8758_",
+    "crit_end": "_8735_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "pams_jqr (gate-level): 1506 coefficients, 1134 matching; mismatches 0; 266/266 ciphertext decisions (139 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "pams_jqr_lane: 4660 cells (40 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 11
+   },
+   {
+    "k": 4,
+    "D": 650,
+    "area": 17022.138,
+    "ff": 1294,
+    "cells": 4660,
+    "tclk": 1.032593,
+    "crit_group": "reg2reg",
+    "crit_start": "_8758_",
+    "crit_end": "_8735_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "pams_jqr (gate-level): 1505 coefficients, 1150 matching; mismatches 0; 278/278 ciphertext decisions (156 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "pams_jqr_lane: 4660 cells (40 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 12
+   }
+  ],
+  "area_med": 17022.138,
+  "area_min": 17000.592,
+  "area_max": 17022.138,
+  "tclk_med": 1.032593,
+  "tclk_min": 1.032593,
+  "tclk_max": 1.041138,
+  "ff_med": 1294,
+  "cells_med": 4660,
+  "comb_cells_med": 3366,
+  "all_gate_pass": true,
+  "all_domain_pass": true,
+  "all_compcheck_pass": true
+ },
+ "synth_base_jq": {
+  "gadgets": 57,
+  "rnd_bits": 171,
+  "decision_latency": 33,
+  "rtl_pass": true,
+  "maps": [
+   {
+    "k": 0,
+    "D": 500,
+    "area": 21096.992,
+    "ff": 1500,
+    "cells": 4675,
+    "tclk": 1.057251,
+    "crit_group": "reg2reg",
+    "crit_start": "_8539_",
+    "crit_end": "_8390_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "base_jq (gate-level): 1506 coefficients, 1121 matching; mismatches 0; 282/282 ciphertext decisions (144 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "base_jq_lane: 4675 cells (57 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 17
+   },
+   {
+    "k": 1,
+    "D": 500,
+    "area": 21096.992,
+    "ff": 1500,
+    "cells": 4675,
+    "tclk": 1.057251,
+    "crit_group": "reg2reg",
+    "crit_start": "_8539_",
+    "crit_end": "_8390_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "base_jq (gate-level): 1501 coefficients, 1149 matching; mismatches 0; 265/265 ciphertext decisions (150 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "base_jq_lane: 4675 cells (57 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 19
+   },
+   {
+    "k": 2,
+    "D": 500,
+    "area": 21096.992,
+    "ff": 1500,
+    "cells": 4675,
+    "tclk": 1.057251,
+    "crit_group": "reg2reg",
+    "crit_start": "_8539_",
+    "crit_end": "_8390_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "base_jq (gate-level): 1501 coefficients, 1133 matching; mismatches 0; 275/275 ciphertext decisions (142 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "base_jq_lane: 4675 cells (57 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 20
+   },
+   {
+    "k": 3,
+    "D": 400,
+    "area": 21096.992,
+    "ff": 1500,
+    "cells": 4675,
+    "tclk": 1.057251,
+    "crit_group": "reg2reg",
+    "crit_start": "_8539_",
+    "crit_end": "_8390_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "base_jq (gate-level): 1506 coefficients, 1134 matching; mismatches 0; 266/266 ciphertext decisions (139 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "base_jq_lane: 4675 cells (57 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 20
+   },
+   {
+    "k": 4,
+    "D": 650,
+    "area": 21096.992,
+    "ff": 1500,
+    "cells": 4675,
+    "tclk": 1.057251,
+    "crit_group": "reg2reg",
+    "crit_start": "_8539_",
+    "crit_end": "_8390_",
+    "warnings": 0,
+    "gate_pass": true,
+    "gate_check": "base_jq (gate-level): 1505 coefficients, 1150 matching; mismatches 0; 278/278 ciphertext decisions (156 accept), mismatches 0",
+    "domain_pass": true,
+    "domain_check": "base_jq_lane: 4675 cells (57 hpc2), violations 0",
+    "compcheck_pass": true,
+    "seconds": 20
+   }
+  ],
+  "area_med": 21096.992,
+  "area_min": 21096.992,
+  "area_max": 21096.992,
+  "tclk_med": 1.057251,
+  "tclk_min": 1.057251,
+  "tclk_max": 1.057251,
+  "ff_med": 1500,
+  "cells_med": 4675,
+  "comb_cells_med": 3175,
+  "all_gate_pass": true,
+  "all_domain_pass": true,
+  "all_compcheck_pass": true
+ },
+ "gadget_breakdown": [
+  {
+   "part": "CSA majorities",
+   "pams": "13",
+   "simple_baseline": "23"
+  },
+  {
+   "part": "ripple carries",
+   "pams": "10",
+   "simple_baseline": "12"
+  },
+  {
+   "part": "comparator",
+   "pams": "10",
+   "simple_baseline": "0"
+  },
+  {
+   "part": "top region (OR / tree / AND)",
+   "pams": "4",
+   "simple_baseline": "20"
+  },
+  {
+   "part": "final combination",
+   "pams": "1",
+   "simple_baseline": "0"
+  },
+  {
+   "part": "accumulator",
+   "pams": "2",
+   "simple_baseline": "2"
+  },
+  {
+   "part": "total",
+   "pams": "40",
+   "simple_baseline": "57"
+  },
+  {
+   "part": "random bits per cycle",
+   "pams": "120",
+   "simple_baseline": "171"
+  }
+ ]
+}
