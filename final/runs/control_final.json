@@ -1,0 +1,50 @@
+{
+ "syn_pams_jqr_p0": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_jqr_p1": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_jqr_p2": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_jqr_p3": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_pams_jqr_p4": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "pnrsyn_pams_jqr": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_jq_p0": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_jq_p1": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_jq_p2": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_jq_p3": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "syn_base_jq_p4": {
+  "cvalid": [],
+  "dvalid": []
+ },
+ "pnrsyn_base_jq": {
+  "cvalid": [],
+  "dvalid": []
+ }
+}

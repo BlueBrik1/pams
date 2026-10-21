@@ -1,0 +1,4 @@
+pnr_pams_jqr_T2.0_s1 systematic rc=0 pams_jqr (gate-level): 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+pnr_pams_jqr_T2.0_s1 random rc=0 pams_jqr (gate-level): 6001 coefficients, 4505 matching; mismatches 0; 1086/1086 ciphertext decisions (573 accept), mismatches 0
+pnr_base_jq_T2.0_s1 systematic rc=0 base_jq (gate-level): 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+pnr_base_jq_T2.0_s1 random rc=0 base_jq (gate-level): 6001 coefficients, 4505 matching; mismatches 0; 1086/1086 ciphertext decisions (573 accept), mismatches 0

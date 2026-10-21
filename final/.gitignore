@@ -1,0 +1,11 @@
+# large regenerable P&R and PROLEAD outputs (hashes of the canonical ones are in PUBLICATION_MANIFEST.md)
+runs/pnr_*/final.def
+runs/pnr_*/final.spef
+runs/pnr_*/final.v
+runs/pnr_*/pnr_in.v
+runs/pnr_*/route.guide
+runs/pnr_*/gate_routed.v
+runs/pubpaths_*.tcl
+prolead/lane/*/design.v
+prolead/lane/*/result/
+models/__pycache__/

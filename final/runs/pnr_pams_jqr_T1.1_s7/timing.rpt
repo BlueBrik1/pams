@@ -1,0 +1,138 @@
+Startpoint: _8771_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _8748_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.1915    0.1915   clock network delay (propagated)
+   0.0000    0.1915 ^ _8771_/CK (DFF_X1)
+   0.1116    0.3031 ^ _8771_/Q (DFF_X1)
+   0.0236    0.3267 v _4910_/ZN (AOI21_X4)
+   0.0430    0.3697 ^ _4938_/ZN (OAI21_X4)
+   0.0214    0.3911 v _4966_/ZN (AOI21_X4)
+   0.0782    0.4693 ^ _4967_/ZN (XNOR2_X2)
+   0.0382    0.5075 v _5075_/ZN (AOI22_X1)
+   0.0899    0.5975 v _5076_/ZN (OR3_X2)
+   0.0631    0.6606 v _5122_/ZN (OR3_X2)
+   0.0337    0.6943 ^ _5123_/ZN (AOI21_X2)
+   0.0482    0.7425 ^ _5124_/ZN (XNOR2_X1)
+   0.0755    0.8180 ^ _5125_/Z (XOR2_X1)
+   0.0483    0.8662 ^ _5126_/ZN (XNOR2_X2)
+   0.0509    0.9172 ^ _5127_/Z (XOR2_X2)
+   0.0485    0.9657 ^ _5128_/ZN (XNOR2_X1)
+   0.0696    1.0353 ^ _5129_/Z (XOR2_X1)
+   0.0515    1.0867 ^ _5132_/ZN (AND2_X1)
+   0.0166    1.1034 v _5134_/ZN (AOI21_X4)
+   0.0358    1.1392 ^ _5179_/ZN (OAI21_X4)
+   0.0191    1.1583 v _5224_/ZN (AOI21_X4)
+   0.0507    1.2090 v _5269_/Z (XOR2_X1)
+   0.0000    1.2090 v _8748_/D (DFF_X1)
+             1.2090   data arrival time
+
+   1.1000    1.1000   clock clk (rise edge)
+   0.1781    1.2781   clock network delay (propagated)
+   0.0000    1.2781   clock reconvergence pessimism
+             1.2781 ^ _8748_/CK (DFF_X1)
+  -0.0368    1.2413   library setup time
+             1.2413   data required time
+-------------------------------------------------------------
+             1.2413   data required time
+            -1.2090   data arrival time
+-------------------------------------------------------------
+             0.0323   slack (MET)
+
+
+Startpoint: _8771_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _8749_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.1915    0.1915   clock network delay (propagated)
+   0.0000    0.1915 ^ _8771_/CK (DFF_X1)
+   0.1116    0.3031 ^ _8771_/Q (DFF_X1)
+   0.0236    0.3267 v _4910_/ZN (AOI21_X4)
+   0.0430    0.3697 ^ _4938_/ZN (OAI21_X4)
+   0.0214    0.3911 v _4966_/ZN (AOI21_X4)
+   0.0782    0.4693 ^ _4967_/ZN (XNOR2_X2)
+   0.0382    0.5075 v _5075_/ZN (AOI22_X1)
+   0.0899    0.5975 v _5076_/ZN (OR3_X2)
+   0.0631    0.6606 v _5122_/ZN (OR3_X2)
+   0.0337    0.6943 ^ _5123_/ZN (AOI21_X2)
+   0.0482    0.7425 ^ _5124_/ZN (XNOR2_X1)
+   0.0755    0.8180 ^ _5125_/Z (XOR2_X1)
+   0.0483    0.8662 ^ _5126_/ZN (XNOR2_X2)
+   0.0509    0.9172 ^ _5127_/Z (XOR2_X2)
+   0.0485    0.9657 ^ _5128_/ZN (XNOR2_X1)
+   0.0696    1.0353 ^ _5129_/Z (XOR2_X1)
+   0.0515    1.0867 ^ _5132_/ZN (AND2_X1)
+   0.0166    1.1034 v _5134_/ZN (AOI21_X4)
+   0.0358    1.1392 ^ _5179_/ZN (OAI21_X4)
+   0.0191    1.1583 v _5224_/ZN (AOI21_X4)
+   0.0312    1.1895 ^ _5315_/ZN (OAI21_X4)
+   0.0363    1.2258 ^ _5316_/ZN (XNOR2_X2)
+   0.0000    1.2258 ^ _8749_/D (DFF_X1)
+             1.2258   data arrival time
+
+   1.1000    1.1000   clock clk (rise edge)
+   0.1930    1.2930   clock network delay (propagated)
+   0.0000    1.2930   clock reconvergence pessimism
+             1.2930 ^ _8749_/CK (DFF_X1)
+  -0.0312    1.2617   library setup time
+             1.2617   data required time
+-------------------------------------------------------------
+             1.2617   data required time
+            -1.2258   data arrival time
+-------------------------------------------------------------
+             0.0359   slack (MET)
+
+
+Startpoint: _8771_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _8747_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+    Delay      Time   Description
+-------------------------------------------------------------
+   0.0000    0.0000   clock clk (rise edge)
+   0.1915    0.1915   clock network delay (propagated)
+   0.0000    0.1915 ^ _8771_/CK (DFF_X1)
+   0.1116    0.3031 ^ _8771_/Q (DFF_X1)
+   0.0236    0.3267 v _4910_/ZN (AOI21_X4)
+   0.0430    0.3697 ^ _4938_/ZN (OAI21_X4)
+   0.0214    0.3911 v _4966_/ZN (AOI21_X4)
+   0.0782    0.4693 ^ _4967_/ZN (XNOR2_X2)
+   0.0382    0.5075 v _5075_/ZN (AOI22_X1)
+   0.0899    0.5975 v _5076_/ZN (OR3_X2)
+   0.0631    0.6606 v _5122_/ZN (OR3_X2)
+   0.0337    0.6943 ^ _5123_/ZN (AOI21_X2)
+   0.0482    0.7425 ^ _5124_/ZN (XNOR2_X1)
+   0.0755    0.8180 ^ _5125_/Z (XOR2_X1)
+   0.0483    0.8662 ^ _5126_/ZN (XNOR2_X2)
+   0.0509    0.9172 ^ _5127_/Z (XOR2_X2)
+   0.0485    0.9657 ^ _5128_/ZN (XNOR2_X1)
+   0.0696    1.0353 ^ _5129_/Z (XOR2_X1)
+   0.0515    1.0867 ^ _5132_/ZN (AND2_X1)
+   0.0166    1.1034 v _5134_/ZN (AOI21_X4)
+   0.0358    1.1392 ^ _5179_/ZN (OAI21_X4)
+   0.0472    1.1864 ^ _5222_/Z (XOR2_X1)
+   0.0000    1.1864 ^ _8747_/D (DFF_X1)
+             1.1864   data arrival time
+
+   1.1000    1.1000   clock clk (rise edge)
+   0.1780    1.2780   clock network delay (propagated)
+   0.0000    1.2780   clock reconvergence pessimism
+             1.2780 ^ _8747_/CK (DFF_X1)
+  -0.0327    1.2453   library setup time
+             1.2453   data required time
+-------------------------------------------------------------
+             1.2453   data required time
+            -1.1864   data arrival time
+-------------------------------------------------------------
+             0.0589   slack (MET)
+
+

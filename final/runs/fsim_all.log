@@ -1,0 +1,8 @@
+pams_jqr RTL rc=0 pams_jqr: 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+base_jq RTL rc=0 base_jq: 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+pams RTL rc=0 pams: 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+base RTL rc=0 base: 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+syn_pams_jqr_p0 gate rc=0 pams_jqr (gate-level): 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+pnrsyn_pams_jqr gate rc=0 pams_jqr (gate-level): 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+syn_base_jq_p0 gate rc=0 base_jq (gate-level): 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0
+pnrsyn_base_jq gate rc=0 base_jq (gate-level): 39112 coefficients, 19556 matching; mismatches 0; 7096/7096 ciphertext decisions (76 accept), mismatches 0

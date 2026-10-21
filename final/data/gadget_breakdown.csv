@@ -1,0 +1,9 @@
+part,pams,simple_baseline
+CSA majorities,13,23
+ripple carries,10,12
+comparator,10,0
+top region (OR / tree / AND),4,20
+final combination,1,0
+accumulator,2,2
+total,40,57
+random bits per cycle,120,171

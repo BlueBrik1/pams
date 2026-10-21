@@ -1,0 +1,9 @@
+violation type: Short
+	srcs: net:_1506_ net:ml2[18]
+	bbox = (25.9000, 32.9000) - (25.9700, 33.0400) on Layer metal1
+violation type: Short
+	srcs: net:_1506_ net:ml2[18]
+	bbox = (25.9100, 32.9700) - (25.9800, 33.0400) on Layer metal2
+violation type: Cut Short
+	srcs: net:_1506_ net:ml2[18]
+	bbox = (25.9100, 33.0050) - (25.9700, 33.0050) on Layer via1

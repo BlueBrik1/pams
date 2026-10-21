@@ -1,0 +1,4 @@
+synth_cell_area 21018.521
+wirelength_um 72866
+vias 53603
+power_total_w NA

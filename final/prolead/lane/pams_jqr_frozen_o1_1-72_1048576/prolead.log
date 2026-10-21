@@ -1,0 +1,29 @@
+/home/slee5/lwe_agent_handoff/phase2/ext/tools/sca/prolead-3.1.0/release/PROLEAD -l /home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/library.json -n NANG45 -d design.v -m tb_top -c config.json -r result
+
+Successfully parsed the settings file at "config.json".
+Successfully validated the settings file at "config.json".
+Successfully opened the library file at "/home/slee5/lwe_agent_handoff/phase2/masked_verification/validation/prolead/library.json".
+Successfully read the library with name "NANG45".
+Successfully found buffer cell with name "buf".
+Successfully parsed 35 cells from the library.
+"tb_top"..."tb_gen"..."pams_jqr_lane"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"..."hpc2"...done
+Successfully matched 184 fresh mask signals (for rising edge) [{rnd[0]}, {rnd[1]}, {rnd[2]}, {rnd[3]}, {rnd[4]}, {rnd[5]}, {rnd[6]}, {rnd[7]}, {rnd[8]}, {rnd[9]}, {rnd[10]}, {rnd[11]}, {rnd[12]}, {rnd[13]}, {rnd[14]}, {rnd[15]}, {rnd[16]}, {rnd[17]}, {rnd[18]}, {rnd[19]}, {rnd[20]}, {rnd[21]}, {rnd[22]}, {rnd[23]}, {rnd[24]}, {rnd[25]}, {rnd[26]}, {rnd[27]}, {rnd[28]}, {rnd[29]}, {rnd[30]}, {rnd[31]}, {rnd[32]}, {rnd[33]}, {rnd[34]}, {rnd[35]}, {rnd[36]}, {rnd[37]}, {rnd[38]}, {rnd[39]}, {rnd[40]}, {rnd[41]}, {rnd[42]}, {rnd[43]}, {rnd[44]}, {rnd[45]}, {rnd[46]}, {rnd[47]}, {rnd[48]}, {rnd[49]}, {rnd[50]}, {rnd[51]}, {rnd[52]}, {rnd[53]}, {rnd[54]}, {rnd[55]}, {rnd[56]}, {rnd[57]}, {rnd[58]}, {rnd[59]}, {rnd[60]}, {rnd[61]}, {rnd[62]}, {rnd[63]}, {rnd[64]}, {rnd[65]}, {rnd[66]}, {rnd[67]}, {rnd[68]}, {rnd[69]}, {rnd[70]}, {rnd[71]}, {rnd[72]}, {rnd[73]}, {rnd[74]}, {rnd[75]}, {rnd[76]}, {rnd[77]}, {rnd[78]}, {rnd[79]}, {rnd[80]}, {rnd[81]}, {rnd[82]}, {rnd[83]}, {rnd[84]}, {rnd[85]}, {rnd[86]}, {rnd[87]}, {rnd[88]}, {rnd[89]}, {rnd[90]}, {rnd[91]}, {rnd[92]}, {rnd[93]}, {rnd[94]}, {rnd[95]}, {rnd[96]}, {rnd[97]}, {rnd[98]}, {rnd[99]}, {rnd[100]}, {rnd[101]}, {rnd[102]}, {rnd[103]}, {rnd[104]}, {rnd[105]}, {rnd[106]}, {rnd[107]}, {rnd[108]}, {rnd[109]}, {rnd[110]}, {rnd[111]}, {rnd[112]}, {rnd[113]}, {rnd[114]}, {rnd[115]}, {rnd[116]}, {rnd[117]}, {rnd[118]}, {rnd[119]}, {tb_r1[0]}, {tb_r1[1]}, {tb_r1[2]}, {tb_r1[3]}, {tb_r1[4]}, {tb_r1[5]}, {tb_r1[6]}, {tb_r1[7]}, {tb_r1[8]}, {tb_r1[9]}, {tb_r1[10]}, {tb_r1[11]}, {tb_r1[12]}, {tb_r1[13]}, {tb_r1[14]}, {tb_r1[15]}, {tb_r1[16]}, {tb_r1[17]}, {tb_r1[18]}, {tb_r1[19]}, {tb_r1[20]}, {tb_r1[21]}, {tb_r1[22]}, {tb_r1[23]}, {tb_r1[24]}, {tb_r1[25]}, {tb_r1[26]}, {tb_r1[27]}, {tb_r1[28]}, {tb_r1[29]}, {tb_r1[30]}, {tb_r1[31]}, {tb_r2[0]}, {tb_r2[1]}, {tb_r2[2]}, {tb_r2[3]}, {tb_r2[4]}, {tb_r2[5]}, {tb_r2[6]}, {tb_r2[7]}, {tb_r2[8]}, {tb_r2[9]}, {tb_r2[10]}, {tb_r2[11]}, {tb_r2[12]}, {tb_r2[13]}, {tb_r2[14]}, {tb_r2[15]}, {tb_r2[16]}, {tb_r2[17]}, {tb_r2[18]}, {tb_r2[19]}, {tb_r2[20]}, {tb_r2[21]}, {tb_r2[22]}, {tb_r2[23]}, {tb_r2[24]}, {tb_r2[25]}, {tb_r2[26]}, {tb_r2[27]}, {tb_r2[28]}, {tb_r2[29]}, {tb_r2[30]}, {tb_r2[31]}].
+Evaluate the circuit under the robust probing model!
+1146 different spots to probe detected!
+Generate univariate probing sets...82512 probing sets generated...done!
+Remove duplicated probing sets...71568 probing sets remain...done!
+-------------------------------------------------------------------------------------------------------------------------------------
+| #Standard Probes | #Extended Probes | #Probing Sets | Minimum #Probes per Set | Maximum #Probes per Set | Average #Probes per Set |
+-------------------------------------------------------------------------------------------------------------------------------------
+|            82512 |           133272 |         71568 |                       1 |                     106 |               10.697826 |
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Evaluate security under the robust probing model!
+---------------------------------------------------------------------------------------------------------------------------------------------
+|      Elapsed Time |      Required Ram |  Processed Simulations |      Probing Set with highest Information Leakage |  -log10(p) |  Status |
+---------------------------------------------------------------------------------------------------------------------------------------------
+|       498.235467s |        5.735640GB |                 262144 |                  [\lane.ug111.pd_n0_v_5_0__3(47)] |   4.420725 |    OKAY |
+|       995.184337s |        5.735640GB |                 524288 |                  [\lane.ug615.pd_n0_v_5_0__2(47)] |   5.349714 | LEAKAGE |
+|      1485.334209s |        5.735640GB |                 786432 |                 [\lane.ug743.pd_n0_p0_2_0__2(16)] |   5.150343 | LEAKAGE |
+|      1950.658103s |        5.735640GB |                1048576 |                  [\lane.ug767.pd_n0_u_5_0__1(47)] |   5.526928 | LEAKAGE |
+Evaluation done in 1950.66 seconds!

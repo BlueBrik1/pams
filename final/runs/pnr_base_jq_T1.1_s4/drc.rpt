@@ -1,0 +1,18 @@
+violation type: Short
+	srcs: net:_1632_ inst:_6062_
+	bbox = (32.5500, 123.6900) - (32.6100, 123.7600) on Layer metal1
+violation type: Short
+	srcs: net:_1920_ net:_1922_
+	bbox = (80.6200, 86.3400) - (80.6900, 86.3800) on Layer metal1
+violation type: Short
+	srcs: net:_1870_ net:ml0[18]
+	bbox = (52.3100, 88.9000) - (52.3550, 89.0400) on Layer metal2
+violation type: Metal Spacing
+	srcs: net:_1632_ net:ml1[22]
+	bbox = (32.6200, 123.6200) - (32.6750, 123.7600) on Layer metal1
+violation type: Metal Spacing
+	srcs: net:_1920_ inst:_6414_
+	bbox = (80.6900, 86.2400) - (80.6950, 86.2750) on Layer metal1
+violation type: Cut Short
+	srcs: net:_1870_ net:ml0[18]
+	bbox = (52.3100, 88.9350) - (52.3550, 89.0050) on Layer via1

@@ -1,0 +1,127 @@
+offr     registers  11  min period for this group 0.586 ns
+enr      registers  11  min period for this group 0.595 ns
+shr      registers   3  min period for this group 0.128 ns
+offrq    registers  11  min period for this group 0.117 ns
+enrq     registers  11  min period for this group 0.117 ns
+shrq     registers   3  min period for this group 0.117 ns
+offp     registers  11  min period for this group 0.117 ns
+enp      registers  11  min period for this group 0.117 ns
+shp      registers   3  min period for this group 0.117 ns
+en2      registers  11  min period for this group 0.117 ns
+mh0      registers  35  min period for this group 1.027 ns
+ml0      registers  28  min period for this group 1.022 ns
+fq0      registers  24  min period for this group 1.017 ns
+y0       registers  24  min period for this group 0.995 ns
+
+GROUP offr 11
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_7682_/D (DFF_X1)                     999.9665    0.5527  999.4138 (MET)
+
+GROUP enr 11
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_7273_/D (DFF_X1)                     999.9665    0.5612  999.4053 (MET)
+
+GROUP shr 3
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8668_/D (DFF_X1)                     999.9662    0.0946  999.8716 (MET)
+
+GROUP offrq 11
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8655_/D (DFF_X1)                     999.9609    0.0776  999.8832 (MET)
+
+GROUP enrq 11
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_7274_/D (DFF_X1)                     999.9609    0.0776  999.8832 (MET)
+
+GROUP shrq 3
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8652_/D (DFF_X1)                     999.9609    0.0776  999.8832 (MET)
+
+GROUP offp 11
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8630_/D (DFF_X1)                     999.9609    0.0776  999.8832 (MET)
+
+GROUP enp 11
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8641_/D (DFF_X1)                     999.9609    0.0776  999.8832 (MET)
+
+GROUP shp 3
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8426_/D (DFF_X1)                     999.9609    0.0776  999.8832 (MET)
+
+GROUP en2 11
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8415_/D (DFF_X1)                     999.9609    0.0776  999.8832 (MET)
+
+GROUP mh0 35
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8456_/D (DFF_X1)                     999.9590    0.9863  998.9728 (MET)
+
+GROUP ml0 28
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8487_/D (DFF_X1)                     999.9665    0.9883  998.9782 (MET)
+
+GROUP fq0 24
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8366_/D (DFF_X1)                     999.9590    0.9756  998.9835 (MET)
+
+GROUP y0 24
+max_delay/setup group c
+
+                                      Required    Actual
+Endpoint                                 Delay     Delay     Slack
+------------------------------------------------------------------
+_8302_/D (DFF_X1)                     999.9665    0.9610  999.0055 (MET)
+

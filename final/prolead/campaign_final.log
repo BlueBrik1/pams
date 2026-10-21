@@ -1,0 +1,9 @@
+== 22:05:40 pams_jqr frozen 1 36 4096 36
+pams_jqr_frozen_o1_36_4096 {"returncode": -6, "probing_sets": null, "simulations_done": null, "max_minus_log10_p": null, "leakage_detected": null, "top_probing_set": null}
+== 22:05:46 pams_jqr frozen 1 1-72 1048576 36
+pams_jqr_frozen_o1_1-72_1048576 {"returncode": 0, "probing_sets": null, "simulations_done": 1048576, "max_minus_log10_p": 5.526928, "leakage_detected": true, "top_probing_set": "[\\lane.ug767.pd_n0_u_5_0__1(47)]"}
+== 22:38:21 pams_jqr NC_partial_recombination 2 36 65536 36
+pams_jqr_NC_partial_recombination_o2_36_65536 {"returncode": 0, "probing_sets": null, "simulations_done": 65536, "max_minus_log10_p": 41.357964, "leakage_detected": true, "top_probing_set": "[nc_leak(36), \\lane.uacc.pd_n0_rbr_5_0__1(36)]"}
+== 22:47:39 pams_jqr frozen 2 36 262144 36
+pams_jqr_frozen_o2_36_262144 {"returncode": 0, "probing_sets": null, "simulations_done": 262144, "max_minus_log10_p": 5.214577, "leakage_detected": true, "top_probing_set": "[\\lane.ug1331.pd_n0_v_5_0__2(36), \\lane.ug1470.pd_n0_rbr_5_0__2(36)]"}
+== 23:17:58 done

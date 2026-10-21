@@ -1,0 +1,1 @@
+ps -eo pid,etimes,etime,pcpu,args | grep -E 'openroad' | grep -v grep | while read pid et etime cpu rest; do out=$(tr '\0' '\n' < /proc/$pid/environ 2>/dev/null | grep '^OUT=' ); echo "$pid $etime $cpu% $out"; done
