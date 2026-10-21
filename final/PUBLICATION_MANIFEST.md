@@ -66,5 +66,5 @@ FINAL_RESEARCH_VERDICT.md (authoritative), FINAL_BENCHMARKS.md, FINAL_SECURITY_S
 | initial import (Phase XI) | `966d54a` |
 | Phase XII | `979ea56`, `7089b57` |
 | Phase XIII | `1046b60`, `3b69463`, `cf634d7` |
-| Phase XIV content | <!-- CONTENT_COMMIT --> |
+| Phase XIV content | `fdab114` (full: fdab1145a158dc5a41b12a402d8f523526aab0d8) |
 | freeze (this manifest; tagged `pams-publication-freeze-v1`) | the commit following the content commit |
