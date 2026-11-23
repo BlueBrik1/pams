@@ -70,8 +70,8 @@ cell & \PAMS{} & baseline & cell & \PAMS{} & baseline \\
 Every output share depends combinationally only on registers of its own domain. The 30 flip-flops make a gadget exactly 30 of the lane's 2,494 flip-flops. Both mapped variants (v0, v1) were verified by SILVER, and every instance in every final netlist is one of them.
 
 \begin{figure}[h]\centering
-% final review: redrawn on an orthogonal grid. ra[0] feeds all three ANDs, so one wire crossing is unavoidable;
-% it is drawn as a bridge (the rbr wire passes over the ra bus). No boxes, labels or arrowheads overlap.
+% drawn on an orthogonal grid; ra[0] feeds all three ANDs, so one wire crossing is unavoidable
+% and is drawn as a bridge (the rbr wire passes over the ra bus).
 \begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,>={Stealth[length=1.5mm]},
   r/.style={draw,fill=green!12,minimum width=1.3cm,minimum height=0.5cm,align=center,inner sep=2pt},
   g/.style={draw,fill=yellow!15,rounded corners=2pt,minimum width=0.85cm,minimum height=0.5cm,align=center,inner sep=2pt},

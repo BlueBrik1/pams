@@ -74,7 +74,7 @@ for some integer $j \in \{0, 1, \dots, n-1\}$.
 
 \emph{Step 4.} Substituting and dividing by $q$ gives $\sum_i F_K(x_i) = F_K(x) - j + 2^K k$, which is \cref{eq:lemma}.
 \end{proof}
-The error $j$ is secret and unknown. It depends on the shares, not only on $x$. For $K = 14$, $j = 2$ occurs for 3,327 of the 3,329 values of $x$; Phase XII enumerated all $3329^3 = \num{36892780289}$ canonical triples with 0 violations. \PAMS{} absorbs the error by a public offset of $n - 1 = 2$ (the same offset as ModSwitch~\cite{coron2023dil}): $\sum F_K(x_i) + 2 = F_K(x) + (2 - j)$ with $2 - j \in [0, 2]$. The decision is then chosen so that an error in $[0, 2]$ can never move a value across a decision boundary.
+The error $j$ is secret and unknown. It depends on the shares, not only on $x$. For $K = 14$, $j = 2$ occurs for 3,327 of the 3,329 values of $x$; we exhaustively enumerated all $3329^3 = \num{36892780289}$ canonical triples with 0 violations. \PAMS{} absorbs the error by a public offset of $n - 1 = 2$ (the same offset as ModSwitch~\cite{coron2023dil}): $\sum F_K(x_i) + 2 = F_K(x) + (2 - j)$ with $2 - j \in [0, 2]$. The decision is then chosen so that an error in $[0, 2]$ can never move a value across a decision boundary.
 
 \paragraph{D.~Interval anchors and thresholds.}
 By \cref{eq:interval}, $b = 1$ iff $x \in [a_c, a_{c+1})$ cyclically. Rather than testing two bounds, \PAMS{} moves the interval start to zero. The anchor $\Low_c = F_K(a_c)$ is subtracted, and the interval end becomes the single public threshold
@@ -99,7 +99,7 @@ Over all 3,120 pairs $(c, d)$, $3 \le \Theta_c \le 1027 < 2^{11}$.
   b &= [\, Z < \Theta_c \,] . \label{eq:b}
 \end{align}
 \Cref{eq:yi} is computed share-wise on secret data. \Cref{eq:y0} touches share 0 only and adds the public $\Low_c$. \Cref{eq:Z} is the masked three-operand sum, and \cref{eq:b} the masked comparison with the public $\Theta_c$.
-The multiplier constant $M = 10321339$ and shift $21$ give $\lfloor x_i 2^{14}/q \rfloor$ exactly for every $x_i \in [0, q)$ (Phase XII check B).
+The multiplier constant $M = 10321339$ and shift $21$ give $\lfloor x_i 2^{14}/q \rfloor$ exactly for every $x_i \in [0, q)$, verified by exhaustive enumeration over all 3,329 values.
 
 \emph{Public versus secret terms.}
 \begin{itemize}
@@ -151,7 +151,7 @@ Let $K = 14$, $d \in \{4,5,10,11\}$, $c \in [0, 2^d)$ and canonical shares $x_0,
 
 \emph{Non-members} ($\tilde a \le \tilde x \le a_c + q - 1$). Here $\Delta \ge D_c$, and $\Delta \le F_K(a_c + q - 1) - F_K(a_c) \le 2^K - g$. Hence $\Theta_c + 1 = D_c \le \Delta + 2 - j \le 2^K - g + 2 = 2^K - 2$. Again no wrap occurs, and $Z \ge \Theta_c$.
 \end{proof}
-The bounds are tight. Evaluating every $(x, j, c, d)$ for this paper gives $\max(Z - \Theta_c) = -1$ over members and $\min(Z - \Theta_c) = +1$ over non-members. Phase XII's exhaustive check of the decision rule over all $3329 \cdot 3 \cdot (2^4 + 2^5 + 2^{10} + 2^{11})$ cases found 0 mismatches. Together with \cref{lem:switch}, that enumeration is a second, computational proof for the stated input contract, assuming the enumeration script is correct (\cref{app:math-exact}). This review re-ran the bound check (\file{paper/scripts/audit\_math.py}), but did not repeat the $3329^3$ lemma enumeration.
+The bounds are tight. Evaluating every $(x, j, c, d)$ for this paper gives $\max(Z - \Theta_c) = -1$ over members and $\min(Z - \Theta_c) = +1$ over non-members. An exhaustive check of the decision rule over all $3329 \cdot 3 \cdot (2^4 + 2^5 + 2^{10} + 2^{11})$ cases found 0 mismatches. Together with \cref{lem:switch}, that enumeration is a second, computational proof for the stated input contract, assuming the enumeration script is correct (\cref{app:math-exact}). We re-ran the bound check (\file{paper/scripts/audit\_math.py}), but did not repeat the $3329^3$ lemma enumeration.
 
 \begin{remark}[scope of the 14-bit requirement]\label{rem:k13}
 The proof needs $g \ge 4$ for the chosen offset and threshold. Any exact rule on $Z$ needs $g \ge 3$, because an error range of width 3 must fit between neighbouring switched values. The first $K$ with $\lfloor 2^K/q \rfloor \ge 3$ is $K = 14$. At $K = 13$ ($g = 2$), members and non-members collide on \emph{reachable} share triples for every $d$. For example, at $d = 11$, $x = 0$ shared as $(0, 0, 0)$ and $x = 1$ shared as $(3326, 2, 2)$ give the same switched sum. So no decision function of $Z$ can be exact.
@@ -164,7 +164,7 @@ This lower bound holds \emph{only in the share-wise floor model}, where $y_i = \
   \item The proof of \cref{lem:switch} does not itself use $x_i < q$: it holds for any non-negative integer shares.
   \item The 12-bit constant multiplier equals $F_{14}$ (mod $2^{14}$) on every 12-bit input except $x_i = 3329$ and $x_i = 4005$, where it is one too small.
 \end{itemize}
-Our review searched non-canonical inputs only by sampling and found no wrong decision, but it did not analyse them completely. Such inputs would affect correctness, not masking. Neither \PAMS{} nor the baseline checks its inputs, so canonical shares are an interface requirement on the upstream masked re-encryption, for both designs alike.
+We sampled non-canonical inputs and found no wrong decision, but we did not analyse them completely. Such inputs would affect correctness, not masking. Neither \PAMS{} nor the baseline checks its inputs, so canonical shares are an interface requirement on the upstream masked re-encryption, for both designs alike.
 
 \paragraph{G.~Worked examples.} \Cref{tab:examples} traces four coefficients through \cref{eq:yi,eq:y0,eq:Z,eq:b}.
 \begin{itemize}

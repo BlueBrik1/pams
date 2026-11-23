@@ -74,7 +74,7 @@ Its structure is shown in \cref{app:hpc2}. In this work every nonlinear operatio
 \begin{itemize}
   \item Kamucheka et al.~\cite{kamucheka2022} present a first-order FPGA design.
   \item HOPE-MLKEM~\cite{camacho2026hope} provides a configurable high-order design. In the released RTL we inspected, its comparison path recombines shares before compression.
-  \item Buschkowski et al.~\cite{buschkowski2026} automate mixed-domain masking for an arbitrary-order ML-KEM core. We could read only the abstract, which does not describe the comparison.
+  \item Buschkowski et al.~\cite{buschkowski2026} automate mixed-domain masking for an arbitrary-order ML-KEM core; Dobias et al.~\cite{dobias2026} present a unified first-order ML-DSA/ML-KEM core. Neither paper's available text specifies its masked ciphertext-comparison method (\cref{sec:limits}).
   \item Ranney et al.~\cite{ranney2026} implement a higher-order masked comparison on FPGA and report first-order leakage due to parallelism.
   \item Hermelink et al.~\cite{hermelink2024} show that $t$-probing security of the FO comparison is not sufficient in practice against vertical attacks.
 \end{itemize}

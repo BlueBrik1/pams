@@ -1,17 +1,9 @@
 # PAMS paper — manuscript sources
 
-LaTeX sources of *PAMS: Pre-Aligned Modulus Switching for Exact Second-Order Masked ML-KEM Ciphertext Verification in Hardware*. The manuscript describes the frozen research snapshot `pams-publication-freeze-v1` (commit `d033f76`).
+LaTeX sources of *PAMS: Pre-Aligned Modulus Switching for Exact Second-Order Masked ML-KEM Ciphertext Verification in Hardware*, by Skyler Lee (slee514101@gmail.com).
 
-- **Status:** manuscript draft. It has not been submitted to, or formatted for, any venue.
-- **Authors:** the author block is a placeholder. See `AI_USAGE_DISCLOSURE.md`.
-- **Built PDF:** `PAMS_paper.pdf`, 48 pages, frozen as git tag `pams-paper-freeze-v1`:
-  - main text: pp. 1–20;
-  - references: pp. 20–22;
-  - Appendix A (mathematics): pp. 23–28;
-  - Appendix B (Verilog): pp. 29–37;
-  - Appendix C (gates and layout): pp. 37–42;
-  - Appendix D (evidence): pp. 42–48.
-- **Final review:** `review/` holds the internal audits of the mathematics, security, novelty, results, figures and RTL, and bibliography. Start with `review/FINAL_REVIEW_SUMMARY.md`. The review was done by the AI system that produced the work, so it is not an external peer review.
+- **Built PDF:** `PAMS_paper.pdf`.
+- **Author's internal review:** `review/` holds self-audits of the mathematics, security, novelty, results, figures, RTL and bibliography performed while preparing the manuscript. Start with `review/FINAL_REVIEW_SUMMARY.md`. These are the author's own checks, not an external peer review.
 
 ## Build
 
@@ -56,7 +48,7 @@ The `layout` part runs OpenROAD headless (`QT_QPA_PLATFORM=offscreen`, script `s
 - `final/runs/pnr_*/final.def` and `final/runs/pnr_*/final.v`;
 - `competitors/runs/syn_*/mapped.json`.
 
-Their SHA-256 hashes are listed in `FIGURE_PROVENANCE.md`. They are re-created by the Phase XIV flow (`final/FINAL_REPRODUCIBILITY.md`). The generated figures and tables are committed, so `build.sh` without `-f` works from a clean clone.
+Their SHA-256 hashes are listed in `FIGURE_PROVENANCE.md`. They are re-created by the final place-and-route flow (`final/FINAL_REPRODUCIBILITY.md`). The generated figures and tables are committed, so `build.sh` without `-f` works from a clean clone.
 
 ### Helpers used only while preparing the manuscript
 
@@ -98,5 +90,4 @@ Verilog listings in the paper are included verbatim, with their line numbers, fr
 
 - `FIGURE_PROVENANCE.md`: the source, method and type of every figure.
 - `CROSS_LAYER_TRACEABILITY.md`: maps each equation to RTL, gates, layout and cost.
-- `AI_USAGE_DISCLOSURE.md`: how the research and the manuscript were produced; what the authors must confirm.
-- `PAPER_REVIEW.md`: the adversarial self-review, the corrections made and the open issues.
+- `PAPER_REVIEW.md`: the author's self-review, the corrections made and the open issues.

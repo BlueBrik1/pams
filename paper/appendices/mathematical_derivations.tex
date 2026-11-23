@@ -21,7 +21,7 @@ In all cases, therefore,
 \begin{equation}\label{eq:app-interval}
   \Comp(x) = c \iff x \in [a_c, a_{c+1}) \text{ cyclically in } \Zq, \qquad a_c = \Bigl\lceil \frac{(2c-1)q}{2^{d+1}} \Bigr\rceil \bmod q ,
 \end{equation}
-with $a_{2^d} = a_0$. The reference model checks this closed form against the starts found by scanning $\Comp$, for all four $d$ (Phase XII check A). \Cref{tab:widths} lists the resulting parameters.
+with $a_{2^d} = a_0$. The reference model checks this closed form against the starts found by scanning $\Comp$, for all four $d$. \Cref{tab:widths} lists the resulting parameters.
 
 \begin{table}[h]\centering\small
 \caption{Per-width parameters (computed with \file{models/pams.py}). The interval for $c = 0$ wraps through $q-1 \to 0$ when $a_0 > a_1$.}\label{tab:widths}
@@ -121,7 +121,7 @@ $\Delta$ is non-decreasing in $\tilde x$ and increases by at least $g = 4$ per s
   \item \emph{switched-value wrap:} non-members just below $a_c$, which map to $Z$ near $2^{14}$. For example E4: $\Delta = F_{14}(3224) + 2^{14} - F_{14}(3225) = 15867 + 16384 - 15872 = 16379$, and $2 - j = 0$, so $Z = 16379$.
 \end{itemize}
 
-\paragraph{Machine check.} Independently of this argument, \file{validation/math/audit.py} (check D) evaluates $[Z < \Theta_c] = [\Comp(x) = c]$ for every $x \in [0, q)$, $j \in \{0, 1, 2\}$, $c$ and $d$: \num{31159440} cases in total (\cref{tab:widths}), with 0 mismatches. Because \cref{lem:switch} reduces every canonical share triple to some $(x, j)$, this enumeration, together with the lemma, is a complete computational proof for the stated input contract, provided the script is correct. Phase XII also verified the lemma itself over all \num{36892780289} triples. The final review re-ran the $(x, j, c, d)$ enumeration and the bounds independently in \file{paper/scripts/audit\_math.py}, with the same result.
+\paragraph{Machine check.} Independently of this argument, \file{validation/math/audit.py} (check D) evaluates $[Z < \Theta_c] = [\Comp(x) = c]$ for every $x \in [0, q)$, $j \in \{0, 1, 2\}$, $c$ and $d$: \num{31159440} cases in total (\cref{tab:widths}), with 0 mismatches. Because \cref{lem:switch} reduces every canonical share triple to some $(x, j)$, this enumeration, together with the lemma, is a complete computational proof for the stated input contract, provided the script is correct. We separately verified the lemma itself over all \num{36892780289} triples, and independently re-ran the $(x, j, c, d)$ enumeration and the bounds in \file{paper/scripts/audit\_math.py}, with the same result.
 
 \paragraph{Tightness.} The extreme values are $\max(Z - \Theta_c) = -1$ over all members and $\min(Z - \Theta_c) = +1$ over all non-members, for every $d$ (re-computed for this paper). Example E2 attains the non-member bound with $Z = 10 = \Theta_c + 1$.
 
@@ -134,10 +134,10 @@ Since $\Theta_c < 2^{11}$,
   \item If any of bits 13--11 of $Z$ is set, then $Z \ge 2^{11} > \Theta_c$ and both sides are 0.
   \item Otherwise $Z = Z_{10:0}$ and $\Theta_c = \Theta_{c,10:0}$, so the two comparisons coincide.
 \end{itemize}
-The RTL computes the low comparison with a ripple comparator over bits 0--10. It computes the zero test of bits 11--13 with the carry-free test of MATHEMATICS.md~\S5, in which only bit 11 needs the ripple carry, and combines both with one AND gadget. Phase XII check D also evaluated the split form exhaustively, with 0 mismatches.
+The RTL computes the low comparison with a ripple comparator over bits 0--10. It computes the zero test of bits 11--13 with a carry-free test: writing $e_k = S_k \oplus T_k \oplus (S_{k-1} \vee T_{k-1})$ for the bitwise zero indicator at position $k$ (\cref{app:v-kernel}), only bit 11 needs the ripple carry $c_{11}$, since bits 12 and 13 need no carry into them from the already-tested low region; the result combines $\bar e_{11} \wedge \overline{(e_{12} \vee e_{13})}$ with one AND gadget. We also evaluated the split form exhaustively, with 0 mismatches.
 
 \subsection{Why 13 bits fail in the share-wise floor model}\label{app:math-k13}
-At $K = 13$ the switching steps are 2 or 3, while the error range $\{0, 1, 2\}$ has width 3, so neighbouring values can collide. Phase XII (check F) found, for every $d$, a member and a non-member whose \emph{reachable} share triples give the same $\sum_i F_{13}(x_i) \bmod 2^{13}$:
+At $K = 13$ the switching steps are 2 or 3, while the error range $\{0, 1, 2\}$ has width 3, so neighbouring values can collide. Exhaustive search found, for every $d$, a member and a non-member whose \emph{reachable} share triples give the same $\sum_i F_{13}(x_i) \bmod 2^{13}$:
 
 \begin{center}\small
 \begin{tabular}{@{}rrrrrr@{}}

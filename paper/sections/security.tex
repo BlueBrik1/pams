@@ -25,7 +25,7 @@ The claim is \emph{not} the output of a single tool that verified the whole circ
 The argument has three steps. Each is supported by a different kind of evidence, summarized in \cref{tab:secevidence}.
 
 \begin{table*}[t]\centering\small
-\caption{Security evidence for the final circuits. "Final" = the publication netlists of \sig{pams\_jqr} and \sig{base\_jq}; "frozen" = the original \sig{pams}/\sig{base} designs evaluated in Phase XII.}\label{tab:secevidence}
+\caption{Security evidence for the final circuits. "Final" = the publication netlists of \sig{pams\_jqr} and \sig{base\_jq}; "frozen" = the original \sig{pams}/\sig{base} designs from our earlier, more extensive verification campaign.}\label{tab:secevidence}
 \setlength{\tabcolsep}{4pt}
 \begin{tabularx}{\textwidth}{@{}p{3.3cm}p{2.6cm}Xp{3.4cm}@{}}
 \toprule
@@ -92,7 +92,7 @@ The structural preconditions are checked mechanically by \file{compcheck.py} on 
 \end{figure}
 
 \paragraph{Step 3: what changed from the frozen design.}
-The extensive Phase XII evaluation was done on the original \sig{pams}. The publication circuit \sig{pams\_jqr} differs from it in three ways:
+Our earlier, more extensive verification campaign was run on the original \sig{pams}. The publication circuit \sig{pams\_jqr} differs from it in three ways:
 \begin{itemize}
   \item single-domain operand bits are delayed instead of three-share sums;
   \item each share's multiplier has an extra register stage;
