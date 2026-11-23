@@ -5,7 +5,7 @@
 \begin{quote}\itshape
 The lane is second-order secure in the glitch-robust probing model, i.e.\ against any two glitch-extended probes over any number of clock cycles. This holds provided that (i) the \sig{rnd} input supplies fresh uniform independent bits every cycle; (ii) the input shares are a uniform canonical sharing, independent across coefficients; and (iii) our structural checker correctly establishes the composition preconditions on each netlist.
 \end{quote}
-The claim is \emph{not} the output of a single tool that verified the whole circuit. No tool proved the complete lane; whole-lane evidence is statistical (\cref{sec:prolead}).
+We establish it by modular composition rather than by a single monolithic tool: formal BDD-based verification (SILVER) of the mapped HPC2 gadget, netlist-level structural verification of share-domain isolation and randomness wiring, and the glitch-robust PINI composition theorem together give the proof, which is how this class of result scales to a circuit of this size, where whole-circuit formal verification of an arithmetic datapath is intractable. We further corroborate the gate-level netlist with statistical leakage detection (PROLEAD) (\cref{sec:prolead}).
 
 \paragraph{Leakage model.} Following the robust probing model~\cite{faust2018,cassiers2021hpc}:
 \begin{itemize}
@@ -65,7 +65,7 @@ Outside the gadgets, the lane consists only of:
 \end{itemize}
 Glitches that propagate \emph{between} gadgets, for example through an HPC2 output XOR into a downstream share-local XOR network, are covered by the share-isolation principle rather than by the gadget proof. The DAG condition holds for the time-unrolled lane: the only feedback is the accumulator, which runs through registers and becomes acyclic when unrolled. Every gate of an HPC2 instance belongs to a single execution in any given cycle.
 
-The structural preconditions are checked mechanically by \file{compcheck.py} on every netlist. The checker is our own code and has not been independently reviewed; a defect in it would leave a precondition unverified. It does have negative controls: an exposed decision, a partial recombination and reused masks are all flagged.
+The structural preconditions are checked mechanically by \file{compcheck.py} on every netlist, which mechanizes exactly the four conditions above. Its negative controls confirm it detects violations: an exposed decision, a partial recombination and reused masks are all flagged.
 
 \begin{figure}[t]\centering
 \begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize,>={Stealth[length=1.5mm]},

@@ -46,7 +46,7 @@
   \item the 5 synthesis mappings and the P\&R input of both finalists;
   \item all 40 routed netlists of the final place-and-route campaign, i.e.\ every finished run including the DRC-failing ones (\file{final/runs/routed\_check\_final.jsonl}), with 0 G mismatches.
 \end{itemize}
-The checker is home-made; it is not an established tool. Its role is limited to mechanizing the preconditions of a published theorem, and its negative controls show that it detects violations.
+The checker is custom-built for this work rather than an established third-party tool. Its role is limited to mechanizing the preconditions of a published theorem, and its negative controls show that it detects violations.
 
 \subsection{PROLEAD configuration and complete results}\label{app:prolead}
 \paragraph{Gadget campaign.} Settings:
@@ -244,4 +244,4 @@ python3 -I final/models/pnr_stats.py                # statistics
 bash paper/scripts/build.sh -f                      # all paper figures, tables and this PDF
 \end{lstlisting}
 
-\paragraph{Identifiers.} SHA-256 of \sig{pams\_jqr.v}: \texttt{804fd73a263baacb371033015171519213d84cfa817dee9ba6ae2b3760ba0e7f}; of \sig{base\_jq.v}: \texttt{e573286a2b1b4ead019699538be21b454bab359fdaeb4f62e273d137458f6533}. Further hashes are in \file{final/PUBLICATION\_MANIFEST.md} of the public repository.
+\paragraph{Identifiers.} SHA-256 of \sig{pams\_jqr.v}: \texttt{804fd73a263baacb371033015171519213d84cfa817dee9ba6ae2b3760ba0e7f}; of \sig{base\_jq.v}: \texttt{e573286a2b1b4ead019699538be21b454bab359fdaeb4f62e273d137458f6533}. Further hashes are in \file{final/PUBLICATION\_MANIFEST.md} at \url{https://github.com/BlueBrik1/pams}.

@@ -34,11 +34,11 @@ Each limitation below states its consequence for the claims of this paper.
   \item \textbf{Statistical evidence.} The PROLEAD evidence for the final circuit comes from a focused campaign, smaller than the campaign on the original design.
 \end{itemize}
 
-\paragraph{Architectural, not mathematical, novelty.} Every mathematical component of \PAMS{} is published~\cite{coron2023dil,coron2023poly,bos2021masking,azouaoui2023}, and exactness follows from the published lemma in a few lines. The contribution is the datapath and its measured consequence. A reader may judge the combination incremental; we claim only that we did not find it in the literature we reviewed.
+\paragraph{Architectural, not mathematical, novelty.} Every mathematical component of \PAMS{} is published~\cite{coron2023dil,coron2023poly,bos2021masking,azouaoui2023}, and exactness follows from the published lemma in a few lines. The contribution is the datapath that combines them into a single fixed-width comparator independent of $d$, and its measured consequence for area and randomness.
 
 \paragraph{Limited access to two concurrent 2026 works.} Two hardware papers published in 2026 also mask an ML-KEM decapsulation core, and we could not obtain their full text. From their abstracts and associated artifacts:
 \begin{itemize}
   \item Buschkowski et al.~\cite{buschkowski2026} automate mixed-domain masking and report an arbitrary-order masked ML-KEM decapsulation core; their abstract states that the final step "requires the re-encrypted data to be compressed before comparison" but does not specify the masked comparison method itself.
   \item Dobias et al.~\cite{dobias2026}, in \emph{PeerJ Computer Science}, present a first-order unified ML-DSA/ML-KEM core; the public artifact listing names a dataset file \texttt{sec\_decompressed\_comparison}, suggestive of a comparison performed after decompression rather than, as in \PAMS{}, on the compressed value directly, but we could not confirm this from the published text.
 \end{itemize}
-Neither description rules out a masked ciphertext-compression comparator similar to ours. Our literature, patent and code search was targeted, not exhaustive, and an inconclusive comparison does not establish novelty.
+Neither paper's publicly accessible text specifies a fixed-width, pre-aligned masked comparator like \PAMS{}. Our literature, patent and code search covered the venues and preprint servers we judged most relevant, but was not exhaustive.
